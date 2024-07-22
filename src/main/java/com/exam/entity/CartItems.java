@@ -1,6 +1,8 @@
 package com.exam.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.ToString;
 public class CartItems {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int cart_item_id;
 	int cart_id;
 	int product_id;

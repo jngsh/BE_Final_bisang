@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class OrderDetailsDTO {
 	
-	int details_id;
+	int order_detail_id;
 	int product_id;
 	int order_id;
 	int amount;

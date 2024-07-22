@@ -1,10 +1,6 @@
 package com.exam.dto;
 
-
-
-import java.time.LocalDate;
-
-import com.exam.enums.PetType;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,12 +15,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PetsDTO {
-   
-   int pet_id;
-   int user_id;
-   String pet_name;
-   LocalDate pet_birthdate;
-   PetType pet_type;
+public class PaymentsDTO {
 
+	int payment_id;
+	int order_id;
+	int total_price;
+	int discount_price;
+	int delivery_fee;
+	int final_price;
+	LocalDateTime payment_date;
+	int points;
 }
