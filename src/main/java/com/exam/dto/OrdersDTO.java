@@ -21,7 +21,7 @@ import lombok.ToString;
 public class OrdersDTO {
 	
 	int order_id;
-	int customer_id;
+	int user_id;
 	int non_member_id;
 	LocalDateTime order_date;
 

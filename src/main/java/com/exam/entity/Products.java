@@ -3,13 +3,9 @@ package com.exam.entity;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.exam.enums.PetType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,14 +21,20 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Pets {
-
+public class Products {
+   
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   int pet_id;
-   int user_id;
-   String pet_name;
-   LocalDate pet_birthdate;
-   @Enumerated(EnumType.STRING)
-   PetType pet_type;
+   int product_id;
+   int category_id;
+   int discount_id;
+   String product_name;
+   int product_price;
+   String product_image;
+   String product_description;
+   String unit;
+   double value;
+   String product_qr;
+   String product_code;
+   LocalDate product_date;
 }
