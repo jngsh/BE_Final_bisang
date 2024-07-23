@@ -1,7 +1,5 @@
 package com.exam.dto;
 
-import java.time.LocalDateTime;
-
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -11,19 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Alias("SalesDTO")
+@Alias("MonthlySalesDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class SalesDTO {
+public class MonthlySalesDTO {
 
-	int sale_id;
-	int order_id;
-	int product_id;
-	int sale_amount;
-	int sale_price;
-	LocalDateTime sale_date;
+	int totalSale;
+	int saleMonth;
+	int saleYear;
 }

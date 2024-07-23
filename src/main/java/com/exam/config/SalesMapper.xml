@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.config.SalesMapper">
+ 
+   <select id="findDailySales" resultType="DailySalesDTO">
+      select sum(sale_price) as totalSale, date(sale_date) as saleDate
+      from Sales
+      group by date(sale_date)
+   </select>
+
+    <select id="findMonthlySales" resultType="MonthlySalesDTO">
+	  select sum(sale_price) as totalSale, month(sale_date) as saleMonth, year(sale_date) as saleYear
+      from Sales
+      group by year(sale_date), month(sale_date)
+   </select>
+   
+   <select id="findYearlySales" resultType="YearlySalesDTO">
+      select sum(sale_price) as totalSale, year(sale_date) as saleYear
+      from Sales
+      group by year(sale_date)
+   </select>
+   
+</mapper>
