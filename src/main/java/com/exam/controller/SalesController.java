@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.DailySalesDTO;
+import com.exam.dto.HourSalesDTO;
 import com.exam.dto.MonthlySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 import com.exam.service.SalesService;
@@ -22,7 +23,14 @@ public class SalesController {
     public SalesController(SalesService salesService) {
         this.salesService = salesService;
     }
-
+    
+    @GetMapping("/admin/hour")
+    public List<HourSalesDTO> findHourSales() {
+    	log.info("logger: daily: {}", salesService.findHourSales());
+        List<HourSalesDTO> list = salesService.findHourSales();
+		return list;
+    }
+    
     @GetMapping("/admin/daily")
     public List<DailySalesDTO> findDailySales() {
     	log.info("logger: daily: {}", salesService.findDailySales());

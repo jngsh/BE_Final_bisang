@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.exam.config.SalesMapper;
 import com.exam.dto.DailySalesDTO;
+import com.exam.dto.HourSalesDTO;
 import com.exam.dto.MonthlySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 
@@ -18,8 +19,15 @@ public class SalesServiceImpl implements SalesService {
 	SalesMapper salesMapper;
 	
 	public SalesServiceImpl(SalesMapper salesMapper) {
-		log.info("logger: SalesServiceImpl 생성자");
+		log.info("logger: SalesServiceImpl");
 		this.salesMapper = salesMapper;
+	}
+	
+	@Override
+	public List<HourSalesDTO> findHourSales() {
+		List<HourSalesDTO> result = salesMapper.findHourSales();
+		log.info("logger: hour result: {}", result);
+		return result;
 	}
 
 	@Override
