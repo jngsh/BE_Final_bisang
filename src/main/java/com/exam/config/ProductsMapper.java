@@ -9,6 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface ProductsMapper {
-    @Select("SELECT * FROM products")
+
     List<Products> findAll();
 }

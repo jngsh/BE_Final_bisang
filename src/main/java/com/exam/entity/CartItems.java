@@ -23,9 +23,9 @@ public class CartItems {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int cart_item_id;
-	int cart_id;
-	int product_id;
-	int amount;
+	int cartItemId;
+    int cartId;
+    int productId;
+    int amount;
 
 }

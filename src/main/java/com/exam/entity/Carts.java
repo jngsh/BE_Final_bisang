@@ -23,6 +23,6 @@ public class Carts {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int cart_id;
-	int user_id;
+	int cartId;
+    int userId;
 }
