@@ -1,6 +1,8 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import com.exam.dto.DailySalesDTO;
 import com.exam.dto.HourSalesDTO;
@@ -13,4 +15,8 @@ public interface SalesService {
 	public List<DailySalesDTO> findDailySales();
 	public List<MonthlySalesDTO> findMonthlySales();
 	public List<YearlySalesDTO> findYearlySales();
+	public HourSalesDTO findSalesByHour(int hour);
+	public DailySalesDTO findSalesByDaily(LocalDate date);
+	public MonthlySalesDTO findSalesByMonthly(int year, int month);
+	public YearlySalesDTO findSalesByYearly(int year);
 }
