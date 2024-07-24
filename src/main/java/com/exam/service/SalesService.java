@@ -13,11 +13,13 @@ public interface SalesService {
 
 	public List<HourlySalesDTO> findHourlySales();
 	public List<DailySalesDTO> findDailySales();
+	public List<DailySalesDTO> findRecentWeekSales();
 	public List<WeeklySalesDTO> findWeeklySales();
 	public List<MonthlySalesDTO> findMonthlySales();
 	public List<YearlySalesDTO> findYearlySales();
 	public HourlySalesDTO findSalesByHour(int hour);
 	public DailySalesDTO findSalesByDate(LocalDate date);
+	public List<DailySalesDTO> findHourlySalesByDate(LocalDate date);
 	public MonthlySalesDTO findSalesByMonth(int year, int month);
 	public YearlySalesDTO findSalesByYear(int year);
 }

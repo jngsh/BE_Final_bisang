@@ -20,4 +20,5 @@ public class WeeklySalesDTO {
 
 	int totalSale;
 	int saleWeek;
+	int saleYear;
 }

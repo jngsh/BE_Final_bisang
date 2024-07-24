@@ -22,4 +22,5 @@ public class DailySalesDTO {
 
 	int totalSale;
 	LocalDate saleDate;
+	int saleHour;
 }

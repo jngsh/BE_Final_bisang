@@ -84,4 +84,16 @@ public class SalesServiceImpl implements SalesService {
 		return result;
 	}
 
+	@Override
+	public List<DailySalesDTO> findHourlySalesByDate(LocalDate date) {
+		List<DailySalesDTO> result = salesMapper.findHourlySalesByDate(date);
+		return result;
+	}
+
+	@Override
+	public List<DailySalesDTO> findRecentWeekSales() {
+		List<DailySalesDTO> result = salesMapper.findRecentWeekSales();
+		return result;
+	}
+
 }

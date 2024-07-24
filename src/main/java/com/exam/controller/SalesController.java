@@ -15,6 +15,9 @@ import com.exam.dto.WeeklySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 import com.exam.service.SalesService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class SalesController {
 
@@ -23,6 +26,11 @@ public class SalesController {
     public SalesController(SalesService salesService) {
         this.salesService = salesService;
     }
+    
+//    @GetMapping("/admin/stats")
+//    public  findSales() {
+//        
+//    }
     
     @GetMapping("/admin/hourly")
     public List<HourlySalesDTO> findHourlySales() {
@@ -36,13 +44,18 @@ public class SalesController {
 		return list;
     }
     
+    @GetMapping("/admin/recent-week")
+    public List<DailySalesDTO> findRecentWeekSales() {
+        List<DailySalesDTO> list = salesService.findRecentWeekSales();
+		return list;
+    }
+    
     @GetMapping("/admin/weekly")
     public List<WeeklySalesDTO> findWeeklySales() {
         List<WeeklySalesDTO> list = salesService.findWeeklySales();
 		return list;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/admin/monthly")
     public List<MonthlySalesDTO> findMonthlySales() {
     	List<MonthlySalesDTO> list = salesService.findMonthlySales();
@@ -64,7 +77,15 @@ public class SalesController {
     @GetMapping("/admin/daily/{date}")
     public DailySalesDTO findSalesByDate(@PathVariable LocalDate date) {
     	DailySalesDTO dto = salesService.findSalesByDate(date);
+    	log.info("logger: findSalesByDate: {}", dto);
 		return dto;
+    }
+    
+    @GetMapping("/admin/date-hourly/{date}")
+    public List<DailySalesDTO> findHourlySalesByDate(@PathVariable LocalDate date) {
+    	List<DailySalesDTO> list = salesService.findHourlySalesByDate(date);
+    	log.info("logger: findSalesByDate: {}", list);
+		return list;
     }
     
     @GetMapping("/admin/monthly/{year}/{month}")

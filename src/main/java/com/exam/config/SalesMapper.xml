@@ -4,27 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.exam.config.SalesMapper">
 
-	<!-- <select id="findCategorySales" resultType="CategorySales"> select c.category_id, 
-		c.category_name, sum(s.sale_price) as totalSale from Sales s join products 
-		p on s.product_id = p.product_id join categories c on p.category_id = c.category_id 
-		group by c.category_id, c.category_name order by totalSale; </select> <resultMap 
-		type="CategoriesDTO" id="CategorySales"> <id property="category_id" column="category_id"/> 
-		<result property="pet_type" column="pet_type"/> <result property="item_type" 
-		column="item_type"/> <result property="age_type" column="age_type"/> <collection 
-		property="ProductsDTO" ofType="java.util.Map"> <id property="product_id" 
-		column="product_id"/> <result property="category_id" column="category_id"/> 
-		<result property="discount_id" column="discount_id"/> <result property="product_name" 
-		column="product_name"/> <result property="product_price" column="product_price"/> 
-		<result property="product_image" column="product_image"/> <result property="product_description" 
-		column="product_description"/> <result property="unit" column="unit"/> <result 
-		property="value" column="value"/> <result property="product_qr" column="product_qr"/> 
-		<result property="product_code" column="product_code"/> <result property="created_date" 
-		column="created_date"/> </collection> </resultMap> <select id="findCategorySales" 
-		resultMap="CategorySales"> select pet_type, item_type, age_time, sum(sale_price) 
-		as totalSale from emp join dept on emp.deptno = dept.deptno order by empno 
-		</select> -->
-
-
 	<select id="findHourlySales" resultType="HourlySalesDTO">
 		select sum(sale_price) as totalSale, hour(sale_date) as saleHour
 		from Sales
@@ -67,11 +46,31 @@
 		group by hour(sale_date)
 	</select>
 
+	<!-- 특정 날짜 시간대별 매출 조회 -->
+	<select id="findHourlySalesByDate" resultType="DailySalesDTO" parameterType="java.time.LocalDate">
+		select sum(sale_price) as totalSale, date(sale_date) as saleDate, hour(sale_date) as saleHour
+		from Sales
+		where date(sale_date) = #{date}
+		group by date(sale_date), hour(sale_date)
+		order by hour(sale_date)
+	</select>
+	
 	<select id="findSalesByDate" resultType="DailySalesDTO" parameterType="java.time.LocalDate">
 		select sum(sale_price) as totalSale, date(sale_date) as saleDate
 		from Sales
 		where date(sale_date) = #{date}
 		group by date(sale_date)
+	</select>
+	
+	<!-- 최근 일주일 매출 조회 -->
+	<select id="findRecentWeekSales" resultType="DailySalesDTO">
+		<![CDATA[
+    		select sum(sale_price) as totalSale, date(sale_date) as saleDate
+    		from Sales
+    		where sale_date >= date_sub(curdate(), interval 1 week) and sale_date <= curdate()
+    		group by date(sale_date)
+    		order by saleDate
+    	]]>
 	</select>
 
 	<select id="findSalesByMonth" resultType="MonthlySalesDTO" parameterType="int">

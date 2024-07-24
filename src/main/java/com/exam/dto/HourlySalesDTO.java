@@ -1,5 +1,7 @@
 package com.exam.dto;
 
+import java.time.LocalDate;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
