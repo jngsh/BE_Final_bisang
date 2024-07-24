@@ -1,10 +1,13 @@
 package com.exam.service;
 
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.exam.config.UsersMapper;
 import com.exam.dto.UsersDTO;
 import com.exam.entity.Users;
 import com.exam.repository.UsersRepository;
@@ -13,13 +16,38 @@ import com.exam.repository.UsersRepository;
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
+	UsersMapper usersMapper;
+	
 	UsersRepository usersRepository;
 	
-	public UsersServiceImpl(UsersRepository usersRepository) {
+	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper) {
 		this.usersRepository = usersRepository;
+		this.usersMapper = usersMapper;
 	}
 	
 	@Override
+	public UsersDTO idCheck(String id) {
+		return usersMapper.idCheck(id);
+	}
+	
+	@Override
+	public int saveUsers(UsersDTO dto) {
+		return usersMapper.saveUsers(dto);
+	}
+	
+	@Override
+	public UsersDTO authenticate(Map<String, String> map) {
+		return usersMapper.authenticate(map);
+	}
+	
+	@Override
+	public UsersDTO findById(String id) {
+		return usersMapper.findById(id);
+	}
+	
+	
+	
+	/*@Override
 	public UsersDTO saveUsers(UsersDTO dto) {
 		ModelMapper mapper = new ModelMapper();
 		Users users = mapper.map(dto, Users.class);
@@ -37,6 +65,7 @@ public class UsersServiceImpl implements UsersService {
         }
         return null;
 	}
-
+	*/
+	
 	
 }
