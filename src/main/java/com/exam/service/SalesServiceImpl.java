@@ -2,13 +2,12 @@ package com.exam.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.exam.config.SalesMapper;
 import com.exam.dto.DailySalesDTO;
-import com.exam.dto.HourSalesDTO;
+import com.exam.dto.HourlySalesDTO;
 import com.exam.dto.MonthlySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 
@@ -26,8 +25,8 @@ public class SalesServiceImpl implements SalesService {
 	}
 	
 	@Override
-	public List<HourSalesDTO> findHourSales() {
-		List<HourSalesDTO> result = salesMapper.findHourSales();
+	public List<HourlySalesDTO> findHourlySales() {
+		List<HourlySalesDTO> result = salesMapper.findHourlySales();
 //		log.info("logger: hour result: {}", result);
 		return result;
 	}
@@ -54,26 +53,26 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
-	public HourSalesDTO findSalesByHour(int hour) {
-		HourSalesDTO result = salesMapper.findSalesByHour(hour);
+	public HourlySalesDTO findSalesByHour(int hour) {
+		HourlySalesDTO result = salesMapper.findSalesByHour(hour);
 		return result;
 	}
 
 	@Override
-	public DailySalesDTO findSalesByDaily(LocalDate date) {
-		DailySalesDTO result = salesMapper.findSalesByDaily(date);
+	public DailySalesDTO findSalesByDate(LocalDate date) {
+		DailySalesDTO result = salesMapper.findSalesByDate(date);
 		return result;
 	}
 
 	@Override
-	public MonthlySalesDTO findSalesByMonthly(int year, int month) {
-		MonthlySalesDTO result = salesMapper.findSalesByMonthly(year, month);
+	public MonthlySalesDTO findSalesByMonth(int year, int month) {
+		MonthlySalesDTO result = salesMapper.findSalesByMonth(year, month);
 		return result;
 	}
 
 	@Override
-	public YearlySalesDTO findSalesByYearly(int year) {
-		YearlySalesDTO result = salesMapper.findSalesByYearly(year);
+	public YearlySalesDTO findSalesByYear(int year) {
+		YearlySalesDTO result = salesMapper.findSalesByYear(year);
 		return result;
 	}
 

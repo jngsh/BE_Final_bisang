@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.DailySalesDTO;
-import com.exam.dto.HourSalesDTO;
+import com.exam.dto.HourlySalesDTO;
 import com.exam.dto.MonthlySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 import com.exam.service.SalesService;
@@ -23,9 +23,9 @@ public class SalesController {
         this.salesService = salesService;
     }
     
-    @GetMapping("/admin/hour")
-    public List<HourSalesDTO> findHourSales() {
-        List<HourSalesDTO> list = salesService.findHourSales();
+    @GetMapping("/admin/hourly")
+    public List<HourlySalesDTO> findHourlySales() {
+        List<HourlySalesDTO> list = salesService.findHourlySales();
 		return list;
     }
     
@@ -48,27 +48,27 @@ public class SalesController {
         return list;
     }
     
-    @GetMapping("/admin/hour/{hour}")
-    public HourSalesDTO findSalesByHour(@PathVariable int hour) {
-        HourSalesDTO dto = salesService.findSalesByHour(hour);
+    @GetMapping("/admin/hourly/{hour}")
+    public HourlySalesDTO findSalesByHour(@PathVariable int hour) {
+        HourlySalesDTO dto = salesService.findSalesByHour(hour);
 		return dto;
     }
     
     @GetMapping("/admin/daily/{date}")
-    public DailySalesDTO findSalesByDaily(@PathVariable LocalDate date) {
-    	DailySalesDTO dto = salesService.findSalesByDaily(date);
+    public DailySalesDTO findSalesByDate(@PathVariable LocalDate date) {
+    	DailySalesDTO dto = salesService.findSalesByDate(date);
 		return dto;
     }
     
     @GetMapping("/admin/monthly/{year}/{month}")
-    public MonthlySalesDTO findSalesByMonthly(@PathVariable int year, @PathVariable int month) {
-    	MonthlySalesDTO dto = salesService.findSalesByMonthly(year, month);
+    public MonthlySalesDTO findSalesByMonth(@PathVariable int year, @PathVariable int month) {
+    	MonthlySalesDTO dto = salesService.findSalesByMonth(year, month);
 		return dto;
     }
     
     @GetMapping("/admin/yearly/{year}")
-    public YearlySalesDTO findSalesByYearly(@PathVariable int year) {
-    	YearlySalesDTO dto = salesService.findSalesByYearly(year);
+    public YearlySalesDTO findSalesByYear(@PathVariable int year) {
+    	YearlySalesDTO dto = salesService.findSalesByYear(year);
 		return dto;
     }
 }
