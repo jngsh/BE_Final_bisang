@@ -9,6 +9,7 @@ import com.exam.config.SalesMapper;
 import com.exam.dto.DailySalesDTO;
 import com.exam.dto.HourlySalesDTO;
 import com.exam.dto.MonthlySalesDTO;
+import com.exam.dto.WeeklySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<HourlySalesDTO> findHourlySales() {
 		List<HourlySalesDTO> result = salesMapper.findHourlySales();
-//		log.info("logger: hour result: {}", result);
+//		log.info("logger: hourly result: {}", result);
 		return result;
 	}
 
@@ -35,6 +36,13 @@ public class SalesServiceImpl implements SalesService {
 	public List<DailySalesDTO> findDailySales() {
 		List<DailySalesDTO> result = salesMapper.findDailySales();
 //		log.info("logger: daily result: {}", result);
+		return result;
+	}
+	
+	@Override
+	public List<WeeklySalesDTO> findWeeklySales() {
+		List<WeeklySalesDTO> result = salesMapper.findWeeklySales();
+//		log.info("logger: weekly result: {}", result);
 		return result;
 	}
 

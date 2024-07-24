@@ -39,6 +39,13 @@
 		order by date(sale_date)
 	</select>
 
+	<select id="findWeeklySales" resultType="WeeklySalesDTO">
+		select sum(sale_price) as totalSale, week(sale_date) as saleWeek, year(sale_date) as saleYear
+		from Sales
+		group by year(sale_date), week(sale_date)
+		order by week(sale_date), year(sale_date)
+	</select>
+
 	<select id="findMonthlySales" resultType="MonthlySalesDTO">
 		select sum(sale_price) as totalSale, month(sale_date) as saleMonth, year(sale_date) as saleYear
 		from Sales
@@ -53,15 +60,13 @@
 		order by year(sale_date)
 	</select>
 
-
 	<select id="findSalesByHour" resultType="HourlySalesDTO" parameterType="int">
 		select sum(sale_price) as totalSale, hour(sale_date) as saleHour
 		from Sales
 		where hour(sale_date) = #{hour}
 		group by hour(sale_date)
 	</select>
-	
-	
+
 	<select id="findSalesByDate" resultType="DailySalesDTO" parameterType="java.time.LocalDate">
 		select sum(sale_price) as totalSale, date(sale_date) as saleDate
 		from Sales

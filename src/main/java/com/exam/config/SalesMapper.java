@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.exam.dto.DailySalesDTO;
 import com.exam.dto.HourlySalesDTO;
 import com.exam.dto.MonthlySalesDTO;
+import com.exam.dto.WeeklySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 
 @Mapper
@@ -15,6 +16,7 @@ public interface SalesMapper {
 
 	public List<HourlySalesDTO> findHourlySales();
 	public List<DailySalesDTO> findDailySales();
+	public List<WeeklySalesDTO> findWeeklySales();
 	public List<MonthlySalesDTO> findMonthlySales();
 	public List<YearlySalesDTO> findYearlySales();
 	public HourlySalesDTO findSalesByHour(int hour);

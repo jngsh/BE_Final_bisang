@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.exam.dto.DailySalesDTO;
 import com.exam.dto.HourlySalesDTO;
 import com.exam.dto.MonthlySalesDTO;
+import com.exam.dto.WeeklySalesDTO;
 import com.exam.dto.YearlySalesDTO;
 import com.exam.service.SalesService;
 
@@ -32,6 +33,12 @@ public class SalesController {
     @GetMapping("/admin/daily")
     public List<DailySalesDTO> findDailySales() {
         List<DailySalesDTO> list = salesService.findDailySales();
+		return list;
+    }
+    
+    @GetMapping("/admin/weekly")
+    public List<WeeklySalesDTO> findWeeklySales() {
+        List<WeeklySalesDTO> list = salesService.findWeeklySales();
 		return list;
     }
 
