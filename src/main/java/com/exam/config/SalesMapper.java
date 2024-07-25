@@ -5,25 +5,25 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.exam.dto.DailySalesDTO;
-import com.exam.dto.HourlySalesDTO;
-import com.exam.dto.MonthlySalesDTO;
-import com.exam.dto.WeeklySalesDTO;
-import com.exam.dto.YearlySalesDTO;
+import com.exam.dto.SalesStatsDTO;
 
 @Mapper
 public interface SalesMapper {
 
-	public List<HourlySalesDTO> findHourlySales();
-	public List<DailySalesDTO> findDailySales();
-	public List<DailySalesDTO> findRecentWeekSales();
-	public List<WeeklySalesDTO> findWeeklySales();
-	public List<MonthlySalesDTO> findMonthlySales();
-	public List<YearlySalesDTO> findYearlySales();
-	public HourlySalesDTO findSalesByHour(int hour);
-	public DailySalesDTO findSalesByDate(LocalDate date);
-	public List<DailySalesDTO> findHourlySalesByDate(LocalDate date);
-	public MonthlySalesDTO findSalesByMonth(int year, int month);
-	public YearlySalesDTO findSalesByYear(int year);
+	public List<SalesStatsDTO> findRecentWeekSales();
+	public List<SalesStatsDTO> findHourlySalesByDate(LocalDate date);
+	public List<SalesStatsDTO> findDailySalesByMonth(int year, int month);
+	public List<SalesStatsDTO> findMonthlySalesByYear(int year);
+	public List<SalesStatsDTO> findYearlySales();
+	public List<Integer> findYears();
+
+//	public List<HourlySalesDTO> findHourlySales();
+//	public List<DailySalesDTO> findDailySales();
+//	public List<WeeklySalesDTO> findWeeklySales();
+//	public List<MonthlySalesDTO> findMonthlySales();
+//	public HourlySalesDTO findSalesByHour(int hour);
+//	public DailySalesDTO findSalesByDate(LocalDate date);
+//	public MonthlySalesDTO findSalesByMonth(int year, int month);
+//	public YearlySalesDTO findSalesByYear(int year);
 	
 }
