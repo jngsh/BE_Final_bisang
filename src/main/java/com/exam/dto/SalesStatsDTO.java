@@ -25,4 +25,8 @@ public class SalesStatsDTO {
 	LocalDate saleDate;
 	int saleMonth;
 	int saleYear;
+	
+	int productId;
+	int productSalesAmount;
+	int productSalesPrice;
 }

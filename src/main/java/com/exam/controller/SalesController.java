@@ -3,12 +3,12 @@ package com.exam.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exam.dto.ProductsDTO;
 import com.exam.dto.SalesStatsDTO;
 import com.exam.service.SalesService;
 
@@ -59,6 +59,24 @@ public class SalesController {
     @GetMapping("/years")
     public List<Integer> findYears() {
     	List<Integer> list = salesService.findYears();
+        return list;
+    }
+    
+    @GetMapping("/sort-price")
+    public List<SalesStatsDTO> findProductSalesPrice() {
+    	List<SalesStatsDTO> list = salesService.findProductSalesPrice();
+        return list;
+    }
+    
+    @GetMapping("/sort-amount")
+    public List<SalesStatsDTO> findProductSalesAmount() {
+    	List<SalesStatsDTO> list = salesService.findProductSalesAmount();
+        return list;
+    }
+    
+    @GetMapping("/products-info")
+    public List<ProductsDTO> findProductInfo() {
+    	List<ProductsDTO> list = salesService.findProductInfo();
         return list;
     }
     

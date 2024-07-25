@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.exam.dto.ProductsDTO;
 import com.exam.dto.SalesStatsDTO;
 
 @Mapper
@@ -17,7 +18,11 @@ public interface SalesMapper {
 	public List<SalesStatsDTO> findYearlySales();
 	public List<Integer> findYears();
 
-//	public List<HourlySalesDTO> findHourlySales();
+	public List<SalesStatsDTO> findProductSalesPrice();
+	public List<SalesStatsDTO> findProductSalesAmount();
+	public List<ProductsDTO> findProductInfo();
+
+	//	public List<HourlySalesDTO> findHourlySales();
 //	public List<DailySalesDTO> findDailySales();
 //	public List<WeeklySalesDTO> findWeeklySales();
 //	public List<MonthlySalesDTO> findMonthlySales();

@@ -57,7 +57,29 @@
 	</select>
 	
 	
+	<!-- 매출액 내림차순 조회 -->
+	<select id="findProductSalesPrice" resultType="SalesStatsDTO">
+		select product_id as productId, sum(sale_price) as productSalesPrice
+		from sales
+		group by product_id
+		order by productSalesPrice DESC;
+	</select>
 	
+	<!-- 매출량 내림차순 조회 -->
+	<select id="findProductSalesAmount" resultType="SalesStatsDTO">
+		select product_id as productId, sum(sale_amount) as productSalesAmount
+		from sales
+		group by product_id
+		order by productSalesAmount DESC;
+	</select>
+	
+	
+	
+	<!-- 제품 정보 조회 => 이후에 ProductsMapper로 변경 -->
+	<select id="findProductInfo" resultType="ProductsDTO">
+		select product_name as productName, product_id as productId, product_image as productImage
+		from products
+	</select>
 	
 <!-- 
 	<select id="findHourlySales" resultType="HourlySalesDTO">
