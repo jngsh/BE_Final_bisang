@@ -26,15 +26,16 @@ public class Inventory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "inventory_id", nullable = false)
 	Integer inventoryId;
 	
-	@Column(nullable = false, unique = true)
+	@Column(name = "product_id", nullable = false)
 	Integer productId;
 	
-	@Column(nullable = true)
+	@Column(name = "stock_quantity")
 	Integer stockQuantity;
 	
-	@Column(nullable = true)
+	@Column(name = "last_updated")
 	LocalDateTime lastUpdated;
 
 }
