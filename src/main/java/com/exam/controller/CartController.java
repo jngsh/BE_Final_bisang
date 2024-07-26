@@ -1,62 +1,79 @@
 package com.exam.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.exam.config.ProductsMapper;
+import com.exam.entity.Carts;
+import com.exam.dto.CartItemsDTO;
+import com.exam.dto.CartsDTO;
+import com.exam.entity.CartItems;
 import com.exam.service.CartService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Controller
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/carts")
 public class CartController {
 
-    Logger logger = LoggerFactory.getLogger(CartController.class);
-
-    @Autowired
+	Logger logger = LoggerFactory.getLogger(getClass());
+	
     CartService cartService;
 
     @Autowired
-    ProductsMapper productsMapper;
-
-    @GetMapping("/products")
-    public String viewProducts(Model model) {
-        try {
-            model.addAttribute("products", productsMapper.findAll());
-            return "products";
-        } catch (Exception e) {
-            logger.error("제품을 가져오는 중 오류 발생", e);
-            model.addAttribute("errorMessage", "제품을 가져오는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
-            return "error";
-        }
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
-    @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam int cartId, @RequestParam int productId, Model model) {
-        try {
-            cartService.addProductToCart(cartId, productId);
-            return "redirect:/cart?cartId=" + cartId;
-        } catch (Exception e) {
-            logger.error("장바구니에 제품을 추가하는 중 오류 발생", e);
-            model.addAttribute("errorMessage", "장바구니에 제품을 추가하는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
-            return "error";
+    @GetMapping("/{cartId}")
+    public ResponseEntity<CartsDTO> getCartById(@PathVariable int cartId) {
+        CartsDTO cart = cartService.getCartById(cartId);
+        if (cart == null) {
+            return ResponseEntity.notFound().build(); // 404 반환
         }
+        return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("/cart")
-    public String viewCart(@RequestParam int cartId, Model model) {
-        try {
-            model.addAttribute("cartItems", cartService.getCartItems(cartId));
-            return "cart";
-        } catch (Exception e) {
-            logger.error("장바구니 항목을 가져오는 중 오류 발생", e);
-            model.addAttribute("errorMessage", "장바구니 항목을 가져오는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
-            return "error";
+    @GetMapping("/{cartId}/items")
+    public ResponseEntity<List<CartItemsDTO>> getItemsByCartId(@PathVariable int cartId) {
+        List<CartItemsDTO> items = cartService.getItemsByCartId(cartId);
+        if (items == null || items.isEmpty()) {
+            return ResponseEntity.notFound().build(); // 404 반환
         }
+        return ResponseEntity.ok(items);
+    }
+
+    @PostMapping("/items")
+    public ResponseEntity<?> addItem(@RequestBody CartItemsDTO dto) {
+    	int addItem = cartService.addItem(dto);
+//    	logger.info("logger: Controller: {}, {}, {}",  cartId, productId, amount);
+//    	cartService.addItem(cartId, productId, amount);
+//    	logger.info("logger: Controller: {}, {}, {}",  cartId, productId, amount);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/items")
+    public ResponseEntity<?> updateItemAmount(@RequestBody CartItemsDTO cartItem) {
+        int cartItemId = cartItem.getCartItemId();
+        int amount = cartItem.getAmount();
+        cartService.updateItemAmount(cartItemId, amount);
+        return ResponseEntity.ok().build();
+    }
+
+
+
+    @DeleteMapping("/items/{cartItemId}")
+    public ResponseEntity<Integer> removeItemFromCart(@PathVariable int cartItemId) {
+        cartService.removeItemFromCart(cartItemId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{cartId}/items")
+    public ResponseEntity<Void> clearCart(@PathVariable int cartId) {
+        cartService.clearCart(cartId);
+        return ResponseEntity.ok().build();
     }
 }

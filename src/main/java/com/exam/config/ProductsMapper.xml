@@ -3,27 +3,61 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="com.exam.config.ProductsMapper">
 
-    <!-- resultMap declaration -->
-    <resultMap id="ProductResultMap" type="com.exam.entity.Products">
-        <id column="product_id" property="productId"/>
-        <result column="category_id" property="categoryId"/>
-        <result column="discount_id" property="discountId"/>
-        <result column="product_name" property="productName"/>
-        <result column="product_price" property="productPrice"/>
-        <result column="product_image" property="productImage"/>
-        <result column="product_description" property="productDescription"/>
-        <result column="unit" property="unit"/>
-        <result column="value" property="value"/>
-        <result column="product_qr" property="productQr"/>
-        <result column="product_code" property="productCode"/>
-        <result column="product_date" property="productDate"/>
+    <!-- Result Map 정의 -->
+    <resultMap id="ProductsResultMap" type="com.exam.dto.ProductsDTO">
+        <id property="productId" column="product_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="discountId" column="discount_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productImage" column="product_image"/>
+        <result property="productDescription" column="product_description"/>
+        <result property="unit" column="unit"/>
+        <result property="value" column="value"/>
+        <result property="productQr" column="product_qr"/>
+        <result property="productCode" column="product_code"/>
+        <result property="createDate" column="create_date"/>
     </resultMap>
 
-    <!-- SQL statement with the resultMap reference -->
-    <select id="findAll" resultMap="ProductResultMap">
+    <!-- 상품 ID로 상품 조회 -->
+    <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
+        SELECT * FROM products WHERE product_id = #{productId}
+    </select>
+
+    <!-- 모든 상품 조회 -->
+    <select id="findAllProducts" resultMap="ProductsResultMap">
         SELECT * FROM products
     </select>
+
+    <!-- 상품 추가 -->
+    <insert id="addProduct" parameterType="com.exam.dto.ProductsDTO" useGeneratedKeys="true" keyProperty="productId">
+        INSERT INTO products (category_id, discount_id, product_name, product_price, product_image, product_description, unit, value, product_qr, product_code, create_date)
+        VALUES (#{categoryId}, #{discountId}, #{productName}, #{productPrice}, #{productImage}, #{productDescription}, #{unit}, #{value}, #{productQr}, #{productCode}, #{createDate})
+    </insert>
+
+    <!-- 상품 수정 -->
+    <update id="updateProduct" parameterType="com.exam.dto.ProductsDTO">
+        UPDATE products
+        SET category_id = #{categoryId},
+            discount_id = #{discountId},
+            product_name = #{productName},
+            product_price = #{productPrice},
+            product_image = #{productImage},
+            product_description = #{productDescription},
+            unit = #{unit},
+            value = #{value},
+            product_qr = #{productQr},
+            product_code = #{productCode},
+            create_date = #{createDate}
+        WHERE product_id = #{productId}
+    </update>
+
+    <!-- 상품 삭제 -->
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM products WHERE product_id = #{productId}
+    </delete>
 
 </mapper>

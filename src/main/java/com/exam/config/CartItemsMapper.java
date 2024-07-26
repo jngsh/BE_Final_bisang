@@ -1,28 +1,23 @@
 package com.exam.config;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
-
-import com.exam.entity.CartItems;
-
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
-import java.util.Optional;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.exam.dto.CartItemsDTO;
 
 @Mapper
 public interface CartItemsMapper {
-   
-    List<CartItems> findByCartId(int cartId);
 
-   
-    Optional<CartItems> findByCartIdAndProductId(@Param("cartId") int cartId, @Param("productId") int productId);
+    CartItemsDTO findItemById(int cartItemId);
 
-    
-    void insertCartItem(CartItems cartItem);
+    List<CartItemsDTO> findItemsByCartId(int cartId);
 
-    
-    void updateCartItem(CartItems cartItem);
+    int addItem(CartItemsDTO item);
+
+    void updateItem(CartItemsDTO item);
+
+    void deleteItem(int cartItemId);
+
+    void deleteItemsByCartId(int cartId);
 }

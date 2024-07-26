@@ -1,7 +1,9 @@
 package com.exam.dto;
 
+import java.util.List;
 
-
+import com.exam.entity.Products;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,4 +24,10 @@ public class CartItemsDTO {
     int cartId;
     int productId;
     int amount;
+    
+    ProductsDTO product;
+    @JsonIgnore
+    CartsDTO cart;
+ 
+    
 }

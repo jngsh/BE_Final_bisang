@@ -27,5 +27,5 @@ public class ProductsDTO {
     double value;
     String productQr;
     String productCode;
-    LocalDate productDate;
+    LocalDate createDate;
 }
