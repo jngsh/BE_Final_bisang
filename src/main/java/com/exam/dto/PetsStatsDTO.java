@@ -2,11 +2,7 @@ package com.exam.dto;
 
 
 
-import java.time.LocalDate;
-
 import org.apache.ibatis.type.Alias;
-
-import com.exam.enums.PetType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

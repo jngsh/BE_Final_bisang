@@ -1,6 +1,6 @@
 package com.exam.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +17,8 @@ import lombok.ToString;
 @ToString
 public class InventoryDTO {
 
-   int inventory_id;
-   int product_type;
-   int stock_quantity;
-   LocalDate last_update;
+	Integer inventoryId;
+	Integer productId;
+	Integer stockQuantity;
+	LocalDateTime lastUpdated;
 }
