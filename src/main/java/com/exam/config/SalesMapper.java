@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.exam.dto.PetsStatsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SalesStatsDTO;
 
@@ -20,7 +21,13 @@ public interface SalesMapper {
 
 	public List<SalesStatsDTO> findProductSalesPrice();
 	public List<SalesStatsDTO> findProductSalesAmount();
+	
+	
+	// 이후 각자 Mapper로 변경
 	public List<ProductsDTO> findProductInfo();
+	
+	public List<PetsStatsDTO> calcPetTypeRatio();
+	public List<PetsStatsDTO> calcPetAgeTypeRatio();
 
 	//	public List<HourlySalesDTO> findHourlySales();
 //	public List<DailySalesDTO> findDailySales();

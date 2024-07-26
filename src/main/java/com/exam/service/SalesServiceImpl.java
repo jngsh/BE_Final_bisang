@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.exam.config.SalesMapper;
+import com.exam.dto.PetsStatsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SalesStatsDTO;
 
@@ -69,9 +70,23 @@ public class SalesServiceImpl implements SalesService {
 		return result;
 	}
 
+	
+	// 이후 각자 ServiceImpl로 변경
 	@Override
 	public List<ProductsDTO> findProductInfo() {
 		List<ProductsDTO> result = salesMapper.findProductInfo();
+		return result;
+	}
+
+	@Override
+	public List<PetsStatsDTO> calcPetTypeRatio() {
+		List<PetsStatsDTO> result = salesMapper.calcPetTypeRatio();
+		return result;
+	}
+
+	@Override
+	public List<PetsStatsDTO> calcPetAgeTypeRatio() {
+		List<PetsStatsDTO> result = salesMapper.calcPetAgeTypeRatio();
 		return result;
 	}
 

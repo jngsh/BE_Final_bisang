@@ -81,6 +81,37 @@
 		from products
 	</select>
 	
+	<!-- 반려동물 pet_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<select id="calcPetTypeRatio" resultType="PetsStatsDTO">
+		select
+    		case
+        		when pet_type = 'D' then '강아지'
+       		 	when pet_type = 'C' then '고양이'
+        		when pet_type = 'Z' then '기타 동물'
+    		end as petType,
+    		count(*) as petCount,
+    		round((count(*) / (select count(*) from pets)) * 100, 2) as petRatio
+		from pets
+		group by pet_type
+	</select>
+	
+	<!-- 반려동물 age_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<select id="calcPetAgeTypeRatio" resultType="PetsStatsDTO">
+		<![CDATA[
+			select 
+				case
+            		when timestampdiff(year, pet_birthdate, curdate()) <= 1 then'주니어'
+            		when timestampdiff(year, pet_birthdate, curdate()) between 2 and 7 then '어덜트'
+            		else '시니어'
+        		end as ageType,
+				count(*) as petCount, 
+				round((count(*) / (select count(*) from Pets)) * 100, 2) as petRatio
+			from Pets
+			group by ageType
+		]]>
+	</select>
+	
+	
 <!-- 
 	<select id="findHourlySales" resultType="HourlySalesDTO">
 		select sum(sale_price) as totalSale, hour(sale_date) as saleHour

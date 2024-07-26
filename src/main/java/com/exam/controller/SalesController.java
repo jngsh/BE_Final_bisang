@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.exam.dto.PetsStatsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SalesStatsDTO;
 import com.exam.service.SalesService;
@@ -74,9 +75,26 @@ public class SalesController {
         return list;
     }
     
+    
+    
+    // 이후 ProductsController로 변경
     @GetMapping("/products-info")
     public List<ProductsDTO> findProductInfo() {
     	List<ProductsDTO> list = salesService.findProductInfo();
+        return list;
+    }
+    
+    // 이후 PetsController로 변경
+    @GetMapping("/pet-type")
+    public List<PetsStatsDTO> calcPetTypeRatio() {
+    	List<PetsStatsDTO> list = salesService.calcPetTypeRatio();
+        return list;
+    }
+    
+    // 이후 PetsController로 변경
+    @GetMapping("/pet-age-type")
+    public List<PetsStatsDTO> calcPetAgeTypeRatio() {
+    	List<PetsStatsDTO> list = salesService.calcPetAgeTypeRatio();
         return list;
     }
     
