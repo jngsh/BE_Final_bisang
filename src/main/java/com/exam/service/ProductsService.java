@@ -1,5 +1,9 @@
 package com.exam.service;
 
-public interface ProductsService {
+import java.util.List;
 
+import com.exam.entity.Products;
+
+public interface ProductsService {
+	
 }

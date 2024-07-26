@@ -2,6 +2,7 @@ package com.exam.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,16 +26,39 @@ public class Products {
    
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   int product_id;
-   int category_id;
-   int discount_id;
-   String product_name;
-   int product_price;
-   String product_image;
-   String product_description;
+   @Column(name = "product_id", nullable = false)
+   Integer productId;
+   
+   @Column(name = "category_id", nullable = false)
+   Integer categoryId;
+   
+   @Column(name = "discount_id", nullable = false)
+   Integer discountId;
+   
+   @Column(name = "product_name")
+   String productName;
+   
+   @Column(name = "product_price")
+   Integer productPrice;
+   
+   @Column(name = "product_image")
+   String productImage;
+   
+   @Column(name = "product_description")
+   String productDescription;
+   
+   @Column(name = "unit")
    String unit;
-   double value;
-   String product_qr;
-   String product_code;
-   LocalDate product_date;
+   
+   @Column(name = "value")
+   Double value;
+   
+   @Column(name = "product_qr")
+   String productQr;
+   
+   @Column(name = "product_code")
+   String productCode;
+   
+   @Column(name = "created_date")
+   LocalDate createdDate;
 }

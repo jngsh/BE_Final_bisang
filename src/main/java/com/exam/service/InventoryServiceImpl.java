@@ -4,11 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.entity.Inventory;
+import com.exam.entity.Products;
 import com.exam.repository.InventoryRepository;
+import com.exam.repository.ProductsRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class InventoryServiceImpl implements InventoryService {
 	
+	@Autowired
 	InventoryRepository inventoryRepository;
 	
-	public InventoryServiceImpl(InventoryRepository inventoryRepository) {
-		this.inventoryRepository = inventoryRepository;
-	}
-
+	@Autowired
+	ProductsRepository productsRepository;
+	
 	@Override
 	public void upsertInventory(Inventory inventory) {
         Optional<Inventory> existingInventoryOpt = inventoryRepository.findFirstByProductId(inventory.getProductId());
@@ -41,28 +44,16 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryRepository.save(inventory);
         }
     }
-//	public void upsertInventory(Inventory inventory) {
-//        Optional<Inventory> existingInventoryOpt = inventoryRepository.findFirstByProductId(inventory.getProductId());
-//
-//        if (existingInventoryOpt.isPresent()) {
-//            Inventory existingInventory = existingInventoryOpt.get();
-//            
-//            // 여기에 이전 stock quantity에서 값이 변했는지 확인하는 명령어 입력
-//            // 변경되지 않았으면 조건문 빠져나감
-//            
-//            existingInventory.setStockQuantity(inventory.getStockQuantity());
-//            existingInventory.setLastUpdated(LocalDateTime.now());
-//            inventoryRepository.save(existingInventory);
-//        } else {
-//            // Insert new inventory
-//            inventory.setLastUpdated(LocalDateTime.now());
-//            inventoryRepository.save(inventory);
-//        }
-//    }
-	
+
 	@Override
     public List<Inventory> findAll() {
         return inventoryRepository.findAll();
     }
+	
+	@Override
+    public List<Products> findAllProducts() {
+        return productsRepository.findAll();
+    }
+
 
 }
