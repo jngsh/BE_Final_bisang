@@ -10,8 +10,6 @@ import com.exam.dto.CartItemsDTO;
 import com.exam.entity.CartItems;
 import com.exam.repository.CartItemsRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 //@RequiredArgsConstructor
 public class CartItemsServiceImpl implements CartItemsService {

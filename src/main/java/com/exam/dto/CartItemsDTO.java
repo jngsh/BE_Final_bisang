@@ -3,6 +3,8 @@ package com.exam.dto;
 
 
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,9 +20,9 @@ import lombok.ToString;
 @ToString
 public class CartItemsDTO {
 	
-	int cart_item_id;
-	int cart_id;
-	int product_id;
+	int cartItemId;
+	int cartId;
+	int productId;
 	int amount;
 
 }

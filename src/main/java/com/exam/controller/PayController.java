@@ -2,13 +2,13 @@ package com.exam.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.ApproveResponse;
 import com.exam.dto.CartItemsDTO;
@@ -20,7 +20,7 @@ import com.exam.service.payment.KakaoPayService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@RestController // 가 없어서 뷰인줄알고 에러띄움
 //@RequiredArgsConstructor
 @RequestMapping("/pay")
 public class PayController {
@@ -39,14 +39,16 @@ public class PayController {
     }
 //    
     
-    @GetMapping("/hello")
-    public String hello()
-    {
-    	log.info("KakaoPayService:>>>>>>>>>>>>>> " + kakaoPayService);
-    	log.info("PayService:>>>>>>>>>>>>>> " + payService);
-    	log.info("HttpSession:>>>>>>>>>>>>>> " + httpSession);
-    	return "Hello World";
-    }
+//    @GetMapping("/hello")
+//    public String hello()
+//    {
+//    	log.info("KakaoPayService:>>>>>>>>>>>>>> " + kakaoPayService);
+//    	log.info("PayService:>>>>>>>>>>>>>> " + payService);
+//    	log.info("HttpSession:>>>>>>>>>>>>>> " + httpSession);
+//    	return "Hello World";
+//    }
+    
+//    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/ready")
     public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO) {
     	 ReadyResponse readyResponse = null;
@@ -60,7 +62,7 @@ public class PayController {
         int totalPrice = sendToPayInfo.getTotalPrice();
         
         log.info("주문 상품 이름: " + combinedName);
-        log.info("주문 금액: " + totalPrice);
+        log.info("주문 금액: " + totalPrice + " 원");
 
         // 카카오 결제 준비하기
          readyResponse = kakaoPayService.payReady(combinedName, totalPrice);

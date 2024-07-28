@@ -2,7 +2,6 @@ package com.exam.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,12 @@ import com.exam.dto.ProductsDTO;
 import com.exam.dto.SendToPayDTO;
 
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+////////////////////////////////////////////////////////
+//CartItems에 결제시 필수요소인 상품명, 가격이 존재하지 않음
+//여러 건 결제 시 'ㅇㅇ외 ㅇ건', '합산금액'을 생성해서 넘기기 위한 작업을 위한 service
+////////////////////////////////////////////////////////
+
 
 @Service
 //@RequiredArgsConstructor
@@ -36,34 +39,34 @@ public class PayServiceImpl implements PayService {
     
     @Override
     public SendToPayDTO getSendToPayInfo(CartItemsDTO cartItemsDTO) {
-    	log.info("CartItemsDTO:{}" , cartItemsDTO );
+    	
         List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
-        log.info("cartItems:{}" , cartItems );
 
         List<ProductsDTO> products = cartItems.stream()
             .map(item -> productsService.getProductById(item.getProductId()))
             .collect(Collectors.toList());
-
-//        String combinedName2 = products.stream()
-//            .map(ProductsDTO::getProductName)
-//            .collect(Collectors.joining(", "));
-        
+        log.info("CartItemsDTO:{}" , cartItemsDTO );
+        log.info("cartItems:{}" , cartItems );
         log.info("products:{}" , products );
-        Stream<ProductsDTO> xxx = products.stream();
-        log.info("xxx::{}" , xxx );
-        Stream<String>  xxx2 = xxx.map(ProductsDTO::getProductName);
-        log.info("xxx2::{}" , xxx2 );
-        String xxx3 = xxx2.collect(Collectors.joining(", "));
-        log.info("xxx3::{}" , xxx3 );
-        
-        
-        String combinedName = "";
 
+             
+//        Stream<ProductsDTO> xxx = products.stream();
+//        log.info("xxx::{}" , xxx );
+//        Stream<String>  xxx2 = xxx.map(ProductsDTO::getProductName);
+//        log.info("xxx2::{}" , xxx2 );
+//        String xxx3 = xxx2.collect(Collectors.joining(", "));
+//        log.info("xxx3::{}" , xxx3 );
+//        
         
-        
+        String combinedName;
         if (products.size() > 1) {
             combinedName = products.get(0).getProductName() + " 외 " + (products.size() - 1) + "건";
+        } else {
+            combinedName = products.stream()
+                .map(ProductsDTO::getProductName)
+                .collect(Collectors.joining(", "));
         }
+        log.info("combinedName: {}", combinedName);
 
         int totalPrice = cartItems.stream()
             .mapToInt(item -> item.getAmount() * products.stream()
