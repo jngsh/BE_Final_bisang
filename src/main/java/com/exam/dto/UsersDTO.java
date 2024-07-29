@@ -36,7 +36,7 @@ public class UsersDTO {
    String phone1;
    String phone2;
    String phone3; 
-   Boolean is_customer;
+   Boolean isCustomer;
    
    public UsersDTO(String id, String pw ) {
 	   this.id= id;

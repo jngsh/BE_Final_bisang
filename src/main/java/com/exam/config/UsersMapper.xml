@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.config.UsersMapper">
+ 
+    <select id="idCheck" resultType="int" parameterType="string">
+      select count(*)
+      from users
+      where id=#{id}
+   </select>
+    
+   
+    <select id="authenticate" resultType="UsersDTO" parameterType="hashmap">
+      select id, pw, username
+      from users
+      where id=#{id} and pw=#{pw}
+   </select>
+   
+   <insert id="saveUsers" parameterType="UsersDTO">
+      insert into users (username, id, pw, address1, address2, post, email1, email2, phone1, phone2, phone3 )
+      values (#{username}, #{id}, #{pw}, #{address1}, #{address2}, #{post}, #{email1}, #{email2}, #{phone1}, #{phone2}, #{phone3})
+   </insert>
+   
+   <select id="findById" resultType="UsersDTO" parameterType="string">
+      select username, id, pw, address1, address2, post, email1, email2, phone1, phone2,phone3
+      from users
+      where id=#{id} 
+   </select>
+</mapper>
