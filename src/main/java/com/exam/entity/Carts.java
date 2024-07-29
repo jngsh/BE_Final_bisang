@@ -32,7 +32,7 @@ public class Carts {
 	int cartId;
     int userId;
     
-    @OneToMany(mappedBy = "cart")
-    @JsonIgnore
-    List<CartItems> items;
+//    @OneToMany(mappedBy = "cart")
+//    @JsonIgnore
+//    List<CartItems> items;
 }
