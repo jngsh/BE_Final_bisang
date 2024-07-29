@@ -1,9 +1,8 @@
 package com.exam.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,10 +14,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class InventoryDTO {
+// @Data // getter, setter, toString, equals, hasCode 메서드 자동 생성
+public class QrDTO {
+	
+	private int id;
+	private String data;
 
-	int inventoryId;
-	int productId;
-	int stockQuantity;
-	LocalDateTime lastUpdated;
 }

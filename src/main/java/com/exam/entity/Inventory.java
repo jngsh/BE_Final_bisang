@@ -1,7 +1,8 @@
 package com.exam.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +26,16 @@ public class Inventory {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int inventory_id;
-	int product_type;
-	int stock_quantity;
-	LocalDate last_update;
+	@Column(name = "inventory_id", nullable = false)
+	Integer inventoryId;
+	
+	@Column(name = "product_id", nullable = false)
+	Integer productId;
+	
+	@Column(name = "stock_quantity")
+	Integer stockQuantity;
+	
+	@Column(name = "last_updated")
+	LocalDateTime lastUpdated;
 
 }

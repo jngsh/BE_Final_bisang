@@ -29,4 +29,5 @@ public class ProductsDTO {
    String productQr;
    String productCode;
    LocalDate createdDate;
+
 }

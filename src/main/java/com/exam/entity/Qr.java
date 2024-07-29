@@ -1,7 +1,5 @@
 package com.exam.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+ 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,15 +19,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Sales {
+public class Qr {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int sale_id;
-	int order_id;
-	int product_id;
-	int sale_amount;
-	int sale_price;
-	LocalDateTime sale_date;
+	private Long id;
+	private String data;
 
 }

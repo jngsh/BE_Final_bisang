@@ -1,6 +1,8 @@
 package com.exam.dto;
 
-import java.time.LocalDateTime;
+
+
+import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,16 +11,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Alias("PetsStatsDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class InventoryDTO {
+public class PetsStatsDTO {
+   
+   int petId;
+   String petType;
+   String ageType;
+   int petCount;
+   double petRatio; 
 
-	int inventoryId;
-	int productId;
-	int stockQuantity;
-	LocalDateTime lastUpdated;
 }
