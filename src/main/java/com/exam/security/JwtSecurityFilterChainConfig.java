@@ -49,7 +49,7 @@ public class JwtSecurityFilterChainConfig {
 	        return httpSecurity
 	                .authorizeHttpRequests(auth -> 
 	                
-	                auth.antMatchers("/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
+	                auth.antMatchers("/**","/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()
 	                    .authenticated())
