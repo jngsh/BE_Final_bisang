@@ -81,7 +81,7 @@ public class JwtAuthenticationController {
     	
     	if (usersDTO != null && passwordEncoder.matches(jwtTokenRequest.get("pw"), usersDTO.getPw())) { // 일치하는 사용자와 비번이 일치하면
             List<GrantedAuthority> roles = new ArrayList<>();
-            if (usersDTO.getIs_customer() != null && usersDTO.getIs_customer()) {
+            if (usersDTO.getIsCustomer() != null && usersDTO.getIsCustomer()) {
                 roles.add(new SimpleGrantedAuthority("ROLE_USER")); // 사용자 권한 부여
             } else {
                 roles.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // 관리자 권한 부여
