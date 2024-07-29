@@ -26,39 +26,27 @@ public class Products {
    
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "product_id", nullable = false)
-   Integer productId;
-   
-   @Column(name = "category_id", nullable = false)
-   Integer categoryId;
-   
-   @Column(name = "discount_id", nullable = false)
-   Integer discountId;
-   
+
+   @Column(name = "product_id")
+   int productId;
+   @Column(name = "category_id")
+   int categoryId;
+   @Column(name = "discount_id")
+   int discountId;
    @Column(name = "product_name")
    String productName;
-   
    @Column(name = "product_price")
-   Integer productPrice;
-   
+   int productPrice;
    @Column(name = "product_image")
    String productImage;
-   
    @Column(name = "product_description")
    String productDescription;
-   
-   @Column(name = "unit")
    String unit;
-   
-   @Column(name = "value")
-   Double value;
-   
+   double value;
    @Column(name = "product_qr")
    String productQr;
-   
    @Column(name = "product_code")
    String productCode;
-   
    @Column(name = "created_date")
    LocalDate createdDate;
 }
