@@ -25,8 +25,8 @@ public class Users {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   int user_id;
-   String username;
+   int userId;
+   String userName;
    String id; 
    String pw; 
    String address1; 

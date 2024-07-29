@@ -1,6 +1,5 @@
 package com.exam;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -27,8 +26,8 @@ public class Application  extends SpringBootServletInitializer{
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedMethods("*")
-					.allowedOrigins("http://localhost:5173","*");
+					.allowedMethods("*")	
+					.allowedOrigins("http://localhost:5173","https://d636-58-235-119-39.ngrok-free.app","*");
 			}
 		};
 	}
