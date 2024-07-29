@@ -22,20 +22,9 @@ public interface SalesMapper {
 	public List<SalesStatsDTO> findProductSalesPrice();
 	public List<SalesStatsDTO> findProductSalesAmount();
 	
-	
-	// 이후 각자 Mapper로 변경
 	public List<ProductsDTO> findProductInfo();
 	
 	public List<PetsStatsDTO> calcPetTypeRatio();
 	public List<PetsStatsDTO> calcPetAgeTypeRatio();
 
-	//	public List<HourlySalesDTO> findHourlySales();
-//	public List<DailySalesDTO> findDailySales();
-//	public List<WeeklySalesDTO> findWeeklySales();
-//	public List<MonthlySalesDTO> findMonthlySales();
-//	public HourlySalesDTO findSalesByHour(int hour);
-//	public DailySalesDTO findSalesByDate(LocalDate date);
-//	public MonthlySalesDTO findSalesByMonth(int year, int month);
-//	public YearlySalesDTO findSalesByYear(int year);
-	
 }

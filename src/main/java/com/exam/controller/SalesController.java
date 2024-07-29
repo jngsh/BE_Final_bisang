@@ -77,78 +77,22 @@ public class SalesController {
     
     
     
-    // 이후 ProductsController로 변경
     @GetMapping("/products-info")
     public List<ProductsDTO> findProductInfo() {
     	List<ProductsDTO> list = salesService.findProductInfo();
         return list;
     }
     
-    // 이후 PetsController로 변경
     @GetMapping("/pet-type")
     public List<PetsStatsDTO> calcPetTypeRatio() {
     	List<PetsStatsDTO> list = salesService.calcPetTypeRatio();
         return list;
     }
     
-    // 이후 PetsController로 변경
     @GetMapping("/pet-age-type")
     public List<PetsStatsDTO> calcPetAgeTypeRatio() {
     	List<PetsStatsDTO> list = salesService.calcPetAgeTypeRatio();
         return list;
     }
     
-    
-    
-    
-//    @GetMapping("/admin/hourly")
-//    public List<HourlySalesDTO> findHourlySales() {
-//        List<HourlySalesDTO> list = salesService.findHourlySales();
-//		return list;
-//    }
-//    
-//    @GetMapping("/admin/daily")
-//    public List<DailySalesDTO> findDailySales() {
-//        List<DailySalesDTO> list = salesService.findDailySales();
-//		return list;
-//    }
-//    
-//    
-//    @GetMapping("/admin/weekly")
-//    public List<WeeklySalesDTO> findWeeklySales() {
-//        List<WeeklySalesDTO> list = salesService.findWeeklySales();
-//		return list;
-//    }
-//
-//    @GetMapping("/admin/monthly")
-//    public List<MonthlySalesDTO> findMonthlySales() {
-//    	List<MonthlySalesDTO> list = salesService.findMonthlySales();
-//        return list;
-//    }
-//
-//    @GetMapping("/admin/hourly/{hour}")
-//    public HourlySalesDTO findSalesByHour(@PathVariable int hour) {
-//        HourlySalesDTO dto = salesService.findSalesByHour(hour);
-//		return dto;
-//    }
-//    
-//    @GetMapping("/admin/daily/{date}")
-//    public DailySalesDTO findSalesByDate(@PathVariable LocalDate date) {
-//    	DailySalesDTO dto = salesService.findSalesByDate(date);
-//    	log.info("logger: findSalesByDate: {}", dto);
-//		return dto;
-//    }
-//    
-//    
-//    @GetMapping("/admin/monthly/{year}/{month}")
-//    public MonthlySalesDTO findSalesByMonth(@PathVariable int year, @PathVariable int month) {
-//    	MonthlySalesDTO dto = salesService.findSalesByMonth(year, month);
-//		return dto;
-//    }
-//    
-//    @GetMapping("/admin/yearly/{year}")
-//    public YearlySalesDTO findSalesByYear(@PathVariable int year) {
-//    	YearlySalesDTO dto = salesService.findSalesByYear(year);
-//		return dto;
-//    }
 }
