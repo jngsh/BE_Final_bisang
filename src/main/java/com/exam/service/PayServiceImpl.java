@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 //여러 건 결제 시 'ㅇㅇ외 ㅇ건', '합산금액'을 생성해서 넘기기 위한 작업을 위한 service
 ////////////////////////////////////////////////////////
 
-
 @Service
 //@RequiredArgsConstructor
 @NoArgsConstructor
@@ -38,25 +37,18 @@ public class PayServiceImpl implements PayService {
     
     
     @Override
-    public SendToPayDTO getSendToPayInfo(CartItemsDTO cartItemsDTO) {
+    public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
     	
         List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
 
-        List<ProductsDTO> products = cartItems.stream()
-            .map(item -> productsService.getProductById(item.getProductId()))
+      List<ProductsDTO> products = cartItems.stream()
+            .map(item -> productsService.findByProductId(item.getProductId()))
             .collect(Collectors.toList());
         log.info("CartItemsDTO:{}" , cartItemsDTO );
         log.info("cartItems:{}" , cartItems );
         log.info("products:{}" , products );
 
              
-//        Stream<ProductsDTO> xxx = products.stream();
-//        log.info("xxx::{}" , xxx );
-//        Stream<String>  xxx2 = xxx.map(ProductsDTO::getProductName);
-//        log.info("xxx2::{}" , xxx2 );
-//        String xxx3 = xxx2.collect(Collectors.joining(", "));
-//        log.info("xxx3::{}" , xxx3 );
-//        
         
         String combinedName;
         if (products.size() > 1) {

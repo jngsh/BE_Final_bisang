@@ -18,10 +18,9 @@ public class ProductsServiceImpl implements ProductsService {
 		this.modelMapper = modelMapper;
 	}
 
-
 	@Override
-		public ProductsDTO getProductById(int productId) {
-	        Products product = productsRepository.findById(productId)
+		public ProductsDTO findByProductId(int productId) {
+	        Products product = productsRepository.findByProductId(productId)
 	            .orElseThrow(() -> new RuntimeException("Product not found"));
 
 	        return modelMapper.map(product, ProductsDTO.class);

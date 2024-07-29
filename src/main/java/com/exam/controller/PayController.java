@@ -20,7 +20,7 @@ import com.exam.service.payment.KakaoPayService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController // 가 없어서 뷰인줄알고 에러띄움
+@RestController // Controller이면 뷰인줄알고 에러띄움
 //@RequiredArgsConstructor
 @RequestMapping("/pay")
 public class PayController {
@@ -48,7 +48,7 @@ public class PayController {
 //    	return "Hello World";
 //    }
     
-//    @CrossOrigin(origins = "http://localhost:5173")
+//  @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/ready")
     public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO) {
     	 ReadyResponse readyResponse = null;
@@ -56,7 +56,7 @@ public class PayController {
         // PayService를 통해 이름과 금액 정보를 가져옴
     	log.info("payService:>>>>>>>>>>>>>> " + payService);
     	log.info("CartItemsDTO:>>>>>>>>>>>>>> " + cartItemsDTO);
-        SendToPayDTO sendToPayInfo = payService.getSendToPayInfo(cartItemsDTO);
+        SendToPayDTO sendToPayInfo = payService.sendToPayInfo(cartItemsDTO);
 
         String combinedName = sendToPayInfo.getCombinedName();
         int totalPrice = sendToPayInfo.getTotalPrice();
