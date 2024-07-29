@@ -1,5 +1,6 @@
 package com.exam.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +24,12 @@ public class CartItems {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int cart_item_id;
-	int cart_id;
-	int product_id;
+    @Column(name = "cart_item_id")
+	int cartItemId;
+    @Column(name = "cart_id")	 
+	int cartId;
+	@Column(name = "product_id")
+	int productId;
 	int amount;
 
 }

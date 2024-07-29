@@ -1,8 +1,5 @@
 package com.exam.dto;
 
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CartItemsDTO {
-	
-	int cartItemId;
-	int cartId;
-	int productId;
-	int amount;
-
+public class SendToPayDTO {
+    private String combinedName;
+    private int totalPrice;
 }
