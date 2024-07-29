@@ -17,15 +17,15 @@ import lombok.ToString;
 @ToString
 public class ProductsDTO {
 
-	Integer productId;
-	Integer categoryId;
-	Integer discountId;
+	int productId;
+	int categoryId;
+	int discountId;
 	String productName;
-	Integer productPrice;
+	int productPrice;
 	String productImage;
 	String productDescription;
 	String unit;
-	Double value;
+	double value;
 	String productQr;
 	String productCode;
 	LocalDate createdDate;
