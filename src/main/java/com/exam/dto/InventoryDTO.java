@@ -17,8 +17,8 @@ import lombok.ToString;
 @ToString
 public class InventoryDTO {
 
-	Integer inventoryId;
-	Integer productId;
-	Integer stockQuantity;
+	int inventoryId;
+	int productId;
+	int stockQuantity;
 	LocalDateTime lastUpdated;
 }

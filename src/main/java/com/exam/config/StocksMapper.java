@@ -1,15 +1,16 @@
-package com.exam.service;
+package com.exam.config;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.exam.dto.InventoryDTO;
 import com.exam.dto.ProductsDTO;
-import com.exam.entity.Inventory;
 
-public interface InventoryService {
+@Mapper
+public interface StocksMapper {
 
-	void upsertInventory(Inventory inventory);
-	
 	public List<InventoryDTO> findAllStocks();
 	public List<ProductsDTO> findAllProducts();
+	
 }
