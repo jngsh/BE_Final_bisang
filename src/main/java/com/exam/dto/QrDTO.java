@@ -1,12 +1,8 @@
 package com.exam.dto;
 
-import java.util.List;
-
-import com.exam.entity.CartItems;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +14,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CartsDTO {
+// @Data // getter, setter, toString, equals, hasCode 메서드 자동 생성
+public class QrDTO {
+	
+	private int id;
+	private String data;
 
-	int cartId;
-    int userId;
-    
-    @JsonIgnore
-    List<CartItemsDTO> items;
 }

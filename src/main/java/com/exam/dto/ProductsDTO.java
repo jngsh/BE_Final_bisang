@@ -16,17 +16,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProductsDTO {
-   int product_id;
-   int category_id;
-   int discount_id;
-   String product_name;
-   int product_price;
-   String product_image;
-   String product_description;
+   int productId;
+   int categoryId;
+   int discountId;
+   String productName;
+   int productPrice;
+   String productImage;
+   String productDescription;   
    String unit;
    double value;
-   String product_qr;
-   String product_code;
-   LocalDate product_date;
-   
+   String productQr;
+   String productCode;
+   LocalDate createdDate;
 }
