@@ -33,21 +33,23 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Slf4j
 public class JwtSecurityFilterChainConfig {
 
 	  @Bean
 	    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
-	        
+	  
+		  log.info("ConfiguringsecurityFilterChain");
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
 	                .authorizeHttpRequests(auth -> 
 	                
-	                auth.antMatchers("/**","/users","/hello").permitAll()  // 회원가입 요청 허용.
-	                    .antMatchers("/authenticate").permitAll()
-//	                    .antMatchers(PathRequest.toH2Console()).permitAll() // h2 사용시 h2-console 허용하기 위한 처리.
+	                auth.antMatchers("/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()
 	                    .authenticated())
