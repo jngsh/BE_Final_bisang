@@ -20,10 +20,10 @@ import lombok.ToString;
 @ToString
 public class SalesDTO {
 
-	int sale_id;
-	int order_id;
-	int product_id;
-	int sale_amount;
-	int sale_price;
-	LocalDateTime sale_date;
+	int saleId;
+	int orderId;
+	int productId;
+	int saleAmount;
+	int salePrice;
+	LocalDateTime saleDate;
 }

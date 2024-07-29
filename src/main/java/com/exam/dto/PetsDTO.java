@@ -21,10 +21,10 @@ import lombok.ToString;
 @ToString
 public class PetsDTO {
    
-   int pet_id;
-   int user_id;
-   String pet_name;
-   LocalDate pet_birthdate;
-   PetType pet_type;
+   int petId;
+   int userId;
+   String petName;
+   LocalDate petBirthdate;
+   PetType petType;
 
 }
