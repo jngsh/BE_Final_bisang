@@ -1,5 +1,10 @@
 package com.exam.dto;
 
+import java.util.List;
+
+import com.exam.entity.CartItems;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +20,9 @@ import lombok.ToString;
 @ToString
 public class CartsDTO {
 
-	int cart_id;
-	int user_id;
+	int cartId;
+    int userId;
+    
+    @JsonIgnore
+    List<CartItemsDTO> items;
 }

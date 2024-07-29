@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exam.config.CartItemsMapper">
+
+    <!-- Result Map -->
+    <resultMap id="CartItemsResultMap" type="com.exam.dto.CartItemsDTO">
+        <id property="cartItemId" column="cart_item_id"/>
+        <result property="amount" column="amount"/>
+        <!-- 장바구니 정보 매핑 -->
+        <association property="cart" javaType="com.exam.dto.CartsDTO">
+            <id property="cartId" column="cart_id"/>
+            <!-- 필요 시 다른 CartDTO 속성 추가 가능 -->
+        </association>
+        <!-- 상품 정보 매핑 -->
+        <association property="product" javaType="com.exam.dto.ProductsDTO">
+            <id property="productId" column="product_id"/>
+            <!-- 필요 시 다른 ProductDTO 속성 추가 가능 -->
+        </association>
+    </resultMap>
+
+    <!-- 아이템 ID로 조회 -->
+    <select id="findItemById" parameterType="int" resultMap="CartItemsResultMap">
+        SELECT * FROM cart_items WHERE cart_item_id = #{cartItemId}
+    </select>
+
+    <!-- 장바구니 ID로 조회 -->
+    <select id="findItemsByCartId" parameterType="int" resultMap="CartItemsResultMap">
+        SELECT * FROM cart_items WHERE cart_id = #{cartId}
+    </select>
+
+    <!-- 아이템 추가 -->
+    <insert id="addItem" parameterType="com.exam.dto.CartItemsDTO" useGeneratedKeys="true" keyProperty="cartItemId">
+        INSERT INTO cart_items (cart_id, product_id, amount)
+        VALUES (#{cartId}, #{productId}, #{amount})
+    </insert>
+
+    <!-- 아이템 수정 -->
+    <update id="updateItem" parameterType="com.exam.dto.CartItemsDTO">
+        UPDATE cart_items
+        SET amount = #{amount}
+        WHERE cart_item_id = #{cartItemId}
+    </update>
+
+    <!-- 아이템 삭제 -->
+    <delete id="deleteItem" parameterType="int">
+        DELETE FROM cart_items WHERE cart_item_id = #{cartItemId}
+    </delete>
+
+    <!-- 장바구니 ID로 아이템 삭제 -->
+    <delete id="deleteItemsByCartId" parameterType="int">
+        DELETE FROM cart_items WHERE cart_id = #{cartId}
+    </delete>
+
+</mapper>

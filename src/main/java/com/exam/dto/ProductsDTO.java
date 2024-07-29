@@ -16,7 +16,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProductsDTO {
-
    int productId;
    int categoryId;
    int discountId;

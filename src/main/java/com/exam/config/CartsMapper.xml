@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exam.config.CartsMapper">
+
+    <!-- Result Map 정의 -->
+    <resultMap id="CartWithItems" type="com.exam.dto.CartsDTO">
+        <id property="cartId" column="cart_id"/>
+        <result property="userId" column="user_id"/>
+        <collection property="items" ofType="com.exam.dto.CartItemsDTO">
+            <id property="cartItemId" column="cart_item_id"/>
+            <result property="amount" column="amount"/>
+            <association property="product" javaType="com.exam.dto.ProductsDTO">
+                <id property="productId" column="product_id"/>
+                <!-- 필요한 다른 Product 속성 추가 가능 -->
+            </association>
+        </collection>
+    </resultMap>
+
+    <!-- Cart ID로 장바구니 조회 -->
+    <select id="findCartById" parameterType="int" resultMap="CartWithItems">
+        SELECT * FROM carts WHERE cart_id = #{cartId}
+    </select>
+
+    <!-- 장바구니 생성 -->
+    <insert id="createCart" parameterType="com.exam.dto.CartsDTO" useGeneratedKeys="true" keyProperty="cartId">
+        INSERT INTO carts(user_id) VALUES(#{userId})
+    </insert>
+
+    <!-- 장바구니 삭제 -->
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM carts WHERE cart_id = #{cartId}
+    </delete>
+
+</mapper>
