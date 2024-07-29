@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.config.SalesMapper">
+
+	<!-- 최근 일주일 매출 조회 -->
+	<select id="findRecentWeekSales" resultType="SalesStatsDTO">
+		<![CDATA[
+    		select sum(sale_price) as totalSale, date(sale_date) as saleDate
+    		from Sales
+    		where sale_date >= date_sub(curdate(), interval 1 week) and sale_date <= curdate()
+    		group by date(sale_date)
+    		order by saleDate
+    	]]>
+	</select>
+	
+	<!-- 특정 날짜 시간대별 매출 조회 -->
+	<select id="findHourlySalesByDate" resultType="SalesStatsDTO" parameterType="java.time.LocalDate">
+		select sum(sale_price) as totalSale, date(sale_date) as saleDate, hour(sale_date) as saleHour
+		from Sales
+		where date(sale_date) = #{date}
+		group by date(sale_date), hour(sale_date)
+		order by hour(sale_date)
+	</select>
+	
+	<!-- 특정 월의 일별 매출 조회 -->
+	<select id="findDailySalesByMonth" resultType="SalesStatsDTO" parameterType="int">
+		select sum(sale_price) as totalSale, date(sale_date) as saleDate
+		from Sales
+		where year(sale_date) = #{year} and month(sale_date) = #{month}
+		group by year(sale_date), month(sale_date), date(sale_date)
+		order by date(sale_date)
+	</select>
+	
+	<!-- 특정 연도의 월별 매출 조회 -->
+	<select id="findMonthlySalesByYear" resultType="SalesStatsDTO" parameterType="int">
+		select sum(sale_price) as totalSale, month(sale_date) as saleMonth, year(sale_date) as saleYear
+		from Sales
+		where year(sale_date) = #{year}
+		group by year(sale_date), month(sale_date)
+		order by month(sale_date)
+	</select>
+	
+	<!-- 연 매출 -->
+	<select id="findYearlySales" resultType="SalesStatsDTO">
+		select sum(sale_price) as totalSale, year(sale_date) as saleYear
+		from Sales
+		group by year(sale_date)
+		order by year(sale_date)
+	</select>
+	
+	<!-- 매출 연도 조회 -->
+	<select id="findYears" resultType="int">
+		select distinct(year(sale_date))
+		from Sales
+	</select>
+	
+	
+	<!-- 매출액 내림차순 조회 -->
+	<select id="findProductSalesPrice" resultType="SalesStatsDTO">
+		select product_id as productId, sum(sale_price) as productSalesPrice
+		from sales
+		group by product_id
+		order by productSalesPrice DESC;
+	</select>
+	
+	<!-- 매출량 내림차순 조회 -->
+	<select id="findProductSalesAmount" resultType="SalesStatsDTO">
+		select product_id as productId, sum(sale_amount) as productSalesAmount
+		from sales
+		group by product_id
+		order by productSalesAmount DESC;
+	</select>
+	
+	
+	
+	<!-- 제품 정보 조회 => 이후에 ProductsMapper로 변경 -->
+	<select id="findProductInfo" resultType="ProductsDTO">
+		select product_name as productName, product_id as productId, product_image as productImage
+		from products
+	</select>
+	
+	<!-- 반려동물 pet_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<select id="calcPetTypeRatio" resultType="PetsStatsDTO">
+		select
+    		case
+        		when pet_type = 'D' then '강아지'
+       		 	when pet_type = 'C' then '고양이'
+        		when pet_type = 'Z' then '기타 동물'
+    		end as petType,
+    		count(*) as petCount,
+    		round((count(*) / (select count(*) from pets)) * 100, 2) as petRatio
+		from pets
+		group by pet_type
+	</select>
+	
+	<!-- 반려동물 age_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<select id="calcPetAgeTypeRatio" resultType="PetsStatsDTO">
+		<![CDATA[
+			select 
+				case
+            		when timestampdiff(year, pet_birthdate, curdate()) <= 1 then'주니어'
+            		when timestampdiff(year, pet_birthdate, curdate()) between 2 and 7 then '어덜트'
+            		else '시니어'
+        		end as ageType,
+				count(*) as petCount, 
+				round((count(*) / (select count(*) from Pets)) * 100, 2) as petRatio
+			from Pets
+			group by ageType
+		]]>
+	</select>
+	
+
+</mapper>
