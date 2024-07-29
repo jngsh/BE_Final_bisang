@@ -32,8 +32,11 @@ public class CartItems {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_item_id")
 	int cartItemId;
-    @Column(name = "cart_id")	 
 	int cartId;
+//	@ManyToOne
+//	@JoinColumn(name = "cart_id")
+//	Carts cart;
+
 	@Column(name = "product_id")
 	int productId;
 	int amount;
