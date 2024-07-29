@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.Member;
@@ -29,6 +30,7 @@ import com.exam.service.AuthenticationService;
 import com.exam.service.UsersService;
 
 @RestController
+@RequestMapping("/auth")
 public class JwtAuthenticationController {
     
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -66,7 +68,7 @@ public class JwtAuthenticationController {
     TokenBlacklistService tokenBlacklistService;
     
     // 로그인 처리 + token 얻기
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<JwtTokenResponse> generateToken(
             @RequestBody Map<String, String> jwtTokenRequest) {
         
@@ -97,23 +99,23 @@ public class JwtAuthenticationController {
         return new BCryptPasswordEncoder();
     }
    
-    @PostMapping("/auth/logout")
-    public ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
-        String token = request.get("token");
-
-        if (token == null) {
-            return ResponseEntity.badRequest().body("Token is required");
-        }
-
-        try {
-            tokenBlacklistService.addTokenToBlacklist(token);
-
-            return ResponseEntity.ok().body("Logout successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal Server Error");
-        }
-    }
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
+//        String token = request.get("token");
+//
+//        if (token == null) {
+//            return ResponseEntity.badRequest().body("Token is required");
+//        }
+//
+//        try {
+//            tokenBlacklistService.addTokenToBlacklist(token);
+//
+//            return ResponseEntity.ok().body("Logout successful");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(500).body("Internal Server Error");
+//        }
+//    }
     
     
     

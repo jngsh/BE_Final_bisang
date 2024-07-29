@@ -42,4 +42,14 @@ public class UsersDTO {
 	   this.id= id;
 	   this.pw=pw;
    }
+   
+   @Getter
+   @Setter
+   public static class IdRequest {
+	    String id;
+
+	  
+	}
+   
+   
 }

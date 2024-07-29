@@ -2,6 +2,9 @@ package com.exam.service;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -16,6 +19,7 @@ import com.exam.repository.UsersRepository;
 @Transactional
 public class UsersServiceImpl implements UsersService {
 
+	Logger logger = LoggerFactory.getLogger(getClass());
 	UsersMapper usersMapper;
 	
 	UsersRepository usersRepository;
@@ -24,10 +28,11 @@ public class UsersServiceImpl implements UsersService {
 		this.usersRepository = usersRepository;
 		this.usersMapper = usersMapper;
 	}
-	
+		
 	@Override
-	public UsersDTO idCheck(String id) {
-		return usersMapper.idCheck(id);
+	public int idCheck(String id) {
+		int result =  usersMapper.idCheck(id);
+		return result;
 	}
 	
 	@Override
