@@ -1,7 +1,7 @@
 package com.exam.controller;
 
-import javax.servlet.http.HttpSession;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,16 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 @RestController // Controller이면 뷰인줄알고 에러띄움
 @RequestMapping("/pay")
 public class PayController {
+	
+	Logger logger = LoggerFactory.getLogger(getClass());
 
-    private KakaoPayService kakaoPayService;
-    private PayService payService;
-
+ KakaoPayService kakaoPayService;
+ PayService payService;
+//   @Autowired
+//    private HttpSession httpSession;
     
-    public PayController(KakaoPayService kakaoPayService, PayService payService, HttpSession httpSession) {
-    	this.kakaoPayService = kakaoPayService;
-    	this.payService = payService;
-    }
-//    
+    public PayController(KakaoPayService kakaoPayService, PayService payService) {
+	this.kakaoPayService = kakaoPayService;
+	this.payService = payService;
+}
+	
+  
     
 //    @GetMapping("/hello")
 //    public String hello()
@@ -43,9 +47,11 @@ public class PayController {
 //    	return "Hello World";
 //    }
     
+    
+    
 //  @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/ready")
-    public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO, HttpSession httpSession) {
+    public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO) {
     	 ReadyResponse readyResponse = null;
     try {
         // PayService를 통해 이름과 금액 정보를 가져옴
@@ -61,10 +67,12 @@ public class PayController {
 
         // 카카오 결제 준비하기
          readyResponse = kakaoPayService.payReady(combinedName, totalPrice);
+         log.info("readyResponse:"+readyResponse);
        if(readyResponse !=null) {
          // 세션에 결제 고유번호(tid) 저장
-        httpSession.setAttribute("tid", readyResponse.getTid());
-        log.info("결제 고유번호1: " + readyResponse.getTid());
+    	   SessionUtils.addAttribute("tid", readyResponse.getTid());
+           log.info("결제 고유번호1: " + readyResponse.getTid());
+        log.info("sessionUtils에tid저장됨?"+SessionUtils.getStringAttributeValue("tid"));
        }else {
     	   log.error("결제 준비 실패");
        }
@@ -73,15 +81,17 @@ public class PayController {
     }
         return readyResponse;
     }
+    
+    
 
     @GetMapping("/completed")
-    public String payCompleted(@RequestParam("pg_token") String pgToken, HttpSession httpSession) {
-    
-        String tid = (String) httpSession.getAttribute("tid");
+    public String payCompleted(@RequestParam("pg_token") String pgToken) {
+        log.info("httpSessiontidtidtidtidtidtidit:{}",SessionUtils.getStringAttributeValue("tid"));       
+    	String tid = SessionUtils.getStringAttributeValue("tid");
         log.info("결제승인 요청을 인증하는 토큰: " + pgToken);
         log.info("결제 고유번호2: " + tid);
 
-        if (tid == null || tid.isEmpty()) {
+        if (tid == null || tid.isEmpty()) {	
             log.error("tid 값이 유효하지 않습니다.");
             return "결제 고유번호(tid)가 유효하지 않습니다.";
         }
