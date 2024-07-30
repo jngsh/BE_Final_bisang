@@ -21,21 +21,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController // Controller이면 뷰인줄알고 에러띄움
-//@RequiredArgsConstructor
 @RequestMapping("/pay")
 public class PayController {
 
-//	@Autowired
     private KakaoPayService kakaoPayService;
-//	@Autowired
     private PayService payService;
-//	@Autowired
-    private HttpSession httpSession;
+
     
     public PayController(KakaoPayService kakaoPayService, PayService payService, HttpSession httpSession) {
     	this.kakaoPayService = kakaoPayService;
     	this.payService = payService;
-    	this.httpSession = httpSession;
     }
 //    
     
@@ -50,7 +45,7 @@ public class PayController {
     
 //  @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/ready")
-    public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO) {
+    public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO, HttpSession httpSession) {
     	 ReadyResponse readyResponse = null;
     try {
         // PayService를 통해 이름과 금액 정보를 가져옴
@@ -66,10 +61,13 @@ public class PayController {
 
         // 카카오 결제 준비하기
          readyResponse = kakaoPayService.payReady(combinedName, totalPrice);
-        // 세션에 결제 고유번호(tid) 저장
+       if(readyResponse !=null) {
+         // 세션에 결제 고유번호(tid) 저장
         httpSession.setAttribute("tid", readyResponse.getTid());
-        log.info("결제 고유번호: " + readyResponse.getTid());
-
+        log.info("결제 고유번호1: " + readyResponse.getTid());
+       }else {
+    	   log.error("결제 준비 실패");
+       }
     }catch(Exception e) {
     	e.printStackTrace();
     }
@@ -77,16 +75,35 @@ public class PayController {
     }
 
     @GetMapping("/completed")
-    public String payCompleted(@RequestParam("pg_token") String pgToken) {
+    public String payCompleted(@RequestParam("pg_token") String pgToken, HttpSession httpSession) {
     
         String tid = (String) httpSession.getAttribute("tid");
         log.info("결제승인 요청을 인증하는 토큰: " + pgToken);
-        log.info("결제 고유번호: " + tid);
+        log.info("결제 고유번호2: " + tid);
 
+        if (tid == null || tid.isEmpty()) {
+            log.error("tid 값이 유효하지 않습니다.");
+            return "결제 고유번호(tid)가 유효하지 않습니다.";
+        }
+        
         // 카카오 결제 요청하기
         ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
-
-        return "redirect:/pay/completed";
+        if(approveResponse == null) {
+        	log.error("결제 승인 실패");
+        	return "redirect:/about";
+        }
+        
+        log.info("결제 승인 완료, 성공 페이지로 리다이렉트합니다.");
+        return "redirect:/about";  //수정하기
+        
     }
+    
+    
+    @GetMapping("/success")
+    public String paySuccess() {
+    	return "결제가 성공적으로 완료되었습니다.";
+    }
+    
+
 
 }
