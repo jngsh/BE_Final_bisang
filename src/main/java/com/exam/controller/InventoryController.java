@@ -2,6 +2,8 @@ package com.exam.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +33,14 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/admin/stocks")
 public class InventoryController {
-	
-	InventoryService inventoryService;
-	
-	public InventoryController(InventoryService inventoryService) {
-		this.inventoryService = inventoryService;
-	}
+    
+    InventoryService inventoryService;
+    
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+    }
 
-	@PostMapping("/upload")
+    @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
 
@@ -76,12 +78,15 @@ public class InventoryController {
             return "파일 업로드에 실패했습니다.";
         }
     }
-	
-	
-	@GetMapping("/download")
+    
+    @GetMapping("/download")
     public void downloadInventoryExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=재고관리.xlsx");
+        
+        // 파일 이름을 인코딩합니다.
+        String filename = "재고관리.xlsx";
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+        response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("재고관리");
@@ -115,6 +120,4 @@ public class InventoryController {
         workbook.write(response.getOutputStream());
         workbook.close();
     }
-	
-
 }
