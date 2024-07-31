@@ -59,5 +59,51 @@
     <delete id="deleteProduct" parameterType="int">
         DELETE FROM products WHERE product_id = #{productId}
     </delete>
+    
+    
+    
+    <!-- top selling products -->
+    <select id="SortProductsBySalesPrice" resultType="ProductsDTO">
+        select p.product_id as productId,
+           	   p.category_id as categoryId,
+           	   p.discount_id as discountId,
+           	   p.product_name as productName,
+           	   p.product_price as productPrice,
+           	   p.product_image as productImage,
+           	   p.product_description as productDescription,
+           	   p.unit as unit,
+           	   p.value as value,
+           	   p.product_qr as productQr,
+           	   p.product_code as productCode,
+           	   p.created_date as createdDate
+        from products as p join sales as s on p.product_id = s.product_id
+        group by p.product_id, p.category_id, p.discount_id, p.product_name,
+             	 p.product_price, p.product_image, p.product_description,
+             	 p.unit, p.value, p.product_qr, p.product_code, p.created_date
+        order by coalesce(sum(s.sale_price), 0) DESC
+    </select>
+    
+    <!-- featured pet type -->
+	<select id="findProductsPetType" resultType="ProductsDTO">
+    	select 
+    		product_id as productId,
+    		category_id as categoryId,
+    		discount_id as discountId,
+    		product_name as productName,
+    		product_price as productPrice,
+    		product_image as productImage,
+    		product_description as productDescription,
+    		unit as unit,
+    		value as value,
+    		product_qr as productQr,
+    		created_date as createdDate,
+    		case 
+        		when left(product_code, 1) = 'D' then 'Dog'
+        		when left(product_code, 1) = 'C' then 'Cat'
+        		else 'All'
+    		end as productCode
+		from products
+		order by product_price DESC
+	</select>
 
 </mapper>

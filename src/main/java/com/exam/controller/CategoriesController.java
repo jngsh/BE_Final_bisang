@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/home")
 public class CategoriesController {
 
 	CategoriesService categorieService;
@@ -22,7 +21,7 @@ public class CategoriesController {
         this.categorieService = categorieService;
     }
     
-    @GetMapping("/item-category")
+    @GetMapping("/home/item-category")
     public List<ItemCategoryDTO> findItemCategory() {
     	List<ItemCategoryDTO> list = categorieService.findItemCategory();
     	return list;
