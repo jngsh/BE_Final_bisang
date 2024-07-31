@@ -27,7 +27,8 @@ public class Application  extends SpringBootServletInitializer{
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 					.allowedMethods("*")	
-					.allowedOrigins("http://localhost:5173","https://d636-58-235-119-39.ngrok-free.app","*");
+					.allowedOrigins("http://localhost:5173","https://d636-58-235-119-39.ngrok-free.app","*")
+				    .allowedHeaders("*");
 			}
 		};
 	}
