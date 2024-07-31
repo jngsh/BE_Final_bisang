@@ -9,9 +9,6 @@ import java.util.UUID;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,12 +16,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.nimbusds.jose.JOSEException;
@@ -49,13 +47,13 @@ public class JwtSecurityFilterChainConfig {
 	        return httpSecurity
 	                .authorizeHttpRequests(auth -> 
 	                
-	                auth.antMatchers("/**","/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
+	                auth.antMatchers("/**","/auth/**","/hello").permitAll()  // 회원가입 요청 허용.s
 	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 	                    .anyRequest()
 	                    .authenticated())
 	                .csrf(AbstractHttpConfigurer::disable)
 	                .sessionManagement(session -> session.
-	                    sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	                    sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 	                .oauth2ResourceServer(
 	                        OAuth2ResourceServerConfigurer::jwt)
 	                .httpBasic(
@@ -86,6 +84,8 @@ public class JwtSecurityFilterChainConfig {
 	                .build();
 	    }
 	    
+	    
+	    //mvcconfig (web)
 	    @Bean
 	    public RSAKey rsaKey() {
 	        
@@ -109,4 +109,10 @@ public class JwtSecurityFilterChainConfig {
 	                    "Unable to generate an RSA Key Pair", e);
 	        }
 	    }
+
+
+
+
+
+
 }
