@@ -23,6 +23,7 @@ public class ProductsServiceImpl implements ProductsService {
 		this.modelMapper = modelMapper;
 	}
 
+	// R 이니까 mybatis로 바꿔야되나?
 	@Override
 		public ProductsDTO findByProductId(int productId) {
 	        Products product = productsRepository.findByProductId(productId)
