@@ -24,6 +24,4 @@ public interface ProductsMapper {
     // 상품 삭제
     void deleteProduct(int productId);
     
-    List<ProductsDTO> SortProductsBySalesPrice();
-    List<ProductsDTO> findProductsPetType();
 }

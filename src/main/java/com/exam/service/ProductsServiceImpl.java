@@ -1,7 +1,5 @@
 package com.exam.service;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,17 +30,4 @@ public class ProductsServiceImpl implements ProductsService {
 
 	        return modelMapper.map(product, ProductsDTO.class);
 	    }
-
-	@Override
-	public List<ProductsDTO> SortProductsBySalesPrice() {
-		List<ProductsDTO> result = productsMapper.SortProductsBySalesPrice();
-		return result;
-	}
-
-	@Override
-	public List<ProductsDTO> findProductsPetType() {
-		List<ProductsDTO> result = productsMapper.findProductsPetType();
-		return result;
-	}
-
 }

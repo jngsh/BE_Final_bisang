@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Alias("DiscountsDTO")
+@Alias("DiscountProductDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class DiscountsDTO {
+public class DiscountProductDTO {
 
    int discountId;
 
@@ -26,4 +26,16 @@ public class DiscountsDTO {
    double discountRate;
    LocalDate startDate;
    LocalDate endDate;
+   
+   int productId;
+   int categoryId;
+   String productName;
+   int productPrice;
+   String productImage;
+   String productDescription;   
+   String unit;
+   double value;
+   String productQr;
+   String productCode;
+   LocalDate createdDate;
 }
