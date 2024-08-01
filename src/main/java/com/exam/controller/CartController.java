@@ -37,9 +37,18 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
+//    @GetMapping("/{cartId}/items")
+//    public ResponseEntity<List<CartItemsDTO>> getItemsByCartId(@PathVariable int cartId) {
+//        List<CartItemsDTO> items = cartService.getItemsByCartId(cartId);
+//        if (items == null || items.isEmpty()) {
+//            return ResponseEntity.notFound().build(); // 404 반환
+//        }
+//        return ResponseEntity.ok(items);
+//    }
+    
     @GetMapping("/{cartId}/items")
-    public ResponseEntity<List<CartItemsDTO>> getItemsByCartId(@PathVariable int cartId) {
-        List<CartItemsDTO> items = cartService.getItemsByCartId(cartId);
+    public ResponseEntity<List<CartItemsDTO>> findcartItemsProducts(@PathVariable int cartId) {
+        List<CartItemsDTO> items = cartService.findcartItemsProducts(cartId);
         if (items == null || items.isEmpty()) {
             return ResponseEntity.notFound().build(); // 404 반환
         }
