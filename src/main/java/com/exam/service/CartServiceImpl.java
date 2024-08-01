@@ -71,13 +71,13 @@ public class CartServiceImpl implements CartService {
             throw new IllegalArgumentException("해당 카트 아이템을 찾을 수 없습니다.");
         }
         item.setAmount(amount);
-        cartItemsMapper.updateItem(item);
+        cartItemsMapper.updateItemAmount(item);
     }
 
     @Override
     @Transactional
     public void removeItemFromCart(int cartItemId) {
-        cartItemsMapper.deleteItem(cartItemId);
+        cartItemsMapper.removeItemFromCart(cartItemId);
     }
 
     @Override

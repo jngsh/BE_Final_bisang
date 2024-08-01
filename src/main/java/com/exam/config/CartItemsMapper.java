@@ -19,9 +19,9 @@ public interface CartItemsMapper {
 
     int addItem(CartItemsDTO item);
 
-    void updateItem(CartItemsDTO item);
+    void updateItemAmount(CartItemsDTO item);
 
-    void deleteItem(int cartItemId);
+    void removeItemFromCart(int cartItemId);
 
     void deleteItemsByCartId(int cartId);
 }
