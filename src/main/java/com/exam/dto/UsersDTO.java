@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class UsersDTO {
 
-   int user_id;
+   int userId;
    
    @NotBlank(message = "이름은 필수로 입력해야 합니다.")
    String username;
@@ -38,7 +39,7 @@ public class UsersDTO {
    String phone3; 
    Boolean isCustomer;
    
-   public UsersDTO(String id, String pw ) {
+   public UsersDTO(String id, String pw) {
 	   this.id= id;
 	   this.pw=pw;
    }
@@ -47,9 +48,29 @@ public class UsersDTO {
    @Setter
    public static class IdRequest {
 	    String id;
-
-	  
 	}
+   
+   @Getter
+   @Setter
+   public static class PwRequest {
+	   int userId;
+	   String pw;
+   }
+   
+   @Data
+   public static class UsersModifyDTO{
+	   int user_id;
+	   @Size(min = 8, max = 12, message = "password는 8~12자의 길이를 가져야 합니다.")
+	   String pw;
+	   String address1; 
+	   String address2; 
+	   String post; 
+	   String email1; 
+	   String email2;
+	   String phone1;
+	   String phone2;
+	   String phone3;
+   }
    
    
 }

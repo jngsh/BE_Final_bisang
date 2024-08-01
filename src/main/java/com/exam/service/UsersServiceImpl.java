@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.exam.config.UsersMapper;
 import com.exam.dto.UsersDTO;
+import com.exam.dto.UsersDTO.UsersModifyDTO;
 import com.exam.entity.Users;
 import com.exam.repository.UsersRepository;
 
@@ -51,26 +52,32 @@ public class UsersServiceImpl implements UsersService {
 	}
 	
 	
-	
-	/*@Override
-	public UsersDTO saveUsers(UsersDTO dto) {
-		ModelMapper mapper = new ModelMapper();
-		Users users = mapper.map(dto, Users.class);
-		
-		usersRepository.save(users);
-		return dto;
+	@Override
+	public Users findByUserId(Integer userId) {
+		return usersRepository.findByUserId(userId);
 	}
 	
 	@Override
-	public UsersDTO login(String id, String pw) {
-		ModelMapper mapper = new ModelMapper();
-		Users user = usersRepository.findById(Integer.parseInt(id)).orElse(null);
-        if (user != null && user.getPw().equals(pw)) {
-            return mapper.map(user, UsersDTO.class);
-        }
-        return null;
+	public Users modifyUser(Integer userId, UsersDTO.UsersModifyDTO modifyDTO) {
+		Users user = usersRepository.findByUserId(userId);
+		
+		if(modifyDTO.getPw() != null) user.setPw(modifyDTO.getPw());
+		if(modifyDTO.getPost() != null) user.setPost(modifyDTO.getPost());
+		if(modifyDTO.getAddress1() != null) user.setAddress1(modifyDTO.getAddress1());
+		if(modifyDTO.getAddress2() != null) user.setAddress2(modifyDTO.getAddress2());
+		if(modifyDTO.getEmail1() != null) user.setEmail1(modifyDTO.getEmail1());
+		if(modifyDTO.getEmail2() != null) user.setEmail2(modifyDTO.getEmail2());
+		if(modifyDTO.getPhone1() != null) user.setPhone1(modifyDTO.getPhone1());
+		if(modifyDTO.getPhone2() != null) user.setPhone2(modifyDTO.getPhone2());
+		if(modifyDTO.getPhone3() != null) user.setPhone3(modifyDTO.getPhone3());
+		
+		return usersRepository.save(user);
 	}
-	*/
 	
-	
+	@Override
+	public int selectAll(String id) {
+		int userid = usersMapper.selectAll(id);
+		logger.info("logger select:{}",userid);
+		return userid;
+	}
 }

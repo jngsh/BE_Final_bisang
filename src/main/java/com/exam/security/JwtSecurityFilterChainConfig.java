@@ -17,6 +17,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -47,6 +50,12 @@ public class JwtSecurityFilterChainConfig {
 		  log.info("ConfiguringsecurityFilterChain");
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
+	        		.cors(Customizer.withDefaults())
+	                .authorizeHttpRequests(auth -> 
+	                
+	                auth.antMatchers("/**","/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
+	                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+	        		)
 	        		.cors(cors -> cors
 	                        .configurationSource(request -> {
 	                            CorsConfiguration corsConfig = new CorsConfiguration();
@@ -111,6 +120,11 @@ public class JwtSecurityFilterChainConfig {
 	                .build();
 	    }
 	    
+	    
+	    @Bean
+	    PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 	    
 	    @Bean
 	    public RSAKey rsaKey() {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.exam.dto.UsersDTO;
 import com.exam.dto.UsersDTO.IdRequest;
 import com.exam.service.UsersService;
 
+@CrossOrigin(origins = "http://10.10.10.143:5173")
 @RestController
 @RequestMapping("/auth")
 public class UsersController {
