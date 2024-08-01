@@ -83,7 +83,8 @@ public class PayController {
 	}
 
 	@GetMapping("/completed")
-	public void kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpServletResponse response, HttpServletRequest request) {
+	public void kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpServletResponse response,
+			HttpServletRequest request) {
 
 		String tid = (String) ctx.getAttribute("tid");
 		log.info("결제승인 요청을 인증하는 토큰: " + pgToken);
@@ -106,36 +107,35 @@ public class PayController {
 			} // 실패 시 /about으로 리디렉션
 			return;
 		}
-		
-		
-		  // User-Agent로 모바일과 데스크탑 구분
-	    String userAgent = request.getHeader("User-Agent");
-	    boolean isMobile = userAgent != null && (userAgent.contains("iPhone") || userAgent.contains("Android"));
 
-	    // 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
-	    if (isMobile) {
-	        log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-	        try {
+		// User-Agent로 모바일과 데스크탑 구분
+		String userAgent = request.getHeader("User-Agent");
+		boolean isMobile = userAgent != null && (userAgent.contains("iPhone") || userAgent.contains("Android"));
+
+		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
+		if (isMobile) {
+			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
+			try {
 				response.sendRedirect("http://10.10.10.151:5173/shop_order_complete");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	        return ; // 모바일 페이지
-	    } else {
-	        log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
-	        try {
+			return; // 모바일 페이지
+		} else {
+			log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
+			try {
 				response.sendRedirect("http://localhost:5173/shop_order_complete");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	        return ; // 데스크탑 페이지
-	    }
+			return; // 데스크탑 페이지
+		}
 	}
-	
-	 @GetMapping("/ordered-items")
-	    public ProductsDTO getOrderedItems(@RequestParam("CartId") int CartId) {
-	        return payService.getOrderDetails(orderId);
-	    }
+
+//	 @GetMapping("/ordered-items")
+//	    public ProductsDTO getOrderedItems(@RequestParam("CartId") int CartId) {
+//	        return payService.getOrderDetails(orderId);
+//	    }
 }
 
 /////////////////////////////////안볼코드////////////////////////////////////
