@@ -7,7 +7,7 @@
 <mapper namespace="com.exam.config.ProductsMapper">
 
     <!-- Result Map 정의 -->
-    <resultMap id="ProductsResultMap" type="com.exam.dto.ProductsDTO">
+    <resultMap id="ProductsResultMap" type="ProductsDTO">
         <id property="productId" column="product_id"/>
         <result property="categoryId" column="category_id"/>
         <result property="discountId" column="discount_id"/>
@@ -33,13 +33,13 @@
     </select>
 
     <!-- 상품 추가 -->
-    <insert id="addProduct" parameterType="com.exam.dto.ProductsDTO" useGeneratedKeys="true" keyProperty="productId">
+    <insert id="addProduct" parameterType="ProductsDTO" useGeneratedKeys="true" keyProperty="productId">
         INSERT INTO products (category_id, discount_id, product_name, product_price, product_image, product_description, unit, value, product_qr, product_code, create_date)
         VALUES (#{categoryId}, #{discountId}, #{productName}, #{productPrice}, #{productImage}, #{productDescription}, #{unit}, #{value}, #{productQr}, #{productCode}, #{createDate})
     </insert>
 
     <!-- 상품 수정 -->
-    <update id="updateProduct" parameterType="com.exam.dto.ProductsDTO">
+    <update id="updateProduct" parameterType="ProductsDTO">
         UPDATE products
         SET category_id = #{categoryId},
             discount_id = #{discountId},
