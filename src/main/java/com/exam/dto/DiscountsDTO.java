@@ -1,6 +1,7 @@
 package com.exam.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -26,4 +27,6 @@ public class DiscountsDTO {
    double discountRate;
    LocalDate startDate;
    LocalDate endDate;
+   
+   List<ProductsDTO> productsList;
 }

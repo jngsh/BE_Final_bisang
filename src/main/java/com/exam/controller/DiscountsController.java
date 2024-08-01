@@ -3,10 +3,10 @@ package com.exam.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.DiscountProductDTO;
+import com.exam.dto.DiscountsDTO;
 import com.exam.service.DiscountsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,9 @@ public class DiscountsController {
 		this.discountsService = discountsService;
 	}
 
-    @GetMapping("/home/discounts/{discountId}")
-    public List<DiscountProductDTO> findDiscountProduct(@PathVariable("discountId") int discountId) {
-    	List<DiscountProductDTO> list = discountsService.findDiscountProduct(discountId);
+    @GetMapping("/home/discounts")
+    public List<DiscountProductDTO> findDiscountProduct() {
+    	List<DiscountProductDTO> list = discountsService.findDiscountProduct();
     	return list;
     }
     
@@ -39,5 +39,10 @@ public class DiscountsController {
     	return list;
     }
 
+    @GetMapping("/home/discounts-test")
+    public List<DiscountsDTO> DiscountProductJoin() {
+    	List<DiscountsDTO> list = discountsService.DiscountProductJoin();
+    	return list;
+    }
     
 }
