@@ -20,6 +20,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -47,6 +49,7 @@ public class JwtSecurityFilterChainConfig {
 		  log.info("ConfiguringsecurityFilterChain");
 	        // https://github.com/spring-projects/spring-security/issues/12310 참조
 	        return httpSecurity
+	        		.cors(Customizer.withDefaults())
 	                .authorizeHttpRequests(auth -> 
 	                
 	                auth.antMatchers("/**","/auth/**","/hello").permitAll()  // 회원가입 요청 허용.
@@ -84,6 +87,11 @@ public class JwtSecurityFilterChainConfig {
 	        return NimbusJwtDecoder
 	                .withPublicKey(rsaKey().toRSAPublicKey())
 	                .build();
+	    }
+	    
+	    @Bean
+	    PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
 	    }
 	    
 	    @Bean

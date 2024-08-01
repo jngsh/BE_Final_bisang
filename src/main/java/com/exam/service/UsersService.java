@@ -23,4 +23,5 @@ public interface UsersService {
 	public UsersDTO findById(String id);
 	public Users findByUserId(Integer userId);
 	public Users modifyUser(Integer userId, UsersDTO.UsersModifyDTO modifyDTO);
+	public int selectAll(String id);
 }

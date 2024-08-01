@@ -17,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,7 @@ import com.exam.security.TokenBlacklistService;
 import com.exam.service.AuthenticationService;
 import com.exam.service.UsersService;
 
+@CrossOrigin(origins = "http://10.10.10.143:5173")
 @RestController
 @RequestMapping("/auth")
 public class JwtAuthenticationController {
@@ -46,7 +48,6 @@ public class JwtAuthenticationController {
 
     public JwtAuthenticationController(JwtTokenService tokenService) {
         this.tokenService = tokenService;
-        this.usersService = usersService;
 //        this.authenticationManager= authenticationManager;
     }
     
@@ -77,7 +78,9 @@ public class JwtAuthenticationController {
         }
               
         String token = tokenService.generateToken(authenticationToken);
-        return ResponseEntity.ok(new JwtTokenResponse(token));
+        
+        logger.info("logger:userId:{}", usersDTO.getUserId());
+        return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId()));
     }
     
     // 암호화 객체 생성

@@ -74,5 +74,10 @@ public class UsersServiceImpl implements UsersService {
 		return usersRepository.save(user);
 	}
 	
-	
+	@Override
+	public int selectAll(String id) {
+		int userid = usersMapper.selectAll(id);
+		logger.info("logger select:{}",userid);
+		return userid;
+	}
 }
