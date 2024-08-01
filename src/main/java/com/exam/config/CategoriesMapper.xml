@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.config.CategoriesMapper">
+
+	<!-- item category 조회 -->
+	<select id="findItemCategory" resultType="ItemCategoryDTO">
+		select
+			case
+				when substring(product_code, 2, 1) = '1' then '사료'
+				when substring(product_code, 2, 1) = '2' then '간식'
+				when substring(product_code, 2, 1) = '3' then '용품'
+				else '기타'
+			end as itemType,
+			count(*) as itemCount
+		from products
+		group by
+			case
+				when substring(product_code, 2, 1) = '1' then '사료'
+				when substring(product_code, 2, 1) = '2' then '간식'
+				when substring(product_code, 2, 1) = '3' then '용품'
+			else '기타'
+			end
+		order by itemType
+	</select>
+
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.config.DiscountsMapper">
+
+	<!-- discounts:products 1:n join -->
+	<resultMap id="DiscountProductResult" type="DiscountProductDTO">
+    	<id property="discount_id" column="discount_id" />
+    	<result property="discount_type" column="discount_type" />
+    	<result property="discount_rate" column="discount_rate" />
+    	<result property="start_date" column="start_date" />
+    	<result property="end_date" column="end_date" />
+    	<result property="product_id" column="product_id" />
+    	<result property="product_name" column="product_name" />
+    	<result property="product_price" column="product_price" />
+    	<result property="product_image" column="product_image" />
+    	<result property="category_id" column="category_id" />
+    	<result property="product_description" column="product_description" />
+    	<result property="unit" column="unit" />
+    	<result property="value" column="value" />
+    	<result property="product_qr" column="product_qr" />
+    	<result property="product_code" column="product_code" />
+    	<result property="created_date" column="created_date" />
+  	</resultMap>
+  	
+  	
+  	<!-- 1:N 강의대로 -->
+  	<resultMap id="DiscountProductJoinResult" type="DiscountsDTO">
+    	<id property="discountId" column="discount_id" />
+    	<result property="discountType" column="discount_type" />
+    	<result property="discountRate" column="discount_rate" />
+    	<result property="startDate" column="start_date" />
+    	<result property="endDate" column="end_date" />
+    	<!-- 1:N -->
+    	<collection property="productsList" ofType="java.util.Map">
+	    	<id property="productId" column="product_id" />
+	    	<result property="productName" column="product_name" />
+    		<result property="productPrice" column="product_price" />
+    		<result property="productImage" column="product_image" />
+    		<result property="categoryId" column="category_id" />
+    		<result property="productDescription" column="product_description" />
+    		<result property="unit" column="unit" />
+    		<result property="value" column="value" />
+    		<result property="productQr" column="product_qr" />
+    		<result property="productCode" column="product_code" />
+    		<result property="createdDate" column="created_date" />
+    	</collection>
+  	</resultMap>
+  	
+	<select id="DiscountProductJoin" resultMap="DiscountProductJoinResult">
+		select *
+		from products p join discounts d on p.discount_id = d.discount_id
+		order by d.discount_id
+	</select>
+
+  	<select id="findDiscountProduct" resultMap="DiscountProductResult">
+    	select
+      		p.product_id as productId,
+    		p.category_id as categoryId,
+    		p.discount_id as discountId,
+    		p.product_name as productName,
+    		p.product_price as productPrice,
+    		p.product_image as productImage,
+    		p.product_description as productDescription,
+    		p.unit as unit,
+    		p.value as value,
+    		p.product_qr as productQr,
+    		p.product_code as productCode,
+    		p.created_date as createdDate,
+    		d.discount_type as discountType,
+    		d.discount_rate as discountRate,
+    		d.start_date as startDate,
+    		d.end_date as endDate
+    	from discounts d join products p on d.discount_id = p.discount_id
+    	order by startDate
+  	</select>
+ 	
+ 	<!-- featured products -->
+ 	<select id="findProductsPetType" resultMap="DiscountProductResult">
+    	select 
+    		p.product_id as productId,
+    		p.category_id as categoryId,
+    		p.discount_id as discountId,
+    		p.product_name as productName,
+    		p.product_price as productPrice,
+    		p.product_image as productImage,
+    		p.product_description as productDescription,
+    		p.unit as unit,
+    		p.value as value,
+    		p.product_qr as productQr,
+    		p.created_date as createdDate,
+    		case 
+        		when left(p.product_code, 1) = 'D' then 'Dog'
+        		when left(p.product_code, 1) = 'C' then 'Cat'
+        		else 'All'
+    		end as productCode,
+      		d.discount_type as discountType,
+      		d.discount_rate as discountRate,
+      		d.start_date as startDate,
+      		d.end_date as endDate
+		from products p join discounts d on p.discount_id = d.discount_id
+		order by p.product_price DESC
+	</select>
+	
+	<!-- top selling products -->
+    <select id="SortProductsBySalesPrice" resultMap="DiscountProductResult">
+        select 
+    		p.product_id as productId,
+    		p.category_id as categoryId,
+    		p.discount_id as discountId,
+    		p.product_name as productName,
+    		p.product_price as productPrice,
+    		p.product_image as productImage,
+    		p.product_description as productDescription,
+    		p.unit as unit,
+    		p.value as value,
+    		p.product_qr as productQr,
+    		p.product_code as productCode,
+    		p.created_date as createdDate,
+    		d.discount_type as discountType,
+    		d.discount_rate as discountRate,
+    		d.start_date as startDate,
+    		d.end_date as endDate
+		from 
+    		products as p
+    		left join discounts as d on p.discount_id = d.discount_id
+    		left join (
+        		select product_id, sum(sale_price) as total_sale_price
+        		from sales
+        		group by product_id
+    		) total_sales on p.product_id = total_sales.product_id
+		order by coalesce(total_sales.total_sale_price, 0) DESC
+    </select>
+    
+
+</mapper>

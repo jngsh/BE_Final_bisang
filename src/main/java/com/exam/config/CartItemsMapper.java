@@ -12,12 +12,16 @@ public interface CartItemsMapper {
     CartItemsDTO findItemById(int cartItemId);
 
     List<CartItemsDTO> findItemsByCartId(int cartId);
+    
+    
+    List<CartItemsDTO> findcartItemsProducts(int cartId);
+    
 
     int addItem(CartItemsDTO item);
 
-    void updateItem(CartItemsDTO item);
+    void updateItemAmount(CartItemsDTO item);
 
-    void deleteItem(int cartItemId);
+    void removeItemFromCart(int cartItemId);
 
     void deleteItemsByCartId(int cartId);
 }

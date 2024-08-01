@@ -1,7 +1,6 @@
 package com.exam.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -12,14 +11,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Alias("DiscountsDTO")
+@Alias("DiscountProductDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class DiscountsDTO {
+public class DiscountProductDTO {
 
    int discountId;
 
@@ -28,5 +27,15 @@ public class DiscountsDTO {
    LocalDate startDate;
    LocalDate endDate;
    
-   List<ProductsDTO> productsList;
+   int productId;
+   int categoryId;
+   String productName;
+   int productPrice;
+   String productImage;
+   String productDescription;   
+   String unit;
+   double value;
+   String productQr;
+   String productCode;
+   LocalDate createdDate;
 }

@@ -2,6 +2,8 @@ package com.exam.dto;
 
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
+
 import com.exam.entity.Products;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Alias("CartItemsDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,8 +28,8 @@ public class CartItemsDTO {
     int productId;
     int amount;
     
+    
     ProductsDTO product;
-    @JsonIgnore
-    CartsDTO cart;
+
 
 }

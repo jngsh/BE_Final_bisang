@@ -24,8 +24,9 @@ extends ResponseEntityExceptionHandler
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		 logger.error("logger: Exception 발생: " +  ex.getMessage());  
-		ErrorDetails errorDetails = 
+		 logger.error("logger: handleMethodArgumentNotValid Exception 발생: " +  ex.getMessage());  
+		    ex.printStackTrace();
+		 ErrorDetails errorDetails = 
 				     //  ex.getMessage() 이용하면 에러메시지가 많이 출력됨.
 				     //  따라서 ex.getFieldError().getDefaultMessage() 사용하여 개별 에러메시지를 출력하자.
 					  new ErrorDetails(LocalDateTime.now(), ex.getFieldError().getDefaultMessage(), request.getDescription(false)); 
@@ -43,8 +44,8 @@ extends ResponseEntityExceptionHandler
 	
 	  @ExceptionHandler(Exception.class)
 	    public final ResponseEntity<ErrorDetails> handleAllException(Exception ex, WebRequest request){
-		  logger.error("logger: Exception 발생: " +  ex.getMessage());
-
+		  logger.error("logger: handleAllException Exception 발생: " +  ex.getMessage());
+           ex.printStackTrace();
               ErrorDetails errorDetails = 
 		  new ErrorDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false)); 
 		  
