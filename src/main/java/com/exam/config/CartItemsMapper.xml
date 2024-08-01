@@ -5,53 +5,103 @@
 
 <mapper namespace="com.exam.config.CartItemsMapper">
 
-    <!-- Result Map -->
-    <resultMap id="CartItemsResultMap" type="com.exam.dto.CartItemsDTO">
-        <id property="cartItemId" column="cart_item_id"/>
+
+	<!-- cartItems, Products 조인 -->
+	<resultMap type="CartItemsDTO" id="cartItemsProductsJoin">
+		<id property="productId" column="product_id"/>
+		<result property="cartItemId" column="cart_item_id"/>
+		<result property="cartId" column="cart_id"/>
         <result property="amount" column="amount"/>
-        <!-- 장바구니 정보 매핑 -->
-        <association property="cart" javaType="com.exam.dto.CartsDTO">
-            <id property="cartId" column="cart_id"/>
-            <!-- 필요 시 다른 CartDTO 속성 추가 가능 -->
-        </association>
-        <!-- 상품 정보 매핑 -->
         <association property="product" javaType="com.exam.dto.ProductsDTO">
-            <id property="productId" column="product_id"/>
-            <!-- 필요 시 다른 ProductDTO 속성 추가 가능 -->
-        </association>
+        	<result property="productId" column="product_id"/>
+        	<result property="categoryId" column="category_id"/>
+	        <result property="discountId" column="discount_id"/>
+	        <result property="productName" column="product_name"/>
+	        <result property="productPrice" column="product_price"/>
+	        <result property="productImage" column="product_image"/>
+	        <result property="productDescription" column="product_description"/>
+	        <result property="unit" column="unit"/>
+	        <result property="value" column="value"/>
+	        <result property="productQr" column="product_qr"/>
+	        <result property="productCode" column="product_code"/>
+	        <result property="createDate" column="create_date"/>
+        </association>     
+	</resultMap>
+	
+	<select id="findcartItemsProducts" resultMap="cartItemsProductsJoin" parameterType="int">
+		select * 
+		from cart_items ci join products p on ci.product_id = p.product_id 
+		where cart_id = #{cartId}
+		order by cart_item_id
+	</select>
+    <!-- ProductsDTO의 Result Map 정의 -->
+    <resultMap id="ProductsResultMap" type="com.exam.dto.ProductsDTO">
+        <id property="productId" column="product_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="discountId" column="discount_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="productImage" column="product_image"/>
+        <result property="productDescription" column="product_description"/>
+        <result property="unit" column="unit"/>
+        <result property="value" column="value"/>
+        <result property="productQr" column="product_qr"/>
+        <result property="productCode" column="product_code"/>
+        <result property="createdDate" column="created_date"/>
     </resultMap>
 
-    <!-- 아이템 ID로 조회 -->
-    <select id="findItemById" parameterType="int" resultMap="CartItemsResultMap">
-        SELECT * FROM cart_items WHERE cart_item_id = #{cartItemId}
-    </select>
+    <!-- CartItemsDTO의 Result Map 정의 -->
+    <resultMap id="CartItemsResultMap" type="CartItemsDTO">
+        <id property="cartItemId" column="cart_item_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <association property="product" javaType="com.exam.dto.ProductsDTO" column="product_id" select="findProductById"/>
+    </resultMap>
 
-    <!-- 장바구니 ID로 조회 -->
+    <!-- CartDTO의 Result Map 정의 -->
+    <resultMap id="CartResultMap" type="CartsDTO">
+        <id property="cartId" column="cart_id"/>
+        <result property="userId" column="user_id"/>
+        <collection property="cartItems" ofType="CartItemsDTO" resultMap="CartItemsResultMap"/>
+    </resultMap>
+
+    <!-- 장바구니 조회 -->
     <select id="findItemsByCartId" parameterType="int" resultMap="CartItemsResultMap">
         SELECT * FROM cart_items WHERE cart_id = #{cartId}
     </select>
 
-    <!-- 아이템 추가 -->
-    <insert id="addItem" parameterType="com.exam.dto.CartItemsDTO" useGeneratedKeys="true" keyProperty="cartItemId">
-        INSERT INTO cart_items (cart_id, product_id, amount)
-        VALUES (#{cartId}, #{productId}, #{amount})
+    <!-- 상품 ID로 상품 조회 -->
+    <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
+        SELECT * FROM products WHERE product_id = #{productId}
+    </select>
+
+    <!-- 모든 상품 조회 -->
+    <select id="findAllProducts" resultMap="ProductsResultMap">
+        SELECT * FROM products
+    </select>
+
+    <!-- 장바구니 추가 -->
+    <insert id="addCart" parameterType="CartsDTO" useGeneratedKeys="true" keyProperty="cartId">
+        INSERT INTO carts (user_id)
+        VALUES (#{userId})
     </insert>
 
-    <!-- 아이템 수정 -->
-    <update id="updateItem" parameterType="com.exam.dto.CartItemsDTO">
-        UPDATE cart_items
-        SET amount = #{amount}
+    <!-- 장바구니 항목 추가 -->
+    <insert id="addCartItem" parameterType="CartItemsDTO">
+        INSERT INTO cartitems (cart_id, product_id, quantity)
+        VALUES (#{cartId}, #{productId}, #{quantity})
+    </insert>
+
+    <!-- 장바구니 항목 수정 -->
+    <update id="updateCartItem" parameterType="CartItemsDTO">
+        UPDATE cartitems
+        SET quantity = #{quantity}
         WHERE cart_item_id = #{cartItemId}
     </update>
 
-    <!-- 아이템 삭제 -->
-    <delete id="deleteItem" parameterType="int">
-        DELETE FROM cart_items WHERE cart_item_id = #{cartItemId}
-    </delete>
-
-    <!-- 장바구니 ID로 아이템 삭제 -->
-    <delete id="deleteItemsByCartId" parameterType="int">
-        DELETE FROM cart_items WHERE cart_id = #{cartId}
+    <!-- 장바구니 항목 삭제 -->
+    <delete id="deleteCartItem" parameterType="int">
+        DELETE FROM cartitems WHERE cart_item_id = #{cartItemId}
     </delete>
 
 </mapper>
