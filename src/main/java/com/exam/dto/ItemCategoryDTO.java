@@ -13,18 +13,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Alias("CategoriesDTO")
+@Alias("ItemCategoryDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class CategoriesDTO {
+public class ItemCategoryDTO {
 	
-	int categoryId;
-	PetType petType;
-	ItemType itemType;
-	AgeType ageType;
+	String itemType;
+	int itemCount;
 
 }
