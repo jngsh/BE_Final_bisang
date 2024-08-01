@@ -23,20 +23,20 @@ public class CartServiceImpl implements CartService {
 
     Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 
-    CartsMapper cartMapper;
+    CartsMapper cartsMapper;
     CartItemsMapper cartItemsMapper;
     ProductsMapper productsMapper;
 
     @Autowired
-    public CartServiceImpl(CartsMapper cartMapper, CartItemsMapper cartItemsMapper, ProductsMapper productsMapper) {
-        this.cartMapper = cartMapper;
+    public CartServiceImpl(CartsMapper cartsMapper, CartItemsMapper cartItemsMapper, ProductsMapper productsMapper) {
+        this.cartsMapper = cartsMapper;
         this.cartItemsMapper = cartItemsMapper;
         this.productsMapper = productsMapper;
     }
 
     @Override
     public CartsDTO getCartById(int cartId) {
-        return cartMapper.findCartById(cartId);
+        return cartsMapper.findCartById(cartId);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CartServiceImpl implements CartService {
         }
 
         // 카트 존재 여부 확인
-        CartsDTO cart = cartMapper.findCartById(item.getCartId());
+        CartsDTO cart = cartsMapper.findCartById(item.getCartId());
         if (cart == null) {
             throw new IllegalArgumentException("유효하지 않은 카트 ID입니다.");
         }
@@ -85,5 +85,11 @@ public class CartServiceImpl implements CartService {
     public void clearCart(int cartId) {
         cartItemsMapper.deleteItemsByCartId(cartId);
     }
+
+	@Override
+	public List<CartItemsDTO> findcartItemsProducts(int cartId) {
+		
+		return cartItemsMapper.findcartItemsProducts(cartId);
+	}
 }
 
