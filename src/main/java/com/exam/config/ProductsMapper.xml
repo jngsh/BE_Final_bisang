@@ -59,5 +59,6 @@
     <delete id="deleteProduct" parameterType="int">
         DELETE FROM products WHERE product_id = #{productId}
     </delete>
+    
 
 </mapper>
