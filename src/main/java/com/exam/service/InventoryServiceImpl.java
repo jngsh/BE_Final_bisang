@@ -61,4 +61,10 @@ public class InventoryServiceImpl implements InventoryService {
 		return result;
 	}
 
+	@Override
+	public List<InventoryDTO> findAllProductsStock() {
+		List<InventoryDTO> result = stocksMapper.findAllProductsStock();
+		return result;
+	}
+
 }
