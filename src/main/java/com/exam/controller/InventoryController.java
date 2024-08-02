@@ -34,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin/stocks")
 public class InventoryController {
     
+	// Todo: download 시 재고는 전부 0, 나머지 열은 db에서 가져오도록
+	
     InventoryService inventoryService;
     
     public InventoryController(InventoryService inventoryService) {

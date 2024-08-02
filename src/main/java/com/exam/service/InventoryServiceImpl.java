@@ -34,6 +34,8 @@ public class InventoryServiceImpl implements InventoryService {
 	public void upsertInventory(Inventory inventory) {
 		Optional<Inventory> existingInventoryOpt = inventoryRepository.findFirstByProductId(inventory.getProductId());
 
+		// if 기존 재고관리 데이터 있으면 get 해서 새로운 재고관리 데이터와 비교하고 같지 않으면 update
+		// else 기존 재고관리 데이터 없으면 새로운 재고관리 데이터 insert
 		if (existingInventoryOpt.isPresent()) {
 			Inventory existingInventory = existingInventoryOpt.get();
 			if (!existingInventory.getStockQuantity().equals(inventory.getStockQuantity())) {
