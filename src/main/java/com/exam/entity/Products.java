@@ -40,6 +40,7 @@ public class Products {
    String productImage;
    @Column(name = "product_description")
    String productDescription;
+   
    String unit;
    double value;
    @Column(name = "product_qr")

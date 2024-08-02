@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.ApproveResponse;
 import com.exam.dto.CartItemsDTO;
-import com.exam.dto.ProductsDTO;
 import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
 import com.exam.service.PayService;
@@ -62,6 +61,7 @@ public class PayController {
 
 			// 카카오 결제 준비하기
 			readyResponse = kakaoPayService.payReady(combinedName, totalPrice);
+			log.info("갑자기안된다고?");
 			log.info("readyResponse:" + readyResponse);
 			if (readyResponse != null) {
 				// 세션에 결제 고유번호(tid) 저장해야하는데 안돼서 일단 ctx에 저장

@@ -8,5 +8,5 @@ import com.exam.dto.SendToPayDTO;
 
 public interface PayService {
     SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO);
-//    List<ProductsDTO> findByCartId(CartItemsDTO cartId);
-}
+    List<ProductsDTO> findProductByCartId(int cartId);
+    }

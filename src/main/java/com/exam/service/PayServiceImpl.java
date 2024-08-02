@@ -10,7 +10,6 @@ import com.exam.dto.CartItemsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SendToPayDTO;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 ////////////////////////////////////////////////////////
 //CartItems에 결제시 필수요소인 상품명, 가격이 존재하지 않음
@@ -19,63 +18,51 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 //@RequiredArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 @Slf4j
 public class PayServiceImpl implements PayService {
 
 	@Autowired
-    private CartItemsService cartItemsService;
+	private CartItemsService cartItemsService;
+
 	@Autowired
-    private ProductsService productsService;
+	private ProductsService productsService;
 
-//    public PayServiceImpl(CartItemsService cartItemsService, ProductsService productsService) {
-//    	log.info(">>>>>>>>>>>>>>>>>>>>>>>.PayServiceImpl 생성자");
-//    	this.cartItemsService = cartItemsService;
-//    	this.productsService = productsService;
-//    }
-//    
-    
-    
-    @Override
-    public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
-    	
-        List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
+	@Override
+	public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
 
-      List<ProductsDTO> products = cartItems.stream()
-            .map(item -> productsService.findByProductId(item.getProductId()))
-            .collect(Collectors.toList());
-        log.info("CartItemsDTO:{}" , cartItemsDTO );
-        log.info("cartItems:{}" , cartItems );
-        log.info("products:{}" , products );
+		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
 
-             
-        
-        String combinedName;
-        if (products.size() > 1) {
-            combinedName = products.get(0).getProductName() + " 외 " + (products.size() - 1) + "건";
-        } else {
-            combinedName = products.stream()
-                .map(ProductsDTO::getProductName)
-                .collect(Collectors.joining(", "));
-        }
-        log.info("combinedName: {}", combinedName);
+		List<ProductsDTO> products = cartItems.stream()
+				.map(item -> productsService.findByProductId(item.getProductId())).collect(Collectors.toList());
+		log.info("CartItemsDTO:{}", cartItemsDTO);
+		log.info("cartItems:{}", cartItems);
+		log.info("products:{}", products);
 
-        int totalPrice = cartItems.stream()
-            .mapToInt(item -> item.getAmount() * products.stream()
-            .filter(p -> p.getProductId() == item.getProductId())
-            .findFirst().get().getProductPrice())
-            .sum();
+		String combinedName;
+		if (products.size() > 1) {
+			combinedName = products.get(0).getProductName() + " 외 " + (products.size() - 1) + "건";
+		} else {
+			combinedName = products.stream().map(ProductsDTO::getProductName).collect(Collectors.joining(", "));
+		}
+		log.info("combinedName: {}", combinedName);
 
-        return new SendToPayDTO(combinedName, totalPrice);
-    }
+		int totalPrice = cartItems.stream()
+				.mapToInt(item -> item.getAmount() * products.stream()
+						.filter(p -> p.getProductId() == item.getProductId()).findFirst().get().getProductPrice())
+				.sum();
 
-//	@Override
-//	public List<ProductsDTO> findByCartId(CartItemsDTO cartId) {
-//		이부분
-//		return null;
-//	}
+		return new SendToPayDTO(combinedName, totalPrice);
+	}
 
+	@Override
+	public List<ProductsDTO> findProductByCartId(int cartId) {
+		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartId);
 
-
-
+		List<ProductsDTO> products = cartItems.stream().map(item -> productsService.findByProductId(item.getProductId()))
+				.collect(Collectors.toList());
+		log.info("dto에 담긴것은?"+products);
+		return products ; 
+	
+	}
 }

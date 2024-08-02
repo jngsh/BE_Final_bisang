@@ -16,4 +16,5 @@ import lombok.ToString;
 public class SendToPayDTO {
     private String combinedName;
     private int totalPrice;
+	    
 }
