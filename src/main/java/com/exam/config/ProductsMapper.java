@@ -13,7 +13,7 @@ public interface ProductsMapper {
     ProductsDTO findProductById(int productId);
 
     // 모든 상품 조회
-    List<Products> findAllProducts();
+    List<ProductsDTO> findAllProducts();
 
     // 상품 추가
     void addProduct(Products product);
