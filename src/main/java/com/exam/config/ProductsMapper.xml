@@ -28,7 +28,7 @@
     </select> -->
 
     <!-- 모든 상품 조회 -->
-    <select id="findAllProducts" resultMap="ProductsResultMap">
+    <select id="findAllProducts" resultType="ProductsDTO">
         SELECT * FROM products
     </select>
 
