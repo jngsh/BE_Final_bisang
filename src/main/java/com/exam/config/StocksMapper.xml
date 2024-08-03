@@ -15,5 +15,12 @@
 		select *
 		from Products
 	</select>
+	
+	<!-- 초기 재고 조회 -->
+	<select id="findAllProductsStock" resultType="InventoryDTO">
+		select product_id as inventory_id, product_id as productId
+		from Products
+		order by product_id
+	</select>
 
 </mapper>
