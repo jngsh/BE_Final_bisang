@@ -13,4 +13,6 @@ public interface StocksMapper {
 	public List<InventoryDTO> findAllStocks();
 	public List<ProductsDTO> findAllProducts();
 	
+	public List<InventoryDTO> findAllProductsStock();
+	
 }
