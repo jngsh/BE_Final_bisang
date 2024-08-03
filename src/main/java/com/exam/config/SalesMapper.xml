@@ -75,13 +75,13 @@
 	
 	
 	
-	<!-- 제품 정보 조회 => 이후에 ProductsMapper로 변경 -->
+	<!-- 제품 정보 조회 -->
 	<select id="findProductInfo" resultType="ProductsDTO">
 		select product_name as productName, product_id as productId, product_image as productImage
 		from products
 	</select>
 	
-	<!-- 반려동물 pet_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<!-- 반려동물 pet_type 비율 조회 -->
 	<select id="calcPetTypeRatio" resultType="PetsStatsDTO">
 		select
     		case
@@ -95,7 +95,7 @@
 		group by pet_type
 	</select>
 	
-	<!-- 반려동물 age_type 비율 조회 => 이후에 PetsMapper로 변경 -->
+	<!-- 반려동물 age_type 비율 조회 -->
 	<select id="calcPetAgeTypeRatio" resultType="PetsStatsDTO">
 		<![CDATA[
 			select 
