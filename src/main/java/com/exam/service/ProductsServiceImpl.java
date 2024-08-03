@@ -1,9 +1,9 @@
 package com.exam.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.config.ProductsMapper;
@@ -40,5 +40,21 @@ public class ProductsServiceImpl implements ProductsService {
 	@Override
 	public List<ProductsDTO> findAllProducts() {
 		return productsMapper.findAllProducts();
+	}
+
+	@Override
+	public void insertProducts(Products products) {
+
+		// 새로운 상품관리 데이터 insert
+		products.setProductQr("");
+		products.setCreatedDate(LocalDate.now());
+		productsRepository.save(products);
+		
+	}
+
+	@Override
+	public String findCategoryCode(int categoryId) {
+		String categoryCode = productsMapper.findCategoryCode(categoryId);
+		return categoryCode;
 	}
 }

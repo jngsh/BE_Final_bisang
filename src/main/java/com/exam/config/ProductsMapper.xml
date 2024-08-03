@@ -60,5 +60,12 @@
         DELETE FROM products WHERE product_id = #{productId}
     </delete>
     
+    
+    <!-- product code 중 category 부분 생성 -->
+    <select id="findCategoryCode" parameterType="int" resultType="string">
+    	select CONCAT(pet_type, item_type, age_type) as categoryCode
+    	from categories
+    	where category_id = #{categoryId}
+    </select>
 
 </mapper>

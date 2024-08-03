@@ -1,17 +1,33 @@
 package com.exam.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.ProductsDTO;
+import com.exam.entity.Products;
 import com.exam.service.ProductsService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class ProductController {
 
@@ -37,5 +53,89 @@ public class ProductController {
 	public List<ProductsDTO> findAllProducts() {
 		return productsService.findAllProducts();
 	}
+	
+	
+	@PutMapping("/admin/products/upload")
+    public String uploadProductsFile(@RequestParam("file") MultipartFile file) {
+        try (InputStream inputStream = file.getInputStream()) {
+        	
+        	// 현재 products 개수를 세서 product_id 부여하기
+        	int productId = productsService.findAllProducts().size(); // 418
+            
+            // 업로드 file inputStream으로부터 Workbook 객체 생성 및 첫 번째 시트
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (Row row : sheet) {
+            	// 1행(header)은 continue
+                if (row.getRowNum() == 0) continue; 
+
+                // A열 = productId, B, C, ...
+                productId++;
+                Integer categoryId = (int) row.getCell(0).getNumericCellValue();
+                Integer discountId = (int) row.getCell(1).getNumericCellValue();
+                String productName = (String) row.getCell(2).getStringCellValue();
+                Integer productPrice = (int) row.getCell(3).getNumericCellValue();
+                String productImage = (String) row.getCell(4).getStringCellValue();
+                String productDescription = (String) row.getCell(5).getStringCellValue();
+                String unit = (String) row.getCell(6).getStringCellValue();
+                Double value = (double) row.getCell(7).getNumericCellValue();
+                String productCode = (String) (productsService.findCategoryCode(categoryId) + productId);
+
+                // Products 객체 생성해서 insert
+                Products products= new Products();
+                products.setProductId(productId);
+                products.setCategoryId(categoryId);
+                products.setDiscountId(discountId);
+                products.setProductName(productName);
+                products.setProductPrice(productPrice);
+                products.setProductImage(productImage);
+                products.setProductDescription(productDescription);
+                products.setUnit(unit);
+                products.setValue(value);
+                products.setProductCode(productCode);
+                productsService.insertProducts(products);
+            }
+
+            workbook.close();
+            return "파일을 업로드했습니다.";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "파일 업로드에 실패했습니다.";
+        }
+    }
+    
+    @GetMapping("/admin/products/download")
+    public void downloadProductsExcel(HttpServletResponse response) throws IOException {
+        // response content type을 excel 파일 형식으로 설정
+    	response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        
+    	 // 다운로드 할 excel 파일 이름 설정, 인코딩 UTF-8
+        String filename = "상품관리.xlsx";
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+        
+        // response header에 파일 다운로드 설정 추가
+        response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFilename);
+
+        // 다운로드 할 Workbook 객체 excel 파일 생성 및 재고관리 시트 생성
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("상품관리");
+
+        // 1행에 header 생성
+        Row headerRow = sheet.createRow(0);
+        // pk인 product_id는? auto_increment임
+        headerRow.createCell(0).setCellValue("카테고리번호");
+        headerRow.createCell(1).setCellValue("할인번호");
+        headerRow.createCell(2).setCellValue("제품명");
+        headerRow.createCell(3).setCellValue("제품 가격");
+        headerRow.createCell(4).setCellValue("제품 이미지");
+        headerRow.createCell(5).setCellValue("제품 설명");
+        headerRow.createCell(6).setCellValue("단위");
+        headerRow.createCell(7).setCellValue("중량");
+
+        // workbook을 response stream으로 작성
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
 	
 }

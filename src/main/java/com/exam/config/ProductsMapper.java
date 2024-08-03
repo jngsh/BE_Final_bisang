@@ -24,4 +24,7 @@ public interface ProductsMapper {
     // 상품 삭제
     void deleteProduct(int productId);
     
+    
+    public String findCategoryCode(int categoryId);
+    
 }
