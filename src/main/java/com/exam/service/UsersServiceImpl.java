@@ -61,17 +61,23 @@ public class UsersServiceImpl implements UsersService {
 	public Users modifyUser(Integer userId, UsersDTO.UsersModifyDTO modifyDTO) {
 		Users user = usersRepository.findByUserId(userId);
 		
-		if(modifyDTO.getPw() != null) user.setPw(modifyDTO.getPw());
-		if(modifyDTO.getPost() != null) user.setPost(modifyDTO.getPost());
-		if(modifyDTO.getAddress1() != null) user.setAddress1(modifyDTO.getAddress1());
-		if(modifyDTO.getAddress2() != null) user.setAddress2(modifyDTO.getAddress2());
-		if(modifyDTO.getEmail1() != null) user.setEmail1(modifyDTO.getEmail1());
-		if(modifyDTO.getEmail2() != null) user.setEmail2(modifyDTO.getEmail2());
-		if(modifyDTO.getPhone1() != null) user.setPhone1(modifyDTO.getPhone1());
-		if(modifyDTO.getPhone2() != null) user.setPhone2(modifyDTO.getPhone2());
-		if(modifyDTO.getPhone3() != null) user.setPhone3(modifyDTO.getPhone3());
+		 if (user == null) {
+		        logger.error("User with id {} not found", userId);
+		        throw new RuntimeException("User not found");
+		    }
+		 
+			if(modifyDTO.getPw() != null) user.setPw(modifyDTO.getPw());
+			if(modifyDTO.getPost() != null) user.setPost(modifyDTO.getPost());
+			if(modifyDTO.getAddress1() != null) user.setAddress1(modifyDTO.getAddress1());
+			if(modifyDTO.getAddress2() != null) user.setAddress2(modifyDTO.getAddress2());
+			if(modifyDTO.getEmail1() != null) user.setEmail1(modifyDTO.getEmail1());
+			if(modifyDTO.getEmail2() != null) user.setEmail2(modifyDTO.getEmail2());
+			if(modifyDTO.getPhone1() != null) user.setPhone1(modifyDTO.getPhone1());
+			if(modifyDTO.getPhone2() != null) user.setPhone2(modifyDTO.getPhone2());
+			if(modifyDTO.getPhone3() != null) user.setPhone3(modifyDTO.getPhone3());
+			
+			return usersRepository.save(user);
 		
-		return usersRepository.save(user);
 	}
 	
 	@Override

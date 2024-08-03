@@ -28,7 +28,7 @@ public class Users {
    int userId;
    String username;
    String id; 
-   String pw; 
+   String pw;
    String address1; 
    String address2; 
    String post; 
@@ -37,5 +37,5 @@ public class Users {
    String phone1;
    String phone2;
    String phone3; 
-   Boolean is_customer;
+   Boolean isCustomer;
 }
