@@ -60,7 +60,8 @@ public class JwtSecurityFilterChainConfig {
 	                        .configurationSource(request -> {
 	                            CorsConfiguration corsConfig = new CorsConfiguration();
 	                            corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "http://10.10.10.151:5173", "http://10.10.10.171:5173", 
-	                            		"http://10.10.10.186:5173", "http://10.10.10.143:5173", "http://10.10.10.206:5173"));
+	                            		"http://10.10.10.186:5173", "http://10.10.10.143:5173", "http://10.10.10.206:5173", "http://192.168.0.109:5173",
+	                            		 "https://b293-121-174-48-247.ngrok-free.app"));
 	                            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 	                            corsConfig.setAllowedHeaders(List.of("*"));
 	                            corsConfig.setAllowCredentials(true);

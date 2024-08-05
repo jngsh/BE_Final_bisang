@@ -1,14 +1,21 @@
 package com.exam.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.CartItemsDTO;
+import com.exam.dto.OrderedDetailDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SendToPayDTO;
+import com.exam.entity.CartItems;
+import com.exam.entity.Products;
+import com.exam.repository.CartItemsRepository;
+import com.exam.repository.ProductsRepository;
 
 import lombok.extern.slf4j.Slf4j;
 ////////////////////////////////////////////////////////
@@ -28,6 +35,13 @@ public class PayServiceImpl implements PayService {
 	@Autowired
 	private ProductsService productsService;
 
+	@Autowired
+	CartItemsRepository cartItemsRepository;
+	
+	@Autowired
+	ProductsRepository productsRepository;
+	
+	
 	@Override
 	public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
 
@@ -55,14 +69,50 @@ public class PayServiceImpl implements PayService {
 		return new SendToPayDTO(combinedName, totalPrice);
 	}
 
+	
+	
 	@Override
-	public List<ProductsDTO> findProductByCartId(int cartId) {
-		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartId);
+	public List<OrderedDetailDTO> getCartItems(int cartid) {
+		List<CartItems> cartItems = cartItemsRepository.findByCartId(cartid);
+		List<OrderedDetailDTO> orderedDetail = new ArrayList<>();
+		
+		for (CartItems item : cartItems) {
+		Optional<Products> productsOpt = productsRepository.findByProductId(item.getProductId()); 
+		if(productsOpt.isPresent()) {
+			Products products = productsOpt.get();
+			OrderedDetailDTO detailDTO = new OrderedDetailDTO();
+			detailDTO.setCategoryId(products.getCategoryId());
+			detailDTO.setDiscountId(products.getDiscountId());
+			detailDTO.setProductName(products.getProductName());
+			detailDTO.setProductPrice(products.getProductPrice());
+			detailDTO.setProductImage(products.getProductImage());
+			detailDTO.setProductDescription(products.getProductDescription());
+			detailDTO.setUnit(products.getUnit());
+			detailDTO.setValue(products.getValue());
+			detailDTO.setProductQr(products.getProductQr());
+			detailDTO.setProductCode(products.getProductCode());
+			detailDTO.setCreatedDate(products.getCreatedDate());
+			detailDTO.setAmount(item.getAmount());
+			orderedDetail.add(detailDTO);
+		
+		}}
+		return orderedDetail;
+	}
 
-		List<ProductsDTO> products = cartItems.stream().map(item -> productsService.findByProductId(item.getProductId()))
-				.collect(Collectors.toList());
-		log.info("dto에 담긴것은?"+products);
-		return products ; 
+	
+	
+	
+	
+	
+	
+//	@Override
+//	public List<ProductsDTO> findProductByCartId(int cartId) {
+//		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartId);
+//
+//		List<ProductsDTO> products = cartItems.stream().map(item -> productsService.findByProductId(item.getProductId()))
+//				.collect(Collectors.toList());
+//		log.info("dto에 담긴것은?"+products);
+//		return products ; 
 	
 	}
-}
+

@@ -2,6 +2,7 @@ package com.exam.controller;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.ApproveResponse;
 import com.exam.dto.CartItemsDTO;
+import com.exam.dto.OrderedDetailDTO;
+import com.exam.dto.ProductsDTO;
 import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
+import com.exam.service.CartService;
 import com.exam.service.PayService;
 import com.exam.service.payment.KakaoPayService;
 
@@ -116,7 +121,7 @@ public class PayController {
 		if (isMobile) {
 			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
 			try {
-				response.sendRedirect("http://10.10.10.151:5173/shop_order_complete");
+				response.sendRedirect("http://localhost:5173/shop_order_complete");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -132,9 +137,14 @@ public class PayController {
 		}
 	}
 
+	@PostMapping("/details") //api body에 데이터를 실어보낼거면 post , get은 쿼리스트링으로 보낼때 
+	public ResponseEntity<List<OrderedDetailDTO>> getCartDetails(@RequestParam int cartId){
+		List<OrderedDetailDTO> cartDetails = payService.getCartItems(cartId);
+		return ResponseEntity.ok(cartDetails);
+	}
+	
 //	 @GetMapping("/ordered-items")
-//	    public ProductsDTO getOrderedItems(@RequestParam("CartId") int CartId) {
-//	        return payService.getOrderDetails(orderId);
+//
 //	    }
 }
 
