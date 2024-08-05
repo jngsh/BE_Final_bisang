@@ -29,12 +29,13 @@ import com.exam.service.UsersService;
 public class MyPageController {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
+	
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
 	UsersService usersService;
 	
-//	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	public MyPageController(UsersService usersService) {
 		this.usersService = usersService;
@@ -56,14 +57,27 @@ public class MyPageController {
 	
 	@PutMapping("/{userId}/profile")
 	public ResponseEntity<Users> modifyUser(@PathVariable Integer userId, @RequestBody UsersDTO.UsersModifyDTO modifyDTO){
+		
 		try {
 			
 			if (modifyDTO.getPw() != null && !modifyDTO.getPw().isEmpty()) {
-				modifyDTO.setPw(passwordEncoder.encode(modifyDTO.getPw()));
+				logger.info("modifiedUser1:{}", modifyDTO.getPw());
+				try {
+					String ecrptPW = new BCryptPasswordEncoder().encode(modifyDTO.getPw());
+					modifyDTO.setPw(ecrptPW);
+//				    modifyDTO.setPw(passwordEncoder.encode(modifyDTO.getPw()));
+				} catch (Exception e) {
+				    logger.error("Password encoding failed: {}", e);
+				}
+				logger.info("modifiedUser2");
 			}
 			
 			Users modifiedUser = usersService.modifyUser(userId, modifyDTO);
-			return ResponseEntity.ok(modifiedUser);
+			if (modifiedUser != null) {
+	            return ResponseEntity.ok(modifiedUser);
+	        } else {
+	            return ResponseEntity.notFound().build();
+	        }
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}

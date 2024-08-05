@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,5 +38,8 @@ public class Users {
    String phone1;
    String phone2;
    String phone3; 
-   Boolean is_customer;
+   Boolean isCustomer;
+   
+//   @OneToOne
+//   Carts carts;
 }
