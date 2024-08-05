@@ -39,6 +39,8 @@ public class UsersDTO {
    String phone3; 
    Boolean isCustomer;
    
+   CartsDTO carts;
+   
    public UsersDTO(String id, String pw) {
 	   this.id= id;
 	   this.pw=pw;

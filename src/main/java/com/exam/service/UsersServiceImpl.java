@@ -11,9 +11,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.exam.config.UsersMapper;
+import com.exam.dto.CartsDTO;
 import com.exam.dto.UsersDTO;
 import com.exam.dto.UsersDTO.UsersModifyDTO;
+import com.exam.entity.Carts;
 import com.exam.entity.Users;
+import com.exam.repository.CartsRepository;
 import com.exam.repository.UsersRepository;
 
 @Service
@@ -24,10 +27,12 @@ public class UsersServiceImpl implements UsersService {
 	UsersMapper usersMapper;
 	
 	UsersRepository usersRepository;
+	CartsRepository cartsRepository; 
 	
-	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper) {
+	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, CartsRepository cartsRepository) {
 		this.usersRepository = usersRepository;
 		this.usersMapper = usersMapper;
+		this.cartsRepository = cartsRepository;
 	}
 		
 	@Override
@@ -38,7 +43,10 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Override
 	public int saveUsers(UsersDTO dto) {
-		return usersMapper.saveUsers(dto);
+		usersMapper.saveUsers(dto);
+		int userId = dto.getUserId();
+		logger.info("save{}",userId);
+		return userId;
 	}
 	
 	@Override
@@ -85,5 +93,20 @@ public class UsersServiceImpl implements UsersService {
 		int userid = usersMapper.selectAll(id);
 		logger.info("logger select:{}",userid);
 		return userid;
+	}
+	
+	@Override
+	public int createCartId(Integer userId) {
+		Users users = usersRepository.findByUserId(userId);
+		
+		logger.info("userId?{}",userId);
+		Carts cart = new Carts();
+		cart.setUsers(users);
+		
+		Carts createdCart = cartsRepository.save(cart);
+
+		logger.info("cartId?{}",createdCart.getCartId());
+		
+		return createdCart.getCartId();
 	}
 }
