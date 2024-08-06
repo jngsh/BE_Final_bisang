@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -40,19 +41,24 @@ public class UsersController {
 	
 	//회원가입
 	@PostMapping("/signup")
-	public ResponseEntity<String> createUsers(@Valid @RequestBody UsersDTO usersDTO) {
+	public ResponseEntity<Map<String, Object>> createUsers(@Valid @RequestBody UsersDTO usersDTO) {
 		logger.info("logger:{}", usersDTO);
 		
 		String ecrptPW = new BCryptPasswordEncoder().encode(usersDTO.getPw());
 		usersDTO.setPw(ecrptPW);
 		
-		int num = usersService.saveUsers(usersDTO);
+		int userId = usersService.saveUsers(usersDTO);
+		int cartId = usersService.createCartId(userId);
+		
+		Map<String, Object> response = new HashMap<>();
+	    response.put("cartId", cartId);
+	    response.put("userId", userId);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(usersDTO.getId())
                 .toUri();
-			return ResponseEntity.created(location).build();
+			return ResponseEntity.created(location).body(response);
 	}
 	
 	@PostMapping("/idCheck")
