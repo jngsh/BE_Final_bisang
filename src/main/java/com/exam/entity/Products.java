@@ -48,4 +48,8 @@ public class Products {
    String productCode;
    @Column(name = "created_date")
    LocalDate createdDate;
+   @Column(name = "product_detailed_description")
+   String productDetailedDescription;
+   @Column(name = "product_additional_info")
+   String productAdditionalInfo;
 }
