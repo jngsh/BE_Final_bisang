@@ -3,6 +3,7 @@ package com.exam.service;
 import com.exam.entity.Carts;
 import com.exam.entity.CartItems;
 import com.exam.entity.Products;
+import com.exam.repository.CartsRepository;
 import com.exam.config.CartsMapper;
 import com.exam.config.CartItemsMapper;
 import com.exam.config.ProductsMapper;
@@ -26,12 +27,14 @@ public class CartServiceImpl implements CartService {
     CartsMapper cartsMapper;
     CartItemsMapper cartItemsMapper;
     ProductsMapper productsMapper;
+    CartsRepository cartsRepository;
 
     @Autowired
-    public CartServiceImpl(CartsMapper cartsMapper, CartItemsMapper cartItemsMapper, ProductsMapper productsMapper) {
+    public CartServiceImpl(CartsMapper cartsMapper, CartItemsMapper cartItemsMapper, ProductsMapper productsMapper, CartsRepository cartsRepository) {
         this.cartsMapper = cartsMapper;
         this.cartItemsMapper = cartItemsMapper;
         this.productsMapper = productsMapper;
+        this.cartsRepository = cartsRepository;
     }
 
     @Override
@@ -90,6 +93,12 @@ public class CartServiceImpl implements CartService {
 	public List<CartItemsDTO> findcartItemsProducts(int cartId) {
 		
 		return cartItemsMapper.findcartItemsProducts(cartId);
+	}
+	
+	@Override
+	public Integer getCartIdByUserId(Integer userId) {
+		Carts cart = cartsRepository.findByUsersUserId(userId);
+		return cart != null? cart.getCartId() : null;
 	}
 }
 

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.exam.config.UsersMapper;
@@ -24,10 +25,12 @@ import com.exam.repository.UsersRepository;
 public class UsersServiceImpl implements UsersService {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
-	UsersMapper usersMapper;
 	
+	UsersMapper usersMapper;
 	UsersRepository usersRepository;
-	CartsRepository cartsRepository; 
+	CartsRepository cartsRepository;
+	
+//	BCryptPasswordEncoder passwordEncoder;
 	
 	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, CartsRepository cartsRepository) {
 		this.usersRepository = usersRepository;
@@ -109,4 +112,41 @@ public class UsersServiceImpl implements UsersService {
 		
 		return createdCart.getCartId();
 	}
+	
+	@Override
+	public boolean checkPassword(Integer userId, String pw) {
+		logger.info("UserID:{}", userId);
+		Users user = usersRepository.findByUserId(userId);
+		if (user == null) {
+			logger.error("User with id {} not found", userId);
+			return false;
+		}
+		
+		logger.info("User found: {}", user);
+		
+		String storedPassword = user.getPw();
+		
+		if (storedPassword == null) {
+	        logger.error("Stored password for userId {} is null", userId);
+	        return false;
+	    }
+		logger.info("Stored password: {}", storedPassword);
+	    
+		logger.info("Input password: {}", pw);
+		logger.info("Stored password (encoded): {}", storedPassword);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	    boolean matches = passwordEncoder.matches(pw, storedPassword);
+	    
+	    logger.info("Password match result: {}", matches);
+	    
+	    return matches;
+		
+//		return passwordEncoder.matches(pw, user.getPw());
+	}
+	
+//	@Override
+//	public int getCartIdByUserId(Integer userId) {
+//		Carts cart = cartsRepository.finByUserId(userId);
+//		return cart != null? cart.getCartId() : null;
+//	}
 }
