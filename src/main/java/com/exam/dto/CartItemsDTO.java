@@ -22,7 +22,7 @@ public class CartItemsDTO {
     int cartId;
     int productId;
     int amount;
-    
+    boolean isShipping;
     
     ProductsDTO product;
 

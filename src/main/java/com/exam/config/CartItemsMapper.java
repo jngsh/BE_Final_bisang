@@ -13,13 +13,13 @@ public interface CartItemsMapper {
 
     List<CartItemsDTO> findItemsByCartId(int cartId);
     
-    
     List<CartItemsDTO> findcartItemsProducts(int cartId);
-    
 
     int addItem(CartItemsDTO item);
 
     void updateItemAmount(CartItemsDTO item);
+    
+    void updateShippingStatus(CartItemsDTO item);
 
     void removeItemFromCart(int cartItemId);
 

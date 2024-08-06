@@ -31,6 +31,7 @@ import com.exam.security.JwtTokenResponse;
 import com.exam.security.JwtTokenService;
 import com.exam.security.TokenBlacklistService;
 import com.exam.service.AuthenticationService;
+import com.exam.service.CartService;
 import com.exam.service.UsersService;
 
 @CrossOrigin(origins = "http://10.10.10.143:5173")
@@ -43,7 +44,9 @@ public class JwtAuthenticationController {
     private  JwtTokenService tokenService;
     @Autowired
     UsersService usersService;
-    TokenBlacklistService tokenBlacklistService;
+    @Autowired
+    CartService cartsService;
+//    TokenBlacklistService tokenBlacklistService;
 //    private  AuthenticationManager authenticationManager;
 
     public JwtAuthenticationController(JwtTokenService tokenService) {
@@ -78,9 +81,10 @@ public class JwtAuthenticationController {
         }
               
         String token = tokenService.generateToken(authenticationToken);
+        Integer cartId = cartsService.getCartIdByUserId(usersDTO.getUserId());
         
         logger.info("logger:userId:{}", usersDTO.getUserId());
-        return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId()));
+        return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId(), cartId));
     }
     
     // 암호화 객체 생성

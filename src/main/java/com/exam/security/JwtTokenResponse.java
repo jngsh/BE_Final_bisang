@@ -1,6 +1,7 @@
 package com.exam.security;
 
 import com.exam.dto.UsersDTO;
+import com.exam.dto.CartsDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,6 @@ public class JwtTokenResponse {
 
 	String token;
 	int userId;
+	int cartId;
 
 }

@@ -24,4 +24,9 @@ public interface UsersService {
 	public Users findByUserId(Integer userId);
 	public Users modifyUser(Integer userId, UsersDTO.UsersModifyDTO modifyDTO);
 	public int selectAll(String id);
+	
+	public int createCartId(Integer userId);
+	public boolean checkPassword(Integer userId, String pw);
+	
+//	public int getCartIdByUserId(Integer userId);
 }
