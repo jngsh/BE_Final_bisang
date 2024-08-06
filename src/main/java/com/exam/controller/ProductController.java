@@ -89,7 +89,11 @@ public class ProductController {
                 String productDescription = (String) row.getCell(5).getStringCellValue();
                 String unit = (String) row.getCell(6).getStringCellValue();
                 Double value = (double) row.getCell(7).getNumericCellValue();
-                String productCode = (String) (productsService.findCategoryCode(categoryId) + productId);
+                
+                // product code는 categoryCode + productId 최소 세 자리
+                String categoryCode = productsService.findCategoryCode(categoryId);
+                String formattedProductId = String.format("%03d", productId);
+                String productCode = categoryCode + formattedProductId;
 
                 // Products 객체 생성해서 insert
                 Products products= new Products();
