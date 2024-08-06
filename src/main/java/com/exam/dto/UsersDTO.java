@@ -39,6 +39,8 @@ public class UsersDTO {
    String phone3; 
    Boolean isCustomer;
    
+   CartsDTO carts;
+   
    public UsersDTO(String id, String pw) {
 	   this.id= id;
 	   this.pw=pw;
@@ -59,7 +61,7 @@ public class UsersDTO {
    
    @Data
    public static class UsersModifyDTO{
-	   int user_id;
+	   int userId;
 	   @Size(min = 8, max = 12, message = "password는 8~12자의 길이를 가져야 합니다.")
 	   String pw;
 	   String address1; 
