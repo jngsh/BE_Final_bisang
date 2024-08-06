@@ -73,6 +73,17 @@ public class CartServiceImpl implements CartService {
         item.setAmount(amount);
         cartItemsMapper.updateItemAmount(item);
     }
+    
+    @Override
+    @Transactional
+    public void updateShippingStatus(int cartItemId, boolean isShipping) {
+        CartItemsDTO item = cartItemsMapper.findItemById(cartItemId);
+        if (item == null) {
+            throw new IllegalArgumentException("해당 카트 아이템을 찾을 수 없습니다.");
+        }
+        item.setShipping(isShipping);
+        cartItemsMapper.updateShippingStatus(item);
+    }
 
     @Override
     @Transactional
