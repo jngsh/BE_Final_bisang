@@ -83,21 +83,11 @@ public class MyPageController {
 		}
 	}
 	
-//	@PostMapping("/pwCheck")
-//	public ResponseEntity<Boolean> PwCheck(@RequestBody UsersDTO.PwRequest pwRequest){
-//		try {
-//			Users user = usersService.findByUserId(pwRequest.getUserId());
-//			if(user != null && 
-//					passwordEncoder.matches(pwRequest.getPw(), user.getPw())) {
-//				return ResponseEntity.ok(true);
-//			} else {
-//				return ResponseEntity.badRequest().body(false);
-//			} 
-//		}	catch (Exception e) {
-//				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//			}
-//		
-//	}
+
+	@PostMapping("/pwCheck")
+	public boolean checkPassword(@RequestBody PwRequest request){
+		return usersService.checkPassword(request.getUserId(), request.getPw());
+	}
 	
 	
 }
