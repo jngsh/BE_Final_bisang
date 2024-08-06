@@ -73,7 +73,14 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-
+    @PutMapping("/items/shipping")
+    public ResponseEntity<?> updateShippingStatus(@RequestBody CartItemsDTO cartItem) {
+        int cartItemId = cartItem.getCartItemId();
+        boolean isShipping = cartItem.isShipping();
+//        System.out.println("isShipping" + isShipping);
+        cartService.updateShippingStatus(cartItemId, isShipping);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("/items/{cartItemId}")
     public ResponseEntity<Integer> removeItemFromCart(@PathVariable int cartItemId) {
