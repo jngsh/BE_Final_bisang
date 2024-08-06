@@ -10,6 +10,7 @@ public interface CartService {
     List<CartItemsDTO> findcartItemsProducts(int cartId);
     int addItem(CartItemsDTO item);
     void updateItemAmount(int cartItemId, int amount);
+    void updateShippingStatus(int cartItemId, boolean isShipping);
     void removeItemFromCart(int cartItemId);
     void clearCart(int cartId);
     
