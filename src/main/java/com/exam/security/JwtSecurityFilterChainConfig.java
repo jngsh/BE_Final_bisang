@@ -59,7 +59,7 @@ public class JwtSecurityFilterChainConfig {
 	        		.cors(cors -> cors
 	                        .configurationSource(request -> {
 	                            CorsConfiguration corsConfig = new CorsConfiguration();
-	                            corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "http://10.10.10.151:5173", "http://10.10.10.171:5173", 
+	                            corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "http://10.10.10.181:5173", "http://10.10.10.171:5173", 
 	                            		"http://10.10.10.186:5173", "http://10.10.10.143:5173", "http://10.10.10.206:5173", "http://192.168.0.109:5173",
 	                            		 "https://b293-121-174-48-247.ngrok-free.app"));
 	                            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -92,8 +92,8 @@ public class JwtSecurityFilterChainConfig {
 				@Override
 				public void addCorsMappings(CorsRegistry registry) {
 					registry.addMapping("/**")
-					.allowedOrigins("http://localhost:5173", "http://10.10.10.151:5173","*") //ngrok 설정은 빠져있음
-							.allowedMethods("GET", "POST", "PUT", "DELETE")
+					.allowedOrigins("http://localhost:5173", "http://10.10.10.181:5173","*") //ngrok 설정은 빠져있음
+							.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 							.allowedHeaders("*");
 //							.allowCredentials(true); //이거 true설정하면 "*"사용할 수 없다.
 //							.maxAge(3000);

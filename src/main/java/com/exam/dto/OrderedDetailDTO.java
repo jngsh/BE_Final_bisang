@@ -1,9 +1,7 @@
 package com.exam.dto;
 
 import java.time.LocalDate;
-
-import org.apache.ibatis.type.Alias;
-
+//필요없을듯!
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +33,7 @@ public class OrderedDetailDTO {
 	LocalDate createdDate;
 	
 	//cartitems에서 받아온것
+	int cartId;
     int amount;
 
 }
