@@ -22,5 +22,5 @@ public class JwtTokenResponse {
 	String token;
 	int userId;
 	int cartId;
-
+	Boolean isCustomer;
 }
