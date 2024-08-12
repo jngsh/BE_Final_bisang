@@ -1,26 +1,27 @@
-package com.exam.security;
+package com.exam.dto;
 
-import com.exam.dto.UsersDTO;
-import com.exam.dto.CartsDTO;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// token 저장 기능
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class JwtTokenResponse {
+public class MailDTO {
 
-	String token;
-	int userId;
-	int cartId;
-	Boolean isCustomer;
+  String toAddresss;
+  String title;
+  String message;
+  String fromAddress;
+   
 }

@@ -59,6 +59,7 @@ public class CartController {
         return ResponseEntity.ok(items);
     }
 
+    // 카트에 제품 추가
     @PostMapping("/items")
     public ResponseEntity<?> addItem(@RequestBody CartItemsDTO dto) {
     	int addItem = cartService.addItem(dto);

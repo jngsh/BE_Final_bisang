@@ -66,14 +66,17 @@ public class JwtAuthenticationController {
     	UsersDTO usersDTO = usersService.findById(jwtTokenRequest.get("id"));
     	
     	PasswordEncoder passwordEncoder = passwordEncoder(); 
-    	UsernamePasswordAuthenticationToken authenticationToken=null; 
+    	UsernamePasswordAuthenticationToken authenticationToken=null;
+    	Boolean isCustomer = false;
     	
     	if (usersDTO != null && passwordEncoder.matches(jwtTokenRequest.get("pw"), usersDTO.getPw())) { // 일치하는 사용자와 비번이 일치하면
             List<GrantedAuthority> roles = new ArrayList<>();
-            if (usersDTO.getIsCustomer() != null && usersDTO.getIsCustomer()) {
+            if (usersDTO.getIsCustomer() != null && usersDTO.getIsCustomer() == true) {
                 roles.add(new SimpleGrantedAuthority("ROLE_USER")); // 사용자 권한 부여
+                isCustomer = true;
             } else {
                 roles.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // 관리자 권한 부여
+                isCustomer = false;
             }
             authenticationToken =
             		new UsernamePasswordAuthenticationToken(new UsersDTO (jwtTokenRequest.get("id"), jwtTokenRequest.get("pw")), null, roles); 
@@ -84,7 +87,7 @@ public class JwtAuthenticationController {
         Integer cartId = cartsService.getCartIdByUserId(usersDTO.getUserId());
         
         logger.info("logger:userId:{}", usersDTO.getUserId());
-        return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId(), cartId));
+        return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId(), cartId, isCustomer));
     }
     
     // 암호화 객체 생성
