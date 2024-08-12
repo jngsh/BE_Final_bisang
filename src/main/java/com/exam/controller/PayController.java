@@ -1,7 +1,7 @@
 package com.exam.controller;
 
-import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,20 +11,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.exam.dto.ApproveResponse;
 import com.exam.dto.CartItemsDTO;
+import com.exam.dto.OrderDetailsDTO;
+import com.exam.dto.OrderDetailsProductsDTO;
 import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
+import com.exam.entity.OrderDetails;
+import com.exam.entity.Orders;
+import com.exam.service.CartItemsService;
+import com.exam.service.OrderDetailsService;
 import com.exam.service.PayService;
 import com.exam.service.payment.KakaoPayService;
 
@@ -41,10 +50,15 @@ public class PayController {
 
 	KakaoPayService kakaoPayService;
 	PayService payService;
+	OrderDetailsService orderDetailsService;
+	CartItemsService cartItemsService;
 
-	public PayController(KakaoPayService kakaoPayService, PayService payService) {
+	public PayController(KakaoPayService kakaoPayService, PayService payService,
+			OrderDetailsService orderDetailsService, CartItemsService cartItemsService) {
 		this.kakaoPayService = kakaoPayService;
 		this.payService = payService;
+		this.orderDetailsService = orderDetailsService;
+		this.cartItemsService = cartItemsService;
 	}
 
 	@PostMapping("/ready")
@@ -64,7 +78,6 @@ public class PayController {
 
 			// 카카오 결제 준비하기
 			readyResponse = kakaoPayService.payReady(combinedName, totalPrice);
-			log.info("갑자기안된다고?");
 			log.info("readyResponse:" + readyResponse);
 			if (readyResponse != null) {
 				// 세션에 결제 고유번호(tid) 저장해야하는데 안돼서 일단 ctx에 저장
@@ -85,9 +98,10 @@ public class PayController {
 		return readyResponse;
 	}
 
-	@GetMapping("/completed")
-	public void kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpServletResponse response,
+	@RequestMapping(value = "/completed")
+	public RedirectView kakaoPayCompleted(@RequestParam("pg_token") String pgToken, HttpServletResponse response,
 			HttpServletRequest request) {
+		RedirectView redirectView = new RedirectView();
 
 		String tid = (String) ctx.getAttribute("tid");
 		log.info("결제승인 요청을 인증하는 토큰: " + pgToken);
@@ -95,20 +109,17 @@ public class PayController {
 
 		if (tid == null || tid.isEmpty()) {
 			log.error("tid 값이 유효하지 않습니다.");
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			return;
+			redirectView.setUrl("http://localhost:5173/about");
+//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return redirectView;
 		}
 
 		// 카카오 결제 요청하기
 		ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
 		if (approveResponse == null) {
 			log.error("결제 승인 실패");
-			try {
-				response.sendRedirect("/about");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} // 실패 시 /about으로 리디렉션
-			return;
+			redirectView.setUrl("http://localhost:5173/about");
+			return redirectView;
 		}
 
 		// User-Agent로 모바일과 데스크탑 구분
@@ -118,34 +129,80 @@ public class PayController {
 		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
 		if (isMobile) {
 			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-			try {
-				response.sendRedirect("http://10.10.10.181:5173/shop_order_complete");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return; // 모바일 페이지
+			redirectView.setUrl("http://10.10.10.181:5173/orderCompleted"); // ip주소 변경될 때마다 변경
+			log.info("모바일페이지:{}", redirectView);
+			return redirectView; // 모바일 페이지
 		} else {
 			log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
-			try {
-				response.sendRedirect("http://localhost:5173/shop_order_complete");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return; // 데스크탑 페이지
+			redirectView.setUrl("http://localhost:5173/orderCompleted");
+			log.info("데스크탑페이지:{}", redirectView);
+			log.info("check point");
+			return redirectView; // 데스크탑 페이지
 		}
 	}
 
-//	@GetMapping("/details")	
-//	public ResponseEntity<List<CartItemsDTO>> getCartDetails(@RequestParam int cartId) {
-//	    List<CartItemsDTO> cartDetails = payService.getCartItems(cartId);
-//	    return ResponseEntity.ok(cartDetails);
-//	}
-	
-	@PostMapping("/details") //api body에 데이터를 실어보낼거면 post , get은 쿼리스트링으로 보낼때 
-	public ResponseEntity<List<CartItemsDTO>> getCartDetails(@RequestBody Map<String, Integer> requestBody){
-		int cartId = requestBody.get("cartId");
-		List<CartItemsDTO> cartDetails = payService.getCartItems(cartId);
-		return ResponseEntity.ok(cartDetails);
-	}
 
+
+	// get방식
+	// orders와 orderDetails에 db 옮기고, 옮겨진거 확인 되면 cartId로 cartitems 테이블 항목 삭제
+	@GetMapping("/details/{cartId}") // api body에 데이터를 실어보낼거면 post , get은 쿼리스트링으로 보낼때
+	public ResponseEntity<Map<String, Object>> getOrderDetails(@PathVariable Integer cartId) {
+
+		Orders orders = orderDetailsService.findOrder(cartId);
+		if (orders == null) {
+			log.error("주문 정보를 생성하는 데 실패했습니다. cartId: {}", cartId);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("error", "주문 정보를 생성하는 데 실패했습니다."));
+		}
+		log.info("orders 확인: {}", orders);
+
+		// 주문 상세내역 가져오기
+		List<OrderDetailsDTO> orderDetailsList = orderDetailsService.findOrderDetails(cartId);
+		if (orderDetailsList == null || orderDetailsList.isEmpty()) {
+			log.error("주문 상세내역을 가져오는 데 실패했습니다. cartId: {}", cartId);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("error", "주문 상세내역을 가져오는 데 실패했습니다."));
+		}
+
+		// 주문상세내역 저장 및 orderId사용
+		List<OrderDetails> orderDetails = orderDetailsService.saveAllOrderDetails(orders, orderDetailsList);
+		if (orderDetails == null || orderDetails.isEmpty()) {
+			log.error("주문 상세내역을 저장하는 데 실패했습니다. cartId: {}", cartId);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("error", "주문 상세내역을 저장하는 데 실패했습니다."));
+		}
+		
+		int orderId = orderDetails.get(0).getOrderId();
+		
+		log.info("입력될orderId:{}",orderId);
+	    List<OrderDetailsDTO> orderDetailsProducts = orderDetailsService.findOrderDetailsProducts(orderId);
+	    log.info("orderDetailsProducts:{}",orderDetailsProducts);
+	    if (orderDetailsProducts == null || orderDetailsProducts.isEmpty()) {
+	        log.error("주문 상세내역과 제품 정보를 가져오는 데 실패했습니다. orderId: {}", orderId);
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body(Map.of("error", "주문 상세내역과 제품 정보를 가져오는 데 실패했습니다."));
+	    }
+
+		// 위 메서드 다 실행되면 cartItems 테이블 삭제 실행
+		try {
+			cartItemsService.removeAllItems(cartId);
+			log.info("cartId {}의 모든 장바구니 항목이 삭제되었습니다.", cartId);
+		} catch (Exception e) {
+			log.error("장바구니 항목을 삭제하는 데 실패했습니다. cartId: {}", cartId, e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("error", "장바구니 항목을 삭제하는 데 실패했습니다."));
+		}
+
+//		int orderId = orders.getOrderId();
+		log.info("orderDetailsProducts 확인: {}", orderDetailsProducts);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("orderDetails", orderDetailsProducts);
+		response.put("orderId", orderId);
+
+		log.info("이렇게도 확인 가능?:{}", ResponseEntity.ok(response));
+		return ResponseEntity.ok(response);// >>여기서 하나(id) 뽑아오기 ','
+
+	}
 }
+

@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exam.config.CartItemsMapper;
 import com.exam.dto.CartItemsDTO;
 import com.exam.entity.CartItems;
 import com.exam.repository.CartItemsRepository;
@@ -17,6 +18,12 @@ public class CartItemsServiceImpl implements CartItemsService {
 
 	@Autowired
 	private CartItemsRepository cartItemsRepository; //이거 안되면 생성자로 바꿔야함
+
+	CartItemsMapper cartItemsMapper;
+
+	public CartItemsServiceImpl(CartItemsMapper cartItemsMapper) {
+		this.cartItemsMapper = cartItemsMapper;
+	}
 
 
 	@Override
@@ -29,6 +36,12 @@ public class CartItemsServiceImpl implements CartItemsService {
 				.collect(Collectors.toList());
 
 		return cartItemsList;
+	}
+
+
+	@Override
+	public void removeAllItems(int cartId) {
+		cartItemsMapper.removeAllItems(cartId);
 	}
 
 }

@@ -24,4 +24,7 @@ public interface CartItemsMapper {
     void removeItemFromCart(int cartItemId);
 
     void deleteItemsByCartId(int cartId);
+    
+    void removeAllItems(int cartId);
+
 }

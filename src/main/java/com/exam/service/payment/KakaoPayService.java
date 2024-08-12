@@ -35,7 +35,7 @@ public class KakaoPayService {
         ReadyResponse readyResponse = null;
 try {
 		Map<String, String> parameters = new HashMap<>();
-		parameters.put("cid", "TC0ONETIME"); // 가맹점 코드(테스트용)ㅇㅇ
+		parameters.put("cid", "TC0ONETIME"); // 가맹점 코드(테스트용)
 		parameters.put("partner_order_id", "1234567890"); // 주문번호
 		parameters.put("partner_user_id", "1"); // 회원 아이디
 		parameters.put("item_name", combinedName); // 상품명
@@ -43,8 +43,8 @@ try {
 		parameters.put("total_amount", String.valueOf(totalPrice)); // 상품 총액
 		parameters.put("tax_free_amount", "0"); // 상품 비과세 금액ㅇㅇ
 		parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-		parameters.put("cancel_url", "http://localhost:8090/bisang/order/pay/cancel"); // 결제 취소 시 URLㅇㅇ
-		parameters.put("fail_url", "http://localhost:8090/bisang/order/pay/fail"); // 결제 실패 시 URLㅇㅇ
+		parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+		parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
 
 		// HttpEntity : HTTP 요청 또는 응답에 해당하는 Http Header와 Http Body를 포함하는 클래스
 		HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
@@ -87,7 +87,7 @@ try {
 		RestTemplate template = new RestTemplate();
 		String url = "https://open-api.kakaopay.com/online/v1/payment/approve";
 		ApproveResponse approveResponse = template.postForObject(url, requestEntity, ApproveResponse.class);
-		log.info("결제승인 응답객체(이건받았어?): " + approveResponse);
+		log.info("결제승인 응답객체: " + approveResponse);
 
 		return approveResponse;
 	}
