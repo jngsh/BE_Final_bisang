@@ -11,6 +11,7 @@
         <result property="cartItemId" column="cart_item_id"/>
         <result property="cartId" column="cart_id"/>
         <result property="amount" column="amount"/>
+        <result property="shipping" column="shipping"/>
         <association property="product" javaType="ProductsDTO">
             <id property="productId" column="product_id"/>
             <result property="categoryId" column="category_id"/>
@@ -48,7 +49,7 @@
         <id property="cartItemId" column="cart_item_id"/>
         <result property="productId" column="product_id"/>
         <result property="amount" column="amount"/>
-        <result property="isShipping" column="is_shipping"/>
+        <result property="shipping" column="shipping" />
         <association property="product" javaType="ProductsDTO" column="product_id" select="findProductById"/>
     </resultMap>
 
@@ -76,7 +77,7 @@
     
     <!-- 장바구니 항목과 제품 정보 조회 -->
     <select id="findcartItemsProducts" parameterType="int" resultMap="cartItemsProductsJoin">
-        SELECT * 
+        SELECT *
         FROM cart_items ci
         JOIN products p ON ci.product_id = p.product_id 
         WHERE ci.cart_id = #{cartId}
@@ -99,7 +100,7 @@
     <!-- 배송 상태 수정 -->
     <update id="updateShippingStatus" parameterType="CartItemsDTO">
     UPDATE cart_items
-    SET is_shipping = #{isShipping}
+    SET shipping = #{shipping}
     WHERE cart_item_id = #{cartItemId}
 	</update>
 

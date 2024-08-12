@@ -49,6 +49,7 @@ public class CartController {
     @GetMapping("/{cartId}/items")
     public ResponseEntity<List<CartItemsDTO>> findcartItemsProducts(@PathVariable int cartId) {
         List<CartItemsDTO> items = cartService.findcartItemsProducts(cartId);
+        System.out.println(">>>>>>>>>>>>>>>>" + items);
         if (items == null || items.isEmpty()) {
             return ResponseEntity.notFound().build(); // 404 반환
         }
