@@ -9,22 +9,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Alias("CartItemsDTO")
+@Alias("OrderDetailsProductsDTO")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @ToString
-public class CartItemsDTO {
-	
-	int cartItemId;
-    int cartId;
-    int productId;
-    int amount;
-    boolean isShipping;
-    
-    ProductsDTO product;
+public class OrderDetailsProductsDTO {
 
+	Integer orderDetailId;
+	Integer orderId;
+	Integer productId;
+	Integer amount;
+	Integer totalPrice;
+	String productName;
+	Integer productPrice;
+	String productImage;
 
 }
