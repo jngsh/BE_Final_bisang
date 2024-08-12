@@ -23,10 +23,10 @@ public class OrderDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int order_detail_id;
-	int product_id;
-	int order_id;
+	int orderDetailId;
+	int productId;
+	int orderId;
 	int amount;
-	int discount;
+	int totalPrice;
 
 }

@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.exam.config.UsersMapper;
@@ -19,6 +20,8 @@ import com.exam.entity.Carts;
 import com.exam.entity.Users;
 import com.exam.repository.CartsRepository;
 import com.exam.repository.UsersRepository;
+
+import ch.qos.logback.core.encoder.Encoder;
 
 @Service
 @Transactional
@@ -149,4 +152,45 @@ public class UsersServiceImpl implements UsersService {
 //		Carts cart = cartsRepository.finByUserId(userId);
 //		return cart != null? cart.getCartId() : null;
 //	}
+	
+	@Override
+	public boolean checkEmail(String email1, String email2) {
+		return usersRepository.existsByEmail1AndEmail2(email1, email2);
+	}
+	
+	@Override
+	public String getTmpPw() {
+
+		char[] charSet = new char[] {'0','1','2','3','4','5','6','7','8','9',
+									'A','B','C','D','E','F','G','H','I','J','K',
+									'L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+									};
+		String pw = "";
+		
+		int idx = 0;
+		for(int i = 0; i <= 8; i++) {
+			idx = (int)(charSet.length * Math.random());
+			pw += charSet[idx];
+		}
+		
+		logger.info("임시비밀번호:{}",pw);
+		
+		
+		return pw;
+	}
+	
+	@Override
+	public void findPw(String tmpPw, String email1, String email2) {
+
+		String ecrptPW = new BCryptPasswordEncoder().encode(tmpPw);
+		
+		Users users = usersRepository.findByEmail1AndEmail2(email1, email2);
+		if(users == null) {
+			throw new IllegalArgumentException("사용자가 없습니다.");
+		}
+		
+		users.updatePw(ecrptPW);
+		logger.info("임시비번완료:{}",getTmpPw());
+	}
+	
 }
