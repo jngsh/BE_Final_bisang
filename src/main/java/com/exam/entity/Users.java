@@ -40,6 +40,9 @@ public class Users {
    String phone3; 
    Boolean isCustomer;
    
+   public void updatePw(String pw) {
+	 this.pw = pw;
+   }
 //   @OneToOne
 //   Carts carts;
 }
