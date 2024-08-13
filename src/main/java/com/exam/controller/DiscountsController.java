@@ -34,14 +34,14 @@ public class DiscountsController {
     }
     
     @GetMapping("/home/top-selling-products")
-    public List<DiscountProductDTO> SortProductsBySalesPrice() {
-    	List<DiscountProductDTO> list = discountsService.SortProductsBySalesPrice();
+    public List<DiscountProductDTO> sortProductsBySalesPrice() {
+    	List<DiscountProductDTO> list = discountsService.sortProductsBySalesPrice();
     	return list;
     }
 
     @GetMapping("/home/discounts-test")
-    public List<DiscountsDTO> DiscountProductJoin() {
-    	List<DiscountsDTO> list = discountsService.DiscountProductJoin();
+    public List<DiscountsDTO> discountProductJoin() {
+    	List<DiscountsDTO> list = discountsService.discountProductJoin();
     	return list;
     }
     
