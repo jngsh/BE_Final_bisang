@@ -62,7 +62,7 @@
 			resultMap="CartItemsResultMap" />
 	</resultMap>
 
-	<select id="findItemById" parameterType="int" resultMap="CartResultMap">
+	<select id="findItemById" parameterType="int" resultMap="CartItemsResultMap">
         SELECT * FROM cart_items WHERE cart_item_id = #{cartItemId}
     </select>
 
