@@ -24,5 +24,71 @@
 			end
 		order by itemType
 	</select>
-
+	
+	<!-- pet_type, item_type, age_type 조회
+	<select id="findCategories" resultType="map">
+		(select distinct item_type as typeValue, 'item' as typeName, pet_type as petType
+ 		from categories)
+		union
+		(select distinct age_type as typeValue, 'age' as typeName, pet_type as petType
+ 		from categories)
+ 		order by typeName
+	</select>  -->
+	
+	<!-- pet_type 별 item_type, age_type 조회 -->
+	<select id="findCategoryByPetType" resultType="map" parameterType="String">
+		(select distinct item_type as typeValue, 'item' as typeName
+ 		from categories
+ 		where pet_type = #{petType})
+		union
+		(select distinct age_type as typeValue, 'age' as typeName
+ 		from categories
+ 		where pet_type = #{petType})
+ 		order by typeName
+	</select>
+	
+	<resultMap id="DiscountProductResult" type="DiscountProductDTO">
+    	<id property="discount_id" column="discount_id" />
+    	<result property="discount_type" column="discount_type" />
+    	<result property="discount_rate" column="discount_rate" />
+    	<result property="start_date" column="start_date" />
+    	<result property="end_date" column="end_date" />
+    	<result property="product_id" column="product_id" />
+    	<result property="product_name" column="product_name" />
+    	<result property="product_price" column="product_price" />
+    	<result property="product_image" column="product_image" />
+    	<result property="category_id" column="category_id" />
+    	<result property="product_description" column="product_description" />
+    	<result property="unit" column="unit" />
+    	<result property="value" column="value" />
+    	<result property="product_qr" column="product_qr" />
+    	<result property="product_code" column="product_code" />
+    	<result property="created_date" column="created_date" />
+  	</resultMap>
+  	
+  	<select id="findProductsByCategory" resultMap="DiscountProductResult" parameterType="map">
+    	select
+      		p.product_id as productId,
+    		p.category_id as categoryId,
+    		p.discount_id as discountId,
+    		p.product_name as productName,
+    		p.product_price as productPrice,
+    		p.product_image as productImage,
+    		p.product_description as productDescription,
+    		p.unit as unit,
+    		p.value as value,
+    		p.product_qr as productQr,
+    		p.product_code as productCode,
+    		p.created_date as createdDate,
+    		d.discount_type as discountType,
+    		d.discount_rate as discountRate,
+    		d.start_date as startDate,
+    		d.end_date as endDate
+    	from discounts d join products p on d.discount_id = p.discount_id
+    	where
+        	substring(p.product_code, 1, 1) = #{petType} and
+    		substring(p.product_code, 2, 1) = #{typeValue} or
+    		substring(p.product_code, 3, 1) = #{typeValue}
+  	</select>
+	
 </mapper>
