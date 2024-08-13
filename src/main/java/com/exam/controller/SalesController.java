@@ -95,4 +95,11 @@ public class SalesController {
         return list;
     }
     
+    
+    @GetMapping("/daily-calendar")
+    public List<SalesStatsDTO> findAllDailySales() {
+    	List<SalesStatsDTO> list = salesService.findAllDailySales();
+    	return list;
+    }
+    
 }
