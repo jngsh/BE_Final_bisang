@@ -62,6 +62,9 @@
 			resultMap="CartItemsResultMap" />
 	</resultMap>
 
+	<select id="findItemById" parameterType="int" resultMap="CartResultMap">
+        SELECT * FROM cart_items WHERE cart_item_id = #{cartItemId}
+    </select>
 
     <!-- 상품 ID로 상품 조회 -->
     <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">

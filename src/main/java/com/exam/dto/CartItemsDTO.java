@@ -59,12 +59,10 @@ public class CartItemsDTO {
 	}
 
 	public boolean isShipping() {
-		System.out.println("getShipping");
 		return shipping;
 	}
 
 	public void setShipping(boolean shipping) {
-		System.out.println("setShipping");
 		this.shipping = shipping;
 	}
 
