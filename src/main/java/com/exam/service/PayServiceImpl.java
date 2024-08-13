@@ -1,16 +1,22 @@
 package com.exam.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.CartItemsDTO;
+import com.exam.dto.OrderedDetailDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.SendToPayDTO;
+import com.exam.entity.CartItems;
+import com.exam.entity.Products;
+import com.exam.repository.CartItemsRepository;
+import com.exam.repository.ProductsRepository;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 ////////////////////////////////////////////////////////
 //CartItems에 결제시 필수요소인 상품명, 가격이 존재하지 않음
@@ -19,63 +25,132 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 //@RequiredArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 @Slf4j
 public class PayServiceImpl implements PayService {
 
 	@Autowired
-    private CartItemsService cartItemsService;
+	private CartItemsService cartItemsService;
+
 	@Autowired
-    private ProductsService productsService;
+	private ProductsService productsService;
 
-//    public PayServiceImpl(CartItemsService cartItemsService, ProductsService productsService) {
-//    	log.info(">>>>>>>>>>>>>>>>>>>>>>>.PayServiceImpl 생성자");
-//    	this.cartItemsService = cartItemsService;
-//    	this.productsService = productsService;
-//    }
-//    
-    
-    
-    @Override
-    public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
-    	
-        List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
+	@Autowired
+	CartItemsRepository cartItemsRepository;
+	
+	@Autowired
+	ProductsRepository productsRepository;
+	
+	
+	@Override
+	public SendToPayDTO sendToPayInfo(CartItemsDTO cartItemsDTO) {
 
-      List<ProductsDTO> products = cartItems.stream()
-            .map(item -> productsService.findByProductId(item.getProductId()))
-            .collect(Collectors.toList());
-        log.info("CartItemsDTO:{}" , cartItemsDTO );
-        log.info("cartItems:{}" , cartItems );
-        log.info("products:{}" , products );
+		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartItemsDTO.getCartId());
 
-             
-        
-        String combinedName;
-        if (products.size() > 1) {
-            combinedName = products.get(0).getProductName() + " 외 " + (products.size() - 1) + "건";
-        } else {
-            combinedName = products.stream()
-                .map(ProductsDTO::getProductName)
-                .collect(Collectors.joining(", "));
-        }
-        log.info("combinedName: {}", combinedName);
+		List<ProductsDTO> products = cartItems.stream()
+				.map(item -> productsService.findByProductId(item.getProductId())).collect(Collectors.toList());
+		log.info("CartItemsDTO:{}", cartItemsDTO);
+		log.info("cartItems:{}", cartItems);
+		log.info("products:{}", products);
 
-        int totalPrice = cartItems.stream()
-            .mapToInt(item -> item.getAmount() * products.stream()
-            .filter(p -> p.getProductId() == item.getProductId())
-            .findFirst().get().getProductPrice())
-            .sum();
+		String combinedName;
+		if (products.size() > 1) {
+			combinedName = products.get(0).getProductName() + " 외 " + (products.size() - 1) + "건";
+		} else {
+			combinedName = products.stream().map(ProductsDTO::getProductName).collect(Collectors.joining(", "));
+		}
+		log.info("combinedName: {}", combinedName);
 
-        return new SendToPayDTO(combinedName, totalPrice);
-    }
+		int totalPrice = cartItems.stream()
+				.mapToInt(item -> item.getAmount() * products.stream()
+						.filter(p -> p.getProductId() == item.getProductId()).findFirst().get().getProductPrice())
+				.sum();
 
+		return new SendToPayDTO(combinedName, totalPrice);
+	}
+
+	
+	
+	
+	@Override
+	public List<CartItemsDTO> getCartItems(int cartId) {
+	    List<CartItems> cartItems = cartItemsRepository.findByCartId(cartId);
+	    List<CartItemsDTO> cartItemsDTOList = new ArrayList<>();
+
+	    for (CartItems item : cartItems) {
+	        Optional<Products> productsOpt = productsRepository.findByProductId(item.getProductId());
+	        if (productsOpt.isPresent()) {
+	            Products products = productsOpt.get();
+	            CartItemsDTO cartItemsDTO = new CartItemsDTO();
+	            cartItemsDTO.setCartItemId(item.getCartItemId());
+	            cartItemsDTO.setCartId(item.getCartId());
+	            cartItemsDTO.setProductId(item.getProductId());
+	            cartItemsDTO.setAmount(item.getAmount());
+
+	            ProductsDTO productsDTO = new ProductsDTO();
+	            productsDTO.setProductId(products.getProductId());
+	            productsDTO.setCategoryId(products.getCategoryId());
+	            productsDTO.setDiscountId(products.getDiscountId());
+	            productsDTO.setProductName(products.getProductName());
+	            productsDTO.setProductPrice(products.getProductPrice());
+	            productsDTO.setProductImage(products.getProductImage());
+	            productsDTO.setProductDescription(products.getProductDescription());
+	            productsDTO.setUnit(products.getUnit());
+	            productsDTO.setValue(products.getValue());
+	            productsDTO.setProductQr(products.getProductQr());
+	            productsDTO.setProductCode(products.getProductCode());
+	            productsDTO.setCreatedDate(products.getCreatedDate());
+
+	            cartItemsDTO.setProduct(productsDTO);
+	            cartItemsDTOList.add(cartItemsDTO);
+	        }
+	    }
+
+	    return cartItemsDTOList;
+	}
 //	@Override
-//	public List<ProductsDTO> findByCartId(CartItemsDTO cartId) {
-//		이부분
-//		return null;
+//	public List<OrderedDetailDTO> getCartItems(int cartid) {
+//		List<CartItems> cartItems = cartItemsRepository.findByCartId(cartid);
+//		List<OrderedDetailDTO> orderedDetail = new ArrayList<>();
+//		
+//		for (CartItems item : cartItems) {
+//		Optional<Products> productsOpt = productsRepository.findByProductId(item.getProductId()); 
+//		if(productsOpt.isPresent()) {
+//			Products products = productsOpt.get();
+//			OrderedDetailDTO detailDTO = new OrderedDetailDTO();
+//			detailDTO.setCategoryId(products.getCategoryId());
+//			detailDTO.setDiscountId(products.getDiscountId());
+//			detailDTO.setProductName(products.getProductName());
+//			detailDTO.setProductPrice(products.getProductPrice());
+//			detailDTO.setProductImage(products.getProductImage());
+//			detailDTO.setProductDescription(products.getProductDescription());
+//			detailDTO.setUnit(products.getUnit());
+//			detailDTO.setValue(products.getValue());
+//			detailDTO.setProductQr(products.getProductQr());
+//			detailDTO.setProductCode(products.getProductCode());
+//			detailDTO.setCreatedDate(products.getCreatedDate());
+//			detailDTO.setAmount(item.getAmount());
+//			detailDTO.setCartId(item.getCartId());
+//			orderedDetail.add(detailDTO);
+//		
+//		}}
+//		return orderedDetail;
+	}
+
+	
+	
+	
+	
+	
+	
+//	@Override
+//	public List<ProductsDTO> findProductByCartId(int cartId) {
+//		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartId);
+//
+//		List<ProductsDTO> products = cartItems.stream().map(item -> productsService.findByProductId(item.getProductId()))
+//				.collect(Collectors.toList());
+//		log.info("dto에 담긴것은?"+products);
+//		return products ; 
+	
 //	}
 
-
-
-
-}

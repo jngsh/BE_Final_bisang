@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 public class OrdersDTO {
 	
-	int order_id;
-	int user_id;
-	int non_member_id;
-	LocalDateTime order_date;
+	int orderId;
+	int userId;
+	int nonMemberId;
+	LocalDateTime orderDate;
 
 }

@@ -40,6 +40,7 @@ public class Products {
    String productImage;
    @Column(name = "product_description")
    String productDescription;
+   
    String unit;
    double value;
    @Column(name = "product_qr")
@@ -48,4 +49,8 @@ public class Products {
    String productCode;
    @Column(name = "created_date")
    LocalDate createdDate;
+   @Column(name = "product_detailed_description")
+   String productDetailedDescription;
+   @Column(name = "product_additional_info")
+   String productAdditionalInfo;
 }
