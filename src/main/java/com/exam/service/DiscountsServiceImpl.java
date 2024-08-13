@@ -33,14 +33,14 @@ public class DiscountsServiceImpl implements DiscountsService {
 	}
 
 	@Override
-	public List<DiscountProductDTO> SortProductsBySalesPrice() {
-		List<DiscountProductDTO> result = discountsMapper.SortProductsBySalesPrice();
+	public List<DiscountProductDTO> sortProductsBySalesPrice() {
+		List<DiscountProductDTO> result = discountsMapper.sortProductsBySalesPrice();
 		return result;
 	}
 
 	@Override
-	public List<DiscountsDTO> DiscountProductJoin() {
-		List<DiscountsDTO> result = discountsMapper.DiscountProductJoin();
+	public List<DiscountsDTO> discountProductJoin() {
+		List<DiscountsDTO> result = discountsMapper.discountProductJoin();
 		return result;
 	}
 	
