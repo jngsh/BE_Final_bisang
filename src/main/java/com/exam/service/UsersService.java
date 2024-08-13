@@ -26,4 +26,11 @@ public interface UsersService {
 	public int selectAll(String id);
 	
 	public int createCartId(Integer userId);
+	public boolean checkPassword(Integer userId, String pw);
+	
+	public boolean checkEmail(String email1, String email2);
+	public String getTmpPw();
+	public void findPw(String tmpPw, String email1, String email2);
+	
+//	public int getCartIdByUserId(Integer userId);
 }

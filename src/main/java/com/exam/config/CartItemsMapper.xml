@@ -11,6 +11,7 @@
         <result property="cartItemId" column="cart_item_id"/>
         <result property="cartId" column="cart_id"/>
         <result property="amount" column="amount"/>
+        <result property="shipping" column="shipping"/>
         <association property="product" javaType="ProductsDTO">
             <id property="productId" column="product_id"/>
             <result property="categoryId" column="category_id"/>
@@ -43,30 +44,24 @@
         <result property="createdDate" column="created_date"/>
     </resultMap>
 
+	
     <!-- CartItemsDTO의 Result Map 정의 -->
     <resultMap id="CartItemsResultMap" type="CartItemsDTO">
         <id property="cartItemId" column="cart_item_id"/>
         <result property="productId" column="product_id"/>
         <result property="amount" column="amount"/>
+        <result property="shipping" column="shipping" />
         <association property="product" javaType="ProductsDTO" column="product_id" select="findProductById"/>
     </resultMap>
 
-    <!-- CartDTO의 Result Map 정의 -->
-    <resultMap id="CartResultMap" type="CartsDTO">
-        <id property="cartId" column="cart_id"/>
-        <result property="userId" column="user_id"/>
-        <collection property="cartItems" ofType="CartItemsDTO" resultMap="CartItemsResultMap"/>
-    </resultMap>
+	<!-- CartDTO의 Result Map 정의 -->
+	<resultMap id="CartResultMap" type="CartsDTO">
+		<id property="cartId" column="cart_id" />
+		<result property="userId" column="user_id" />
+		<collection property="cartItems" ofType="CartItemsDTO"
+			resultMap="CartItemsResultMap" />
+	</resultMap>
 
-    <!-- 장바구니 항목 조회 -->
-    <select id="findItemsByCartId" parameterType="int" resultMap="CartItemsResultMap">
-        SELECT * FROM cart_items WHERE cart_id = #{cartId}
-    </select>
-    
-    <!-- 장바구니 항목 조회 -->
-    <select id="findItemById" parameterType="int" resultMap="CartItemsResultMap">
-        SELECT * FROM cart_items WHERE cart_item_id = #{cartItemId}
-    </select>
 
     <!-- 상품 ID로 상품 조회 -->
     <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
@@ -75,7 +70,7 @@
     
     <!-- 장바구니 항목과 제품 정보 조회 -->
     <select id="findcartItemsProducts" parameterType="int" resultMap="cartItemsProductsJoin">
-        SELECT * 
+        SELECT *
         FROM cart_items ci
         JOIN products p ON ci.product_id = p.product_id 
         WHERE ci.cart_id = #{cartId}
@@ -88,16 +83,34 @@
         VALUES (#{cartId}, #{productId}, #{amount})
     </insert>
 
+	<!-- 장바구니 항목 조회 -->
+	<select id="findItemsByCartId" parameterType="int"
+		resultMap="CartItemsResultMap">
+		SELECT * FROM cart_items WHERE cart_id = #{cartId}
+	</select>
+
     <!-- 장바구니 항목 수정 -->
     <update id="updateItemAmount" parameterType="CartItemsDTO">
         UPDATE cart_items
         SET amount = #{amount}
         WHERE cart_item_id = #{cartItemId}
     </update>
+    
+    <!-- 배송 상태 수정 -->
+    <update id="updateShippingStatus" parameterType="CartItemsDTO">
+    UPDATE cart_items
+    SET shipping = #{shipping}
+    WHERE cart_item_id = #{cartItemId}
+	</update>
 
-    <!-- 장바구니 항목 삭제 -->
-    <delete id="removeItemFromCart" parameterType="int">
-        DELETE FROM cart_items WHERE cart_item_id = #{cartItemId}
-    </delete>
 
+	<!-- 장바구니 항목 삭제 -->
+	<delete id="removeItemFromCart" parameterType="int">
+		DELETE FROM cart_items WHERE cart_item_id = #{cartItemId}
+	</delete>
+
+	<!-- 회원별 장바구니 항목 전체 삭제 (주문 후 자동삭제) -->
+	<delete id="removeAllItems" parameterType="int">
+		DELETE FROM cart_items WHERE cart_id=#{cartId}
+	</delete>
 </mapper>

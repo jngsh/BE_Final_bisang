@@ -1,7 +1,5 @@
 package com.exam.dto;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +15,14 @@ import lombok.ToString;
 @ToString
 public class OrderDetailsDTO {
 	
-	int order_detail_id;
-	int product_id;
-	int order_id;
+	int orderDetailId;
+	int productId;
+	int orderId;
 	int amount;
-	int discount;
-	
+	int totalPrice;
+   
+     String productName;
+     int productPrice;
+     String productImage;	
 
 }

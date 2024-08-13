@@ -23,9 +23,9 @@
     </resultMap>
 
     <!-- 상품 ID로 상품 조회 -->
-    <!-- <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
+    <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
         SELECT * FROM products WHERE product_id = #{productId}
-    </select> -->
+    </select>
 
     <!-- 모든 상품 조회 -->
     <select id="findAllProducts" resultType="ProductsDTO">

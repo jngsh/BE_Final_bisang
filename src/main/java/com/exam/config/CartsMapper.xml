@@ -12,6 +12,7 @@
         <collection property="items" ofType="CartItemsDTO">
             <id property="cartItemId" column="cart_item_id"/>
             <result property="amount" column="amount"/>
+            <result property="shipping" column="shipping"/>
             <association property="product" javaType="ProductsDTO">
                 <id property="productId" column="product_id"/>
                 <!-- 필요한 다른 Product 속성 추가 가능 -->
