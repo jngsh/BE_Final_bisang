@@ -12,9 +12,9 @@ public interface DiscountsMapper {
 
     public List<DiscountProductDTO> findDiscountProduct();
     public List<DiscountProductDTO> findProductsPetType();
-    public List<DiscountProductDTO> SortProductsBySalesPrice();
+    public List<DiscountProductDTO> sortProductsBySalesPrice();
     
-    public List<DiscountsDTO> DiscountProductJoin();
+    public List<DiscountsDTO> discountProductJoin();
     
     
 }

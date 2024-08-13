@@ -1,10 +1,12 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.exam.config.CategoriesMapper;
+import com.exam.dto.DiscountsDTO;
 import com.exam.dto.ItemCategoryDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +27,22 @@ public class CategoriesServiceImpl implements CategoriesService {
 		return result;
 	}
 
+	
+//	@Override
+//	public List<Map<String, Object>> findCategories() {
+//		List<Map<String, Object>> result = categoriesMapper.findCategories();
+//		return result;
+//	}
+
+	@Override
+	public List<Map<String, Object>> findCategoryByPetType(String petType) {
+		List<Map<String, Object>> result = categoriesMapper.findCategoryByPetType(petType);
+		return result;
+	}
+
+	@Override
+	public List<DiscountsDTO> findProductsByCategory(Map<String, Object> type) {
+		List<DiscountsDTO> result = categoriesMapper.findProductsByCategory(type);
+		return result;
+	}
 }
