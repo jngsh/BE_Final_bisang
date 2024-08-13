@@ -32,5 +32,7 @@ public class ProductsDTO {
    String productQr;
    String productCode;
    LocalDate createdDate;
+   String productDetailedDescription;
+   String productAdditionalInfo;
    
 }

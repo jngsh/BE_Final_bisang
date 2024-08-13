@@ -74,5 +74,11 @@ public class UsersDTO {
 	   String phone3;
    }
    
+   @Data
+   public static class EmailRequest{
+	   String email1;
+	   String email2;
+   }
+   
    
 }
