@@ -64,7 +64,7 @@ public class CartController {
     @PostMapping("/items")
     public ResponseEntity<?> addItem(@RequestBody CartItemsDTO dto) {
     	int addItem = cartService.addItem(dto);
-//    	logger.info("logger: Controller: {}, {}, {}",  cartId, productId, amount);
+//    	logger.info("logger: Controller:addItem: {}", dto);
 //    	cartService.addItem(cartId, productId, amount);
 //    	logger.info("logger: Controller: {}, {}, {}",  cartId, productId, amount);
         return ResponseEntity.ok().build();
