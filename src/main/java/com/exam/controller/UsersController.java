@@ -55,10 +55,12 @@ public class UsersController {
 		
 		int userId = usersService.saveUsers(usersDTO);
 		int cartId = usersService.createCartId(userId);
+		int deliveryAddressId = usersService.createDeliveryId(userId,usersDTO);
 		
 		Map<String, Object> response = new HashMap<>();
 	    response.put("cartId", cartId);
 	    response.put("userId", userId);
+	    response.put("deliveryAddressId", deliveryAddressId);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
