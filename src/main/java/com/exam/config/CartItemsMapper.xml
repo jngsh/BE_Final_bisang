@@ -51,7 +51,7 @@
         <result property="productId" column="product_id"/>
         <result property="amount" column="amount"/>
         <result property="shipping" column="shipping" />
-        <association property="product" javaType="ProductsDTO" column="product_id" select="findProductById"/>
+        <association property="product" javaType="ProductsDTO"/>
     </resultMap>
 
 	<!-- CartDTO의 Result Map 정의 -->
@@ -96,7 +96,7 @@
     <!-- 장바구니 항목 수정 -->
     <update id="updateItemAmount" parameterType="CartItemsDTO">
         UPDATE cart_items
-        SET amount = amount + #{amount}
+        SET amount = #{amount}
         WHERE product_id = #{productId}
     </update>
     
