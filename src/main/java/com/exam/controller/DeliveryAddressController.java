@@ -44,5 +44,20 @@ public class DeliveryAddressController {
         }
 		return deliveryAddressService.findByUserId(userId);
 	}
+	
+	@PutMapping("/{userId}")
+	public ResponseEntity<DeliveryAddress> modifyDelivery(@PathVariable Integer userId, @RequestBody DeliveryAddressDTO modifyDTO){
+		
+		try {
+			DeliveryAddress modifiedDeliveryAddress = deliveryAddressService.modifyDeliveryAddress(userId, modifyDTO);
+			if (modifiedDeliveryAddress != null) {
+				return ResponseEntity.ok(modifiedDeliveryAddress);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
     
 }

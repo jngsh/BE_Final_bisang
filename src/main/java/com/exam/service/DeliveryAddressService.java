@@ -11,4 +11,5 @@ public interface DeliveryAddressService {
 
 //	public List<DeliveryAddress> findByUsersUserId(int userId);
 	public List<DeliveryAddressDTO> findByUserId(Integer userId);
+	public DeliveryAddress modifyDeliveryAddress(Integer userId, DeliveryAddressDTO modifyDTO);
 }

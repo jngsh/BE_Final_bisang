@@ -6,7 +6,7 @@
  
    
    <select id="findByUserId" resultType="DeliveryAddressDTO" parameterType="int">
-      select delivery_address_id as deliveryAddressId, user_id as userId, address_type as addressType, delivery_name as deliveryName, address1, address2, post, phone1, phone2, is_default as isDefault
+      select delivery_address_id as deliveryAddressId, user_id as userId, address_type as addressType, delivery_name as deliveryName, address1, address2, post, phone1, phone2, phone3, is_default as isDefault
       from delivery_address
       where user_id=#{userId} 
    </select>

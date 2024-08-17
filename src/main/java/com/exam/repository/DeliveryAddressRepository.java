@@ -10,5 +10,6 @@ import com.exam.entity.DeliveryAddress;
 
 public interface DeliveryAddressRepository extends JpaRepository<DeliveryAddress, Integer> {
 	
+	List<DeliveryAddress> findByUsers_UserId(Integer userId);
 //	public List<DeliveryAddress> findByUsersUserId(int userId);
 }

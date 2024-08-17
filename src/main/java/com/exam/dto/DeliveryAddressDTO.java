@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class DeliveryAddressDTO {
 	
-	int deliveryAddrId;
+	int deliveryAddressId;
 	int userId;
 	String addressType;
 	String deliveryName;

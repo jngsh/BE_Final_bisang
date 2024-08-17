@@ -25,7 +25,7 @@ public class DeliveryAddress {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int deliveryAddrId;
+	int deliveryAddressId;
 //	int userId;
 	String addressType;
 	String deliveryName;

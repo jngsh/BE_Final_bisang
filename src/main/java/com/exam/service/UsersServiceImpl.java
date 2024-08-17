@@ -127,6 +127,7 @@ public class UsersServiceImpl implements UsersService {
 		logger.info("Delivery userId:{}",userId);
 		DeliveryAddress deliveryAddress = new DeliveryAddress();
 		deliveryAddress.setUsers(users);
+		deliveryAddress.setDeliveryName(usersDTO.getUsername());
 		deliveryAddress.setAddress1(usersDTO.getAddress1());
 		deliveryAddress.setAddress2(usersDTO.getAddress2());
 		deliveryAddress.setPost(usersDTO.getPost());
@@ -136,9 +137,9 @@ public class UsersServiceImpl implements UsersService {
 		
 		DeliveryAddress createDeliveryAddress = deliveryAddressRepository.save(deliveryAddress);
 		
-		logger.info("createAddr:{}",createDeliveryAddress.getDeliveryAddrId());
+		logger.info("createAddr:{}",createDeliveryAddress.getDeliveryAddressId());
 		
-		return createDeliveryAddress.getDeliveryAddrId();
+		return createDeliveryAddress.getDeliveryAddressId();
 	}
 	
 	@Override
