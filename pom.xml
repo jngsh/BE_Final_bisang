@@ -12,7 +12,7 @@
 	<groupId>com.exam</groupId>
 	<artifactId>boot2.7_REST01_basic</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>boot2.7_REST01_basic</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -103,7 +103,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>todo</finalName>
+		<finalName>peterpet</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
