@@ -7,7 +7,7 @@
 
 	<select id="findOrderDetails" resultType="OrderDetailsDTO" parameterType="int">
 		select
-		ci.product_id as productId, ci.amount as amount, p.product_price as
+		ci.product_id as productId, ci.amount as amount, ci.shipping as shipping, p.product_price as
 		totalPrice
 		from cart_items ci join products p on ci.product_id =
 		p.product_id
@@ -29,6 +29,7 @@
         od.product_id AS productId, 
         od.amount as amount, 
         od.total_price as totalPrice,
+        od.shipping as shipping,
         p.product_name as productName, 
         p.product_price as productPrice, 
         p.product_image as productImage
