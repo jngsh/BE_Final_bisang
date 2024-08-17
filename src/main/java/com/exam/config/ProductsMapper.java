@@ -1,10 +1,12 @@
 package com.exam.config;
 
-import com.exam.dto.ProductsDTO;
-import com.exam.entity.Products;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import com.exam.dto.ProductsDTO;
+import com.exam.entity.Products;
 
 @Mapper
 public interface ProductsMapper {
@@ -26,5 +28,6 @@ public interface ProductsMapper {
     
     
     public String findCategoryCode(int categoryId);
+    public Integer findCategoryIdByCode(Map<String, Object> type);
     
 }
