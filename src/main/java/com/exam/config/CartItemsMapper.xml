@@ -67,8 +67,9 @@
     </select>
 
     <!-- 상품 ID로 상품 조회 -->
-    <select id="findProductById" parameterType="int" resultMap="ProductsResultMap">
-        SELECT * FROM products WHERE product_id = #{productId}
+    <select id="findProductById" parameterType="int" resultType="CartItemsDTO">
+    
+        SELECT * FROM cart_items WHERE product_id = #{productId}
     </select>
     
     <!-- 장바구니 항목과 제품 정보 조회 -->
@@ -95,8 +96,8 @@
     <!-- 장바구니 항목 수정 -->
     <update id="updateItemAmount" parameterType="CartItemsDTO">
         UPDATE cart_items
-        SET amount = #{amount}
-        WHERE cart_item_id = #{cartItemId}
+        SET amount = amount + #{amount}
+        WHERE product_id = #{productId}
     </update>
     
     <!-- 배송 상태 수정 -->
