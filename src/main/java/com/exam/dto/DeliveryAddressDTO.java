@@ -17,17 +17,17 @@ import lombok.ToString;
 @ToString
 public class DeliveryAddressDTO {
 	
-	int delivery_addr_id;
-	int user_id;
-	String address_type;
-	String delivery_name;
+	int deliveryAddressId;
+	int userId;
+	String addressType;
+	String deliveryName;
 	String address1;
 	String address2;
 	String post;
 	String phone1;
 	String phone2;
 	String phone3;
-	boolean is_default;
+	boolean isDefault;
 	
 
 }

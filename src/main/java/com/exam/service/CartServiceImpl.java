@@ -68,8 +68,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void updateItemAmount(int cartItemId, int amount) {
-        CartItemsDTO item = cartItemsMapper.findItemById(cartItemId);
+    public void updateItemAmount(int productId, int amount) {
+        CartItemsDTO item = cartItemsMapper.findProductById(productId);
         if (item == null) {
             throw new IllegalArgumentException("해당 카트 아이템을 찾을 수 없습니다.");
         }

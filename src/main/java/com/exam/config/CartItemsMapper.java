@@ -10,6 +10,8 @@ import com.exam.dto.CartItemsDTO;
 public interface CartItemsMapper {
 
     CartItemsDTO findItemById(int cartItemId);
+    
+    CartItemsDTO findProductById(int productId);
 
     List<CartItemsDTO> findItemsByCartId(int cartId);
     
