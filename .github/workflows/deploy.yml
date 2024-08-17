@@ -63,5 +63,5 @@ jobs:
           application_name: demo-eb-ci-cd # Application name we created in Elastic Beanstalk
           environment_name: Demo-eb-ci-cd-env # Environment name we created in Elastic Beanstalk
           version_label: ${{ github.SHA }}
-          region: us-east-1 # VERY IMPORTANT: AWS Region where initially Application was created in AWS EBS. We created in us-east-1 which is N-Virginia
+          region: ap-northeast-2 # VERY IMPORTANT: AWS Region where initially Application was created in AWS EBS. We created in us-east-1 which is N-Virginia
           deployment_package: peterpet.jar # Download artifacts from previous job
