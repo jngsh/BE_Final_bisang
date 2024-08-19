@@ -35,6 +35,6 @@ public class CartItems {
 	
 	int amount;
 	
-	boolean shipping;
+	Boolean shipping;
 
 }
