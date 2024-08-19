@@ -34,5 +34,7 @@ public class CartItems {
 	int productId;
 	
 	int amount;
+	
+	Boolean shipping;
 
 }

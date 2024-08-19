@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.exam.config.OrderDetailsMapper;
 import com.exam.dto.OrderDetailsDTO;
-import com.exam.dto.OrderDetailsProductsDTO;
 import com.exam.dto.OrdersDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
@@ -35,6 +34,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		this.orderDetailsMapper = orderDetailsMapper;
 	}
 
+	
+	//details 1번째
 	@Override
 	public Orders findOrder(int cartId) {
 
@@ -48,6 +49,15 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		return ordersRepository.save(orders);
 	}
 
+	
+	//details 2번째
+	@Override
+	public List<OrderDetailsDTO> findOrderDetails(int cartId) {
+		return orderDetailsMapper.findOrderDetails(cartId);
+	}
+
+	
+	//details 3번째
 	@Override
 	public List<OrderDetails> saveAllOrderDetails(Orders savedOrder, List<OrderDetailsDTO> list) {
 		int orderId = savedOrder.getOrderId();
@@ -59,6 +69,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		for (OrderDetailsDTO dto : list) {
 			dto.setTotalPrice(dto.getAmount() * dto.getTotalPrice());
 			dto.setOrderId(orderId);
+			dto.setShipping(dto.isShipping());
 		}
 
 		log.info("Order details DTO list: {}", list);
@@ -66,38 +77,42 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		List<OrderDetails> orderDetailsList = list.stream().map(dto -> mapper.map(dto, OrderDetails.class))
 				.collect(Collectors.toList());
 
+		log.info("잘담겼니Orderdetailslist: {}", orderDetailsList);
 		return orderDetailsRepository.saveAll(orderDetailsList);
 
 	}
 
-	@Override
-	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO) {
-		ModelMapper mapper = new ModelMapper();
-		OrderDetails orderDetails = mapper.map(orderDetailsDTO, OrderDetails.class);
-		orderDetailsRepository.save(orderDetails);
-
-		return orderDetails.getOrderDetailId();
-	}
-	
-
-	@Override
-	public OrderDetails findByOrderDetailId(Integer orderDetailId) {
-		return orderDetailsRepository.findByOrderDetailId(orderDetailId);
-	}
-
-	@Override
-	public List<OrderDetailsDTO> findOrderDetails(int cartId) {
-		return orderDetailsMapper.findOrderDetails(cartId);
-	}
-
+		
+	//details 4번째
 	@Override
 	public List<OrderDetailsDTO> findOrderDetailsProducts(int orderId) {
-		return orderDetailsMapper.findOrderDetailsProducts(orderId);
+		 List<OrderDetailsDTO> result = orderDetailsMapper.findOrderDetailsProducts(orderId);
+		    for (OrderDetailsDTO dto : result) {
+		        log.info("요기요기OrderDetailsProductsDTO shipping value: {}", dto.isShipping());
+		    }
+		    return result;
+	//		return orderDetailsMapper.findOrderDetailsProducts(orderId);
 	}
-
+	
+	
+	
 //	@Override
-//	public List<OrderDetailsProductsDTO> findOrderDetailsWithProducts(Integer orderId) {
-//        return orderDetailsMapper.findOrderDetailsProducts(orderId);
+//	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO) {
+//		ModelMapper mapper = new ModelMapper();
+//		OrderDetails orderDetails = mapper.map(orderDetailsDTO, OrderDetails.class);
+//		orderDetailsRepository.save(orderDetails);
+//
+//		return orderDetails.getOrderDetailId();
 //	}
+//	
+//
+//	@Override
+//	public OrderDetails findByOrderDetailId(Integer orderDetailId) {
+//		return orderDetailsRepository.findByOrderDetailId(orderDetailId);
+//	}
+
+
+
+
 
 }
