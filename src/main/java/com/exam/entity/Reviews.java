@@ -43,6 +43,10 @@ public class Reviews {
 	OrderDetails orderDetails;
 	
 	@ManyToOne
+	@JoinColumn(name = "orderId")
+	Orders orders;
+	
+	@ManyToOne
 	@JoinColumn(name = "userId")
 	Users users;
 }

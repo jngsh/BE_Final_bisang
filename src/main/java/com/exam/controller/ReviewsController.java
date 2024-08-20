@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.CartItemsDTO;
 import com.exam.dto.CartsDTO;
+import com.exam.dto.OrderDetailsDTO;
+import com.exam.dto.OrdersAccountDTO;
 import com.exam.entity.OrderDetails;
+import com.exam.entity.Orders;
 import com.exam.entity.Products;
 import com.exam.entity.Reviews;
 import com.exam.entity.Users;
@@ -38,8 +42,6 @@ public class ReviewsController {
     ProductsService productsService;
     UsersService usersService;
     
-    
-    
     public ReviewsController(ReviewsService reviewsService, OrderDetailsService orderDetailsService,
 			ProductsService productsService, UsersService usersService) {
 		this.reviewsService = reviewsService;
@@ -48,6 +50,25 @@ public class ReviewsController {
 		this.usersService = usersService;
 	}
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<OrdersAccountDTO>> findReview(@PathVariable int userId){
+    	try {
+    		List<OrdersAccountDTO> orders = orderDetailsService.FindOrdersAndDetails(userId);
+    		if (orders.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+    		
+    		for (OrdersAccountDTO orderDTO : orders) {
+    			List<OrderDetailsDTO> orderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId());
+    			orderDTO.setOrderDetails(orderDetailsList);
+    		}
+    		
+    		return ResponseEntity.ok(orders);
+    	} catch(Exception e) {
+    		logger.error("Error get review:",e);
+    		return ResponseEntity.status(500).body(null);
+    	}
+    }
 
 
 	@PostMapping("/{orderDetailId}/{productId}/{userId}")
