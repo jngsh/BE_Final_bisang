@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -68,14 +70,28 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public void updateItemAmount(int productId, int amount) {
-        CartItemsDTO item = cartItemsMapper.findProductById(productId);
+    public void updateItemAmount(int cartId, int productId, int amount) {
+        // cartItemId가 메서드에 전달된 시점에서 값을 로깅
+        logger.info("Received cartId: {}, productId: {}, amount: {}", cartId, productId, amount);
+
+        if (cartId == 0) {
+            logger.error("cartId is 0, which is not valid");
+            throw new IllegalArgumentException("cartId cannot be 0");
+        }
+        
+        Map<String, Object> map = new HashMap<>();
+        map.put("cartId", cartId);
+        map.put("productId", productId);
+        
+        CartItemsDTO item = cartItemsMapper.findProductById(map);
         if (item == null) {
             throw new IllegalArgumentException("해당 카트 아이템을 찾을 수 없습니다.");
         }
+        
         item.setAmount(amount);
         cartItemsMapper.updateItemAmount(item);
     }
+
     
     @Override
     @Transactional
