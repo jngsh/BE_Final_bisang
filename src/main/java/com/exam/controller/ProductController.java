@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.exam.dto.DiscountsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.entity.Products;
 import com.exam.service.ProductsService;
@@ -283,7 +284,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/search")
-    public List<ProductsDTO> searchProducts(@RequestParam String query) {
+    public List<DiscountsDTO> searchProducts(@RequestParam String query) {
         return productsService.searchProducts(query);
     }
 	

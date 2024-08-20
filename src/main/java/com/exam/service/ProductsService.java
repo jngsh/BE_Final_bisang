@@ -3,6 +3,7 @@ package com.exam.service;
 import java.util.List;
 import java.util.Map;
 
+import com.exam.dto.DiscountsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.entity.Products;
 
@@ -18,6 +19,6 @@ public interface ProductsService {
 	public String findCategoryCode(int categoryId);
 	public Integer findCategoryIdByCode(Map<String, Object> type);
 	
-	public List<ProductsDTO> searchProducts(String query);
+	public List<DiscountsDTO> searchProducts(String query);
 	
 }

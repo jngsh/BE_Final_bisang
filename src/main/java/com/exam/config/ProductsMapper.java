@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.exam.dto.DiscountsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.entity.Products;
 
@@ -30,6 +31,6 @@ public interface ProductsMapper {
     public String findCategoryCode(int categoryId);
     public Integer findCategoryIdByCode(Map<String, Object> type);
     
-    public List<ProductsDTO> searchProducts(String query);
+    public List<DiscountsDTO> searchProducts(String query);
     
 }

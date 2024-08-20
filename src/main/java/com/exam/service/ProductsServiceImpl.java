@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.exam.config.ProductsMapper;
+import com.exam.dto.DiscountsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.entity.Products;
 import com.exam.repository.ProductsRepository;
@@ -72,13 +73,12 @@ public class ProductsServiceImpl implements ProductsService {
 		Integer result = productsMapper.findCategoryIdByCode(type);
 		return result;
 	}
-
+	
 	@Override
-	public List<ProductsDTO> searchProducts(String query) {
-		List<ProductsDTO> list = productsMapper.searchProducts(query);
+	public List<DiscountsDTO> searchProducts(String query) {
+		List<DiscountsDTO> list = productsMapper.searchProducts(query);
 		return list;
 	}
-	
 	
 
 }
