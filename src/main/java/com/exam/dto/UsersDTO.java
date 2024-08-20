@@ -41,6 +41,8 @@ public class UsersDTO {
    
    CartsDTO carts;
    
+   DeliveryAddressDTO deliveryAddress;
+   
    public UsersDTO(String id, String pw) {
 	   this.id= id;
 	   this.pw=pw;

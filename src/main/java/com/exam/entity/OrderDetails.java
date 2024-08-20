@@ -28,5 +28,10 @@ public class OrderDetails {
 	int orderId;
 	int amount;
 	int totalPrice;
+	boolean shipping;
+//	   
+//    String productName;
+//    int productPrice;
+//    String productImage;	
 
 }
