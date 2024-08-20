@@ -52,6 +52,8 @@
             product_qr = #{productQr},
             product_code = #{productCode},
             create_date = #{createDate}
+            product_detailed_description = #{productDetailedDescription},
+            product_additional_info = #{productAdditionalInfo},
         WHERE product_id = #{productId}
     </update>
 
@@ -60,5 +62,19 @@
         DELETE FROM products WHERE product_id = #{productId}
     </delete>
     
+    
+    <!-- product code 중 category 부분 생성 -->
+    <select id="findCategoryCode" parameterType="int" resultType="string">
+    	select CONCAT(pet_type, item_type, age_type) as categoryCode
+    	from categories
+    	where category_id = #{categoryId}
+    </select>
+    
+    <!-- category code로 category id 찾기 -->
+    <select id="findCategoryIdByCode" resultType="Integer" parameterType="map">
+    	select category_id as categoryId
+    	from categories
+    	where pet_type = #{petType} and item_type = #{itemType} and age_type = #{ageType}
+    </select>
 
 </mapper>
