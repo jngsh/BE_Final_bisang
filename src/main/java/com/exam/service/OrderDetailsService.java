@@ -3,6 +3,7 @@ package com.exam.service;
 import java.util.List;
 
 import com.exam.dto.OrderDetailsDTO;
+import com.exam.dto.OrdersAccountDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
 
@@ -15,4 +16,5 @@ public interface OrderDetailsService {
 //	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO);
 //	public OrderDetails findByOrderDetailId(Integer orderDetailId);
 	
+	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId);
 }
