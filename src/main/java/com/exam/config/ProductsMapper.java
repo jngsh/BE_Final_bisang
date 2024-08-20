@@ -30,4 +30,6 @@ public interface ProductsMapper {
     public String findCategoryCode(int categoryId);
     public Integer findCategoryIdByCode(Map<String, Object> type);
     
+    public List<ProductsDTO> searchProducts(String query);
+    
 }

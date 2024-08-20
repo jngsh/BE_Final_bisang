@@ -282,4 +282,9 @@ public class ProductController {
 	    workbook.close();
 	}
 	
+	@GetMapping("/products/search")
+    public List<ProductsDTO> searchProducts(@RequestParam String query) {
+        return productsService.searchProducts(query);
+    }
+	
 }

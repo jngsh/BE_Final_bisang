@@ -76,5 +76,13 @@
     	from categories
     	where pet_type = #{petType} and item_type = #{itemType} and age_type = #{ageType}
     </select>
+    
+    <!-- 상품 검색 -->
+    <select id="searchProducts" resultType="ProductsDTO" parameterType="string">
+        SELECT *
+        FROM products
+        WHERE MATCH(product_name, product_description, product_detailed_description)
+              AGAINST(#{query} IN NATURAL LANGUAGE MODE);
+    </select>
 
 </mapper>
