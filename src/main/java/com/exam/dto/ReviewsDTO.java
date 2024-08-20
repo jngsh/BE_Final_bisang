@@ -17,12 +17,12 @@ import lombok.ToString;
 @ToString
 public class ReviewsDTO {
 	
-	int review_id;
+	int reviewId;
 	
-	int product_id;
-	int user_id;
-	int order_id;
+	int productId;
+	int userId;
+	int orderDetailId;
 	String contents;
-	String review_image;
+	String reviewImage;
 	Byte rating;
 }

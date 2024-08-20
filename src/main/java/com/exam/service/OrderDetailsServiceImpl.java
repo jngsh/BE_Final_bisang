@@ -112,6 +112,10 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 //	}
 
 
+	@Override
+	public OrderDetails findByOrderDetailId(int orderDetailId) {
+		return orderDetailsRepository.findByOrderDetailId(orderDetailId);
+	}
 
 
 

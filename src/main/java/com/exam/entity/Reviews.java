@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,11 +26,23 @@ public class Reviews {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int review_id;
+	int reviewId;
 	
-	int product_id;
-	int order_id;
+//	int product_id;
+//	int order_id;
 	String contents;
-	String review_image;
+	String reviewImage;
 	Byte rating;
+	
+	@ManyToOne
+	@JoinColumn(name = "productId")
+	Products products;
+	
+	@OneToOne
+	@JoinColumn(name= "orderDetailId")
+	OrderDetails orderDetails;
+	
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	Users users;
 }

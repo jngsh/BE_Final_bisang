@@ -3,6 +3,7 @@ package com.exam.service;
 import java.util.List;
 
 import com.exam.dto.ProductsDTO;
+import com.exam.entity.Products;
 
 public interface ProductsService {
     
@@ -11,4 +12,5 @@ public interface ProductsService {
     // 모든 상품 조회
 	List<ProductsDTO> findAllProducts();
 	
+	Products findByProductsId(int productId);
 }

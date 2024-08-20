@@ -15,4 +15,6 @@ public interface OrderDetailsService {
 //	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO);
 //	public OrderDetails findByOrderDetailId(Integer orderDetailId);
 	
+	OrderDetails findByOrderDetailId(int orderDetailId);
+	
 }
