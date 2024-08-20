@@ -23,6 +23,7 @@ public class OrderDetailsProductsDTO {
 	Integer productId;
 	Integer amount;
 	Integer totalPrice;
+	Boolean shipping;
 	String productName;
 	Integer productPrice;
 	String productImage;

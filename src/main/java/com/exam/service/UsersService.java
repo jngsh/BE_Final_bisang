@@ -32,5 +32,8 @@ public interface UsersService {
 	public String getTmpPw();
 	public void findPw(String tmpPw, String email1, String email2);
 	
+	public int createDeliveryId(Integer userId, UsersDTO usersDTO);
+	
+	
 //	public int getCartIdByUserId(Integer userId);
 }

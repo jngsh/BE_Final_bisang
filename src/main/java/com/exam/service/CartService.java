@@ -9,7 +9,7 @@ public interface CartService {
     List<CartItemsDTO> getItemsByCartId(int cartId);
     List<CartItemsDTO> findcartItemsProducts(int cartId);
     int addItem(CartItemsDTO item);
-    void updateItemAmount(int cartItemId, int amount);
+    void updateItemAmount(int cartId, int productId, int amount);
     void updateShippingStatus(int cartItemId, boolean isShipping);
     void removeItemFromCart(int cartItemId);
     void clearCart(int cartId);

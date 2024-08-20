@@ -1,6 +1,9 @@
 package com.exam.dto;
 
-import java.time.LocalDate;
+
+
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,19 +18,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DeliveryAddressDTO {
+public class OrdersAccountDTO {
 	
-	int deliveryAddressId;
+	int orderId;
 	int userId;
-	String addressType;
-	String deliveryName;
-	String address1;
-	String address2;
-	String post;
-	String phone1;
-	String phone2;
-	String phone3;
-	boolean isDefault;
-	
-
+	LocalDateTime orderDate;
+	int totalPrice;
 }

@@ -20,6 +20,7 @@ public class OrderDetailsDTO {
 	int orderId;
 	int amount;
 	int totalPrice;
+	boolean shipping;
    
      String productName;
      int productPrice;

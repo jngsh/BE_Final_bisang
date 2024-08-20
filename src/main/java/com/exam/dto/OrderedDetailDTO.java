@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
+//안쓰는ㄴ듯
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
