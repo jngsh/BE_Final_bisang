@@ -17,8 +17,10 @@ import com.exam.dto.CartsDTO;
 import com.exam.dto.UsersDTO;
 import com.exam.dto.UsersDTO.UsersModifyDTO;
 import com.exam.entity.Carts;
+import com.exam.entity.DeliveryAddress;
 import com.exam.entity.Users;
 import com.exam.repository.CartsRepository;
+import com.exam.repository.DeliveryAddressRepository;
 import com.exam.repository.UsersRepository;
 
 import ch.qos.logback.core.encoder.Encoder;
@@ -32,13 +34,15 @@ public class UsersServiceImpl implements UsersService {
 	UsersMapper usersMapper;
 	UsersRepository usersRepository;
 	CartsRepository cartsRepository;
+	DeliveryAddressRepository deliveryAddressRepository;
 	
 //	BCryptPasswordEncoder passwordEncoder;
 	
-	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, CartsRepository cartsRepository) {
+	public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, CartsRepository cartsRepository, DeliveryAddressRepository deliveryAddressRepository) {
 		this.usersRepository = usersRepository;
 		this.usersMapper = usersMapper;
 		this.cartsRepository = cartsRepository;
+		this.deliveryAddressRepository = deliveryAddressRepository;
 	}
 		
 	@Override
@@ -114,6 +118,28 @@ public class UsersServiceImpl implements UsersService {
 		logger.info("cartId?{}",createdCart.getCartId());
 		
 		return createdCart.getCartId();
+	}
+	
+	@Override
+	public int createDeliveryId(Integer userId, UsersDTO usersDTO) {
+		Users users = usersRepository.findByUserId(userId);
+		
+		logger.info("Delivery userId:{}",userId);
+		DeliveryAddress deliveryAddress = new DeliveryAddress();
+		deliveryAddress.setUsers(users);
+		deliveryAddress.setDeliveryName(usersDTO.getUsername());
+		deliveryAddress.setAddress1(usersDTO.getAddress1());
+		deliveryAddress.setAddress2(usersDTO.getAddress2());
+		deliveryAddress.setPost(usersDTO.getPost());
+		deliveryAddress.setPhone1(usersDTO.getPhone1());
+		deliveryAddress.setPhone2(usersDTO.getPhone2());
+		deliveryAddress.setPhone3(usersDTO.getPhone3());
+		
+		DeliveryAddress createDeliveryAddress = deliveryAddressRepository.save(deliveryAddress);
+		
+		logger.info("createAddr:{}",createDeliveryAddress.getDeliveryAddressId());
+		
+		return createDeliveryAddress.getDeliveryAddressId();
 	}
 	
 	@Override

@@ -5,97 +5,60 @@
 
 <mapper namespace="com.exam.config.OrderDetailsMapper">
 
-	<select id="findOrderDetails" resultType="OrderDetailsDTO" parameterType="int">
-		select
-		ci.product_id as productId, ci.amount as amount, p.product_price as
-		totalPrice
-		from cart_items ci join products p on ci.product_id =
-		p.product_id
-		where ci.cart_id = #{cartId}
-	</select>
 
-	<select id="findOrder" resultType="OrdersDTO" parameterType="int">
+	<!-- 카트아이디로 카트에서 userid 조회하기 -->
+	<!-- 이게필요가있나? -->
+	<select id="findOrder" resultType="OrdersDTO"
+		parameterType="int">
 		select user_id as userId
 		from carts
-		where cart_id=#{cartId}
+		where
+		cart_id=#{cartId}
 	</select>
 
 
-<!-- resultmap안쓰고 join -->
-<select id="findOrderDetailsProducts" resultType="OrderDetailsDTO" parameterType="int">
-    SELECT 
-        od.order_detail_id AS orderDetailId, 
-        od.order_id AS orderId, 
-        od.product_id AS productId, 
-        od.amount as amount, 
-        od.total_price as totalPrice,
-        p.product_name as productName, 
-        p.product_price as productPrice, 
-        p.product_image as productImage
-    FROM order_details od
-    JOIN products p ON od.product_id = p.product_id
-    WHERE od.order_id = #{orderId}
-</select>
+	<!-- 카트아이디로 프로덕트-cartitems join해서 orderDetails조회하기 -->
+	<select id="findOrderDetails" resultType="OrderDetailsDTO"
+		parameterType="int">
+		select
+		ci.product_id as productId, ci.amount as amount,
+		ci.shipping as shipping, p.product_price as
+		totalPrice,
+		p.product_image as productImage,
+		p.product_name as productName,
+		p.product_price as productPrice
+		from cart_items ci
+		join products p on ci.product_id = p.product_id
+		where ci.cart_id =
+		#{cartId}
+	</select>
 
 
 
 
+	<!-- 주문번호로 orderDetails랑 products join하기 (resultmap x) -->
+	<select id="findOrderDetailsProducts"
+		resultType="OrderDetailsDTO" parameterType="int">
+		SELECT
+		od.order_detail_id AS
+		orderDetailId,
+		od.product_id AS productId,
+		od.order_id AS orderId,
+		od.amount as amount,
+		od.total_price as totalPrice,
+		od.shipping as
+		shipping,
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- resultmap사용해서 join -->
-
-
-
-	<!-- orderDetails, Products 조인 -->
-	<resultMap id="orderDetailsProductsJoin" type="OrderDetailsDTO">
-			<id property="orderDetailId" column="order_detail_id" />
-		<result property="orderId" column="order_id" />
-		<result property="productId" column="product_id" />
-		<result property="amount" column="amount" />
-		<result property="totalPrice" column="total_price" />
-		
-		<association property="products" javaType="ProductsDTO">
-			<id property="productId" column="product_id" />
-			<result property="productName" column="product_name" />
-			<result property="productPrice" column="product_price" />
-			<result property="productImage" column="product_image" />
-		</association>
-	</resultMap>
-
-
-
-	<!-- 장바구니 항목과 제품 정보 조회 -->
-	<!-- <select id="findOrderDetailsProducts" parameterType="int" resultMap="orderDetailsProductsJoin">
-		
-		SELECT od.order_detail_id AS orderDetailId, 
-				od.order_id AS orderId, 
-				od.product_id as productId, 
-				od.amount as amount, 
-				od.total_price as totalPrice,
-				p.product_name as productName, 
-				p.product_price as productPrice, 
-				p.product_image as productImage
+		p.product_name as productName,
+		p.product_price as productPrice,
+		p.product_image as
+		productImage
 		FROM order_details od
-		JOIN products p ON od.product_id = p.product_id
+		JOIN products p ON od.product_id =
+		p.product_id
 		WHERE od.order_id = #{orderId}
-	</select> -->
+	</select>
+
 
 
 </mapper>

@@ -86,7 +86,8 @@ public class PayServiceImpl implements PayService {
 	            cartItemsDTO.setCartId(item.getCartId());
 	            cartItemsDTO.setProductId(item.getProductId());
 	            cartItemsDTO.setAmount(item.getAmount());
-
+	            cartItemsDTO.setShipping(item.getShipping());
+	            
 	            ProductsDTO productsDTO = new ProductsDTO();
 	            productsDTO.setProductId(products.getProductId());
 	            productsDTO.setCategoryId(products.getCategoryId());
