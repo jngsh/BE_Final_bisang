@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.exam.dto.OrderDetailsDTO;
+import com.exam.dto.OrdersAccountDTO;
 import com.exam.dto.OrdersDTO;
 
 @Mapper
@@ -16,5 +17,7 @@ public interface OrderDetailsMapper {
 	
 //    List<CartItemsDTO> findcartItemsProducts(int cartId);
     public List<OrderDetailsDTO> findOrderDetailsProducts(int orderId);
+
+	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId);
 
 }

@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.exam.dto.ProductsDTO;
 import com.exam.entity.Products;
@@ -13,4 +14,10 @@ public interface ProductsService {
 	List<ProductsDTO> findAllProducts();
 	
 	Products findByProductsId(int productId);
+	
+	public void insertProducts(Products products);
+	
+	public String findCategoryCode(int categoryId);
+	public Integer findCategoryIdByCode(Map<String, Object> type);
+	
 }

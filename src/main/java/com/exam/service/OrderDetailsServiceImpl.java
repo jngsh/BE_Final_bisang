@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.exam.config.OrderDetailsMapper;
 import com.exam.dto.OrderDetailsDTO;
+import com.exam.dto.OrdersAccountDTO;
 import com.exam.dto.OrdersDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
@@ -92,6 +93,12 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		    }
 		    return result;
 	//		return orderDetailsMapper.findOrderDetailsProducts(orderId);
+	}
+
+
+	@Override
+	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId) {
+		return orderDetailsMapper.FindOrdersAndDetails(userId);
 	}
 	
 	

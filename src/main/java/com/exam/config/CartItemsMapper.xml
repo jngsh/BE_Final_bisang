@@ -51,7 +51,7 @@
         <result property="productId" column="product_id"/>
         <result property="amount" column="amount"/>
         <result property="shipping" column="shipping" />
-        <association property="product" javaType="ProductsDTO" column="product_id" select="findProductById"/>
+        <association property="product" javaType="ProductsDTO"/>
     </resultMap>
 
 	<!-- CartDTO의 Result Map 정의 -->
@@ -67,9 +67,9 @@
     </select>
 
     <!-- 상품 ID로 상품 조회 -->
-    <select id="findProductById" parameterType="int" resultType="CartItemsDTO">
+    <select id="findProductById" parameterType="map" resultType="CartItemsDTO">
     
-        SELECT * FROM cart_items WHERE product_id = #{productId}
+        SELECT * FROM cart_items WHERE product_id = #{productId} and cart_id = #{cartId}
     </select>
     
     <!-- 장바구니 항목과 제품 정보 조회 -->
@@ -96,8 +96,8 @@
     <!-- 장바구니 항목 수정 -->
     <update id="updateItemAmount" parameterType="CartItemsDTO">
         UPDATE cart_items
-        SET amount = amount + #{amount}
-        WHERE product_id = #{productId}
+        SET amount = #{amount}
+        WHERE product_id = #{productId} AND cart_id = #{cartId}
     </update>
     
     <!-- 배송 상태 수정 -->

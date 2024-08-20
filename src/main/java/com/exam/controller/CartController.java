@@ -72,9 +72,10 @@ public class CartController {
 
     @PutMapping("/items")
     public ResponseEntity<?> updateItemAmount(@RequestBody CartItemsDTO cartItem) {
+    	int cartId = cartItem.getCartId();
         int productId = cartItem.getProductId();
         int amount = cartItem.getAmount();
-        cartService.updateItemAmount(productId, amount);
+        cartService.updateItemAmount(cartId, productId, amount);
         return ResponseEntity.ok().build();
     }
 

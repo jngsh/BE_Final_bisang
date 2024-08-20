@@ -63,5 +63,5 @@ jobs:
           application_name: PeterPet-bisang # Application name we created in Elastic Beanstalk
           environment_name: PeterPet-bisang-env # Environment name we created in Elastic Beanstalk
           version_label: ${{ github.SHA }}
-          region: ap-northeast-2 # VERY IMPORTANT: AWS Region where initially Application was created in AWS EBS. We created in us-east-1 which is N-Virginia
+          region: ap-northeast-1 # VERY IMPORTANT: AWS Region where initially Application was created in AWS EBS. We created in us-east-1 which is N-Virginia
           deployment_package: peterpet.jar # Download artifacts from previous job

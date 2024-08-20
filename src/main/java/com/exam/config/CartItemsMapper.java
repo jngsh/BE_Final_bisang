@@ -1,6 +1,7 @@
 package com.exam.config;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +12,7 @@ public interface CartItemsMapper {
 
     CartItemsDTO findItemById(int cartItemId);
     
-    CartItemsDTO findProductById(int productId);
+    CartItemsDTO findProductById(Map<String, Object> map);
 
     List<CartItemsDTO> findItemsByCartId(int cartId);
     
