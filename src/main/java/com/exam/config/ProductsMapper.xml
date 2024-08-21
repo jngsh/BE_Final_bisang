@@ -96,7 +96,7 @@
     	<result property="created_date" column="created_date" />
   	</resultMap>
   	
-  	<!-- 상품 검색 -->
+  	<!-- 상품 검색 full text 인덱스
   	<select id="searchProducts" resultMap="DiscountProductResult" parameterType="string">
     	select
       		p.product_id as productId,
@@ -119,6 +119,36 @@
     	where
         	MATCH(product_name, product_description)
 	          AGAINST(#{query})
+  	</select>  -->
+  	
+  	<!-- 상품 검색 like -->
+  	<select id="searchProducts" resultMap="DiscountProductResult" parameterType="string">
+    	select
+      		p.product_id as productId,
+    		p.category_id as categoryId,
+    		p.discount_id as discountId,
+    		p.product_name as productName,
+    		p.product_price as productPrice,
+    		p.product_image as productImage,
+    		p.product_description as productDescription,
+    		p.unit as unit,
+    		p.value as value,
+    		p.product_qr as productQr,
+    		p.product_code as productCode,
+    		p.created_date as createdDate,
+    		d.discount_type as discountType,
+    		d.discount_rate as discountRate,
+    		d.start_date as startDate,
+    		d.end_date as endDate
+    	from discounts d join products p on d.discount_id = p.discount_id
+    	where product_name like CONCAT('%', #{query}, '%') or product_description like CONCAT('%', #{query}, '%')
   	</select>
+  	
+  	<!-- 추천 검색어 -->
+  	<select id="getSuggestedProducts" resultType="ProductsDTO" parameterType="string">
+		select product_name as productName, product_description as productDescription
+		from products
+		where product_name like CONCAT('%', #{query}, '%')
+	</select>
 
 </mapper>

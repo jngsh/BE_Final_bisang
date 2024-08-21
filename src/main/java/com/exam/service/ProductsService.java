@@ -21,4 +21,6 @@ public interface ProductsService {
 	
 	public List<DiscountsDTO> searchProducts(String query);
 	
+    public List<String> suggestKeywords(String query);
+	
 }

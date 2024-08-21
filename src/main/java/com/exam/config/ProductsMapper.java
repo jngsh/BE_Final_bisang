@@ -32,5 +32,6 @@ public interface ProductsMapper {
     public Integer findCategoryIdByCode(Map<String, Object> type);
     
     public List<DiscountsDTO> searchProducts(String query);
+    public List<ProductsDTO> getSuggestedProducts(String query);
     
 }

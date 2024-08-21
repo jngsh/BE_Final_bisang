@@ -31,6 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -240,7 +241,7 @@ public class ProductController {
 
 	    // 셀에 추가할 설명
 	    Map<Integer, String> cellComments = new HashMap<>();
-	    cellComments.put(0, "제품명을 입력하세요. 예: 쉬바 참치와 연어 70g"); // 중복체크 해야 할까?
+	    cellComments.put(0, "제품명을 입력하세요. 예: 쉬바 참치와 연어 70g");
 	    cellComments.put(1, "제품 가격을 입력하세요. 예: 1800");
 	    cellComments.put(2, "카테고리-동물 유형을 입력하세요. 예: D(강아지) C(고양이) Z(공용)");
 	    cellComments.put(3, "카테고리-상품 유형을 입력하세요. 예: 1(사료) 2(간식) 3(용품)");
@@ -284,8 +285,15 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/search")
-    public List<DiscountsDTO> searchProducts(@RequestParam String query) {
-        return productsService.searchProducts(query);
+    public ResponseEntity<List<DiscountsDTO>> searchProducts(@RequestParam String query) {
+		List<DiscountsDTO> products = productsService.searchProducts(query);
+		return ResponseEntity.ok(products);
+    }
+	
+	@GetMapping("/products/search/suggestions")
+    public ResponseEntity<List<String>> suggestKeywords(@RequestParam String query) {
+        List<String> suggestions = productsService.suggestKeywords(query);
+        return ResponseEntity.ok(suggestions);
     }
 	
 }
