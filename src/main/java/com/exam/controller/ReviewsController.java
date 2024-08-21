@@ -79,7 +79,8 @@ public class ReviewsController {
     		OrderDetails order = orderDetailsService.findByOrderDetailId(orderDetailId);
     		Products product = productsService.findByProductsId(productId);
     		Users user = usersService.findByUserId(userId);
-    		
+    		Orders orders = orderDetailsService.getOrdersByOrderDetailId(orderDetailId);
+    				
     		if (order == null || product == null || user == null) {
                 return ResponseEntity.badRequest().body(null);
             }
@@ -87,7 +88,9 @@ public class ReviewsController {
     		reviews.setOrderDetails(order);
     		reviews.setProducts(product);
     		reviews.setUsers(user);
+    		reviews.setOrders(orders);
     		
+    		logger.info("review:{}",reviews);
     		Reviews savedReviews = reviewsService.saveReviews(reviews);
     		logger.info("saveReview:{}",savedReviews);
     		return ResponseEntity.ok(savedReviews);
@@ -97,5 +100,4 @@ public class ReviewsController {
     	}
     }
 	
-//	@GetMapping("/")
 }
