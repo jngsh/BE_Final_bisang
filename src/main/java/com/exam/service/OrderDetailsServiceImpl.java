@@ -119,7 +119,22 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 //	}
 
 
-
+	@Override
+	public OrderDetails findByOrderDetailId(int orderDetailId) {
+		return orderDetailsRepository.findByOrderDetailId(orderDetailId);
+	}
+	
+	@Override
+	public Orders getOrdersByOrderDetailId(int orderDetailId) {
+		ModelMapper mapper = new ModelMapper();
+		
+        OrdersDTO ordersDTO = orderDetailsMapper.findOrderByOrderDetailId(orderDetailId);
+        log.info("ordersdto?{}", ordersDTO);
+        
+        Orders orders = mapper.map(ordersDTO, Orders.class);
+        log.info("orders?{}", orders);
+        return orders;
+    }
 
 
 }

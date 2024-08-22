@@ -13,6 +13,8 @@ public interface ProductsService {
     // 모든 상품 조회
 	List<ProductsDTO> findAllProducts();
 	
+	Products findByProductsId(int productId);
+	
 	public void insertProducts(Products products);
 	
 	public String findCategoryCode(int categoryId);
