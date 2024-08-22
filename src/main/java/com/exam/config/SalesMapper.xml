@@ -111,5 +111,14 @@
 		]]>
 	</select>
 	
+	
+	<!-- 모든 날짜 매출 조회 -->
+	<select id="findAllDailySales" resultType="SalesStatsDTO">
+		select sum(sale_price) as totalSale, date(sale_date) as saleDate
+		from Sales
+		group by date(sale_date)
+		order by date(sale_date)
+	</select>
+	
 
 </mapper>
