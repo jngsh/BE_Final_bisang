@@ -27,6 +27,7 @@ public interface ProductsMapper {
     void deleteProduct(int productId);
     
     
+    
     public String findCategoryCode(int categoryId);
     public Integer findCategoryIdByCode(Map<String, Object> type);
     
