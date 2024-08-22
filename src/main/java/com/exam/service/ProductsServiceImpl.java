@@ -1,6 +1,7 @@
 package com.exam.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -44,6 +45,12 @@ public class ProductsServiceImpl implements ProductsService {
 	@Override
 	public List<ProductsDTO> findAllProducts() {
 		return productsMapper.findAllProducts();
+	}
+
+	
+	@Override
+	public Products findByProductsId(int productId) {
+		return productsRepository.findById(productId).orElse(null);
 	}
 
 	@Transactional

@@ -82,5 +82,17 @@
 
 
 	</select>
+	
+	<select id="findOrderByOrderDetailId" resultType="OrdersDTO" parameterType="int">
+		select
+			o.order_id as orderId,
+			o.user_id as userId,
+			o.order_date as orderDate
+		from
+			orders o
+			join
+			order_details od on o.order_id = od.order_id
+		where od.order_detail_id = #{order_detail_id}
+	</select>
 
 </mapper>

@@ -19,5 +19,7 @@ public interface OrderDetailsMapper {
     public List<OrderDetailsDTO> findOrderDetailsProducts(int orderId);
 
 	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId);
+	
+	public OrdersDTO findOrderByOrderDetailId(int orderDetailId);
 
 }

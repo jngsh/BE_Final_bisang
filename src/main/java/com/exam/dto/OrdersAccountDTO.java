@@ -4,6 +4,7 @@ package com.exam.dto;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,7 @@ public class OrdersAccountDTO {
 	int userId;
 	LocalDateTime orderDate;
 	int totalPrice;
+	
+	//orderDetails리스트
+	List<OrderDetailsDTO> orderDetails;
 }

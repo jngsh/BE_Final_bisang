@@ -42,9 +42,6 @@ public class OrdersController {
         return orderDetails;
     }
 	
-	
-	
-	
 //	@Autowired
 //	ServletContext ctx;
 //

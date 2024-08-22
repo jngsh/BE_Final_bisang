@@ -101,7 +101,6 @@ public class JwtSecurityFilterChainConfig {
 //		}
 	  //allowedHeaders 예비군 : "X-AUTH-TOKEN","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials","ngrok-skip-browser-warning","Content-Type",
 	  
-	  
 	    @Bean
 	    public JWKSource<SecurityContext> jwkSource() {
 	        JWKSet jwkSet = new JWKSet(rsaKey());
