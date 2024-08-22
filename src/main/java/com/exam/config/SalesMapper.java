@@ -27,5 +27,4 @@ public interface SalesMapper {
 	public List<PetsStatsDTO> calcPetTypeRatio();
 	public List<PetsStatsDTO> calcPetAgeTypeRatio();
 
-	public List<SalesStatsDTO> findAllDailySales();
 }
