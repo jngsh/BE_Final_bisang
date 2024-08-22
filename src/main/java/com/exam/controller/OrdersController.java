@@ -35,6 +35,11 @@ public class OrdersController {
         return orders;
     }
 	
+	@GetMapping("/details/{orderId}")
+	public List<OrderDetailsDTO> findOrderDetailsProducts(@PathVariable int orderId) {
+        List<OrderDetailsDTO> orderDetails = orderDetailsService.findOrderDetailsProducts(orderId);
+        return orderDetails;
+    }
 	
 	@GetMapping("/details/{orderId}")
 	public List<OrderDetailsDTO> findOrderDetailsProducts(@PathVariable int orderId) {
