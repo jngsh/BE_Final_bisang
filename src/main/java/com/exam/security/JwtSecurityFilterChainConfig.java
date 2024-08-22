@@ -85,20 +85,20 @@ public class JwtSecurityFilterChainConfig {
 	    }
 	
 
-		@Bean
-		public WebMvcConfigurer corsConfigurer() {
-			return new WebMvcConfigurer() {
-				@Override
-				public void addCorsMappings(CorsRegistry registry) {
-					registry.addMapping("/**")
-					.allowedOrigins("http://localhost:5173", "http://10.10.10.151:5173","*") //ngrok 설정은 빠져있음
-							.allowedMethods("GET", "POST", "PUT", "DELETE")
-							.allowedHeaders("*");
-//							.allowCredentials(true); //이거 true설정하면 "*"사용할 수 없다.
-//							.maxAge(3000);
-				}
-			};
-		}
+//		@Bean
+//		public WebMvcConfigurer corsConfigurer() {
+//			return new WebMvcConfigurer() {
+//				@Override
+//				public void addCorsMappings(CorsRegistry registry) {
+//					registry.addMapping("/**")
+//					.allowedOrigins("http://localhost:5173", "http://10.10.10.151:5173","*") //ngrok 설정은 빠져있음
+//							.allowedMethods("GET", "POST", "PUT", "DELETE")
+//							.allowedHeaders("*");
+////							.allowCredentials(true); //이거 true설정하면 "*"사용할 수 없다.
+////							.maxAge(3000);
+//				}
+//			};
+//		}
 	  //allowedHeaders 예비군 : "X-AUTH-TOKEN","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials","ngrok-skip-browser-warning","Content-Type",
 	  
 	  
