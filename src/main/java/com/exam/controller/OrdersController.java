@@ -41,12 +41,6 @@ public class OrdersController {
         return orderDetails;
     }
 	
-	@GetMapping("/details/{orderId}")
-	public List<OrderDetailsDTO> findOrderDetailsProducts(@PathVariable int orderId) {
-        List<OrderDetailsDTO> orderDetails = orderDetailsService.findOrderDetailsProducts(orderId);
-        return orderDetails;
-    }
-	
 	
 //	@Autowired
 //	ServletContext ctx;
