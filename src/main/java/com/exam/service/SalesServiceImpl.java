@@ -89,11 +89,5 @@ public class SalesServiceImpl implements SalesService {
 		return result;
 	}
 
-	@Override
-	public List<SalesStatsDTO> findAllDailySales() {
-		List<SalesStatsDTO> result = salesMapper.findAllDailySales();
-		return result;
-	}
-
 
 }
