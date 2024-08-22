@@ -49,8 +49,7 @@
 		od.order_id AS orderId,
 		od.amount as amount,
 		od.total_price as totalPrice,
-		od.shipping as
-		shipping,
+		od.shipping as shipping,
 
 		p.product_name as productName,
 		p.product_price as
