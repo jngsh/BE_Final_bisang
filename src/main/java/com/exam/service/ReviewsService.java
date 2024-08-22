@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -16,4 +17,6 @@ import com.exam.entity.Users;
 public interface ReviewsService {
 
 	public Reviews saveReviews(Reviews reviews);
+	public List<Integer> getReviewedOrderDetailIds(int userId, int orderId);
+	public List<Integer> findReviewedOrderDetailIds(int userId);
 }

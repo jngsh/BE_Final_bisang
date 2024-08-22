@@ -2,10 +2,13 @@ package com.exam.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,17 +56,29 @@ public class ReviewsController {
     @GetMapping("/{userId}")
     public ResponseEntity<List<OrdersAccountDTO>> findReview(@PathVariable int userId){
     	try {
+    		List<Integer> reviewedOrderDetailIds = reviewsService.findReviewedOrderDetailIds(userId);
+    		
     		List<OrdersAccountDTO> orders = orderDetailsService.FindOrdersAndDetails(userId);
-    		if (orders.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
+    		
     		
     		for (OrdersAccountDTO orderDTO : orders) {
-    			List<OrderDetailsDTO> orderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId());
-    			orderDTO.setOrderDetails(orderDetailsList);
+//    			List<OrderDetailsDTO> orderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId());
+//    			orderDTO.setOrderDetails(orderDetailsList);
+    			List<OrderDetailsDTO> filteredOrderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId()).stream()
+    					.filter(detailDTO -> !reviewedOrderDetailIds.contains(detailDTO.getOrderDetailId()))
+    					.collect(Collectors.toList());
+    			
+    			orderDTO.setOrderDetails(filteredOrderDetailsList);
     		}
     		
-    		return ResponseEntity.ok(orders);
+    		List<OrdersAccountDTO> filteredOrders = orders.stream()
+    				.filter(OrderDTO -> !OrderDTO.getOrderDetails().isEmpty())
+    				.collect(Collectors.toList());
+    		
+    		if (filteredOrders.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+    		return ResponseEntity.ok(filteredOrders);
     	} catch(Exception e) {
     		logger.error("Error get review:",e);
     		return ResponseEntity.status(500).body(null);
@@ -99,5 +114,18 @@ public class ReviewsController {
             return ResponseEntity.status(500).body(null);
     	}
     }
+	
+	//위에 함수 수정해서 지금은 안씀
+	@GetMapping("/reviewed/{userId}/{orderId}")
+	public ResponseEntity<List<Integer>> getOrderDetailId(@PathVariable int userId, @PathVariable int orderId){
+		logger.info("가져옴?:{}{}",userId, orderId);
+		try {
+			List<Integer> orderDetailIds = reviewsService.getReviewedOrderDetailIds(userId, orderId);
+			logger.info("orderDetailId??{}", orderDetailIds);
+			return ResponseEntity.ok(orderDetailIds);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 	
 }
