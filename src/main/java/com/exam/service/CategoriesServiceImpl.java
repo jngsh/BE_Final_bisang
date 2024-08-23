@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.exam.config.CategoriesMapper;
 import com.exam.dto.DiscountsDTO;
-import com.exam.dto.ItemCategoryDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,19 +19,13 @@ public class CategoriesServiceImpl implements CategoriesService {
 	public CategoriesServiceImpl(CategoriesMapper categoriesMapper) {
 		this.categoriesMapper = categoriesMapper;
 	}
-
+	
 	@Override
-	public List<ItemCategoryDTO> findItemCategory() {
-		List<ItemCategoryDTO> result = categoriesMapper.findItemCategory();
+	public List<Map<String, Object>> findItemCategory() {
+		List<Map<String, Object>> result = categoriesMapper.findItemCategory();
+//		log.info("logger: 카테고리 result: {}", result);
 		return result;
 	}
-
-	
-//	@Override
-//	public List<Map<String, Object>> findCategories() {
-//		List<Map<String, Object>> result = categoriesMapper.findCategories();
-//		return result;
-//	}
 
 	@Override
 	public List<Map<String, Object>> findCategoryByPetType(String petType) {
@@ -45,4 +38,5 @@ public class CategoriesServiceImpl implements CategoriesService {
 		List<DiscountsDTO> result = categoriesMapper.findProductsByCategory(type);
 		return result;
 	}
+
 }
