@@ -27,7 +27,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.exam.dto.ApproveResponse;
 import com.exam.dto.CartItemsDTO;
 import com.exam.dto.OrderDetailsDTO;
-import com.exam.dto.OrderDetailsProductsDTO;
 import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
 import com.exam.entity.OrderDetails;
@@ -62,7 +61,7 @@ public class PayController {
 	}
 
 	@PostMapping("/ready")
-	public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO, Model m, HttpSession session) {
+	public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO, Model m, HttpSession session, HttpServletRequest request) {
 		ReadyResponse readyResponse = null;
 		try {
 			// PayService를 통해 이름과 금액 정보를 가져옴
@@ -72,12 +71,13 @@ public class PayController {
 
 			String combinedName = sendToPayInfo.getCombinedName();
 			int totalPrice = sendToPayInfo.getTotalPrice();
-
+//			HttpServletRequest request = null;
+			
 			log.info("주문 상품 이름: " + combinedName);
 			log.info("주문 금액: " + totalPrice + " 원");
 
 			// 카카오 결제 준비하기
-			readyResponse = kakaoPayService.payReady(combinedName, totalPrice);
+			readyResponse = kakaoPayService.payReady(request, combinedName, totalPrice);
 			log.info("readyResponse:" + readyResponse);
 			if (readyResponse != null) {
 				// 세션에 결제 고유번호(tid) 저장해야하는데 안돼서 일단 ctx에 저장

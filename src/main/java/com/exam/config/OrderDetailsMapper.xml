@@ -49,8 +49,7 @@
 		od.order_id AS orderId,
 		od.amount as amount,
 		od.total_price as totalPrice,
-		od.shipping as
-		shipping,
+		od.shipping as shipping,
 
 		p.product_name as productName,
 		p.product_price as
@@ -82,6 +81,18 @@
 		GROUP BY o.order_id;
 
 
+	</select>
+	
+	<select id="findOrderByOrderDetailId" resultType="OrdersDTO" parameterType="int">
+		select
+			o.order_id as orderId,
+			o.user_id as userId,
+			o.order_date as orderDate
+		from
+			orders o
+			join
+			order_details od on o.order_id = od.order_id
+		where od.order_detail_id = #{order_detail_id}
 	</select>
 
 </mapper>

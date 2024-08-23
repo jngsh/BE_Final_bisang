@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,6 +53,12 @@ public class ProductsServiceImpl implements ProductsService {
 	@Override
 	public List<ProductsDTO> findAllProducts() {
 		return productsMapper.findAllProducts();
+	}
+
+	
+	@Override
+	public Products findByProductsId(int productId) {
+		return productsRepository.findById(productId).orElse(null);
 	}
 
 	@Transactional

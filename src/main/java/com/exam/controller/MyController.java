@@ -25,7 +25,7 @@ public class MyController {
 	@GetMapping("/aaa")
 	public String aaa(Model m) {
 		m.addAttribute("x", "hello");
-		return "HelloWorld";
+		return "HelloWorld2";
 	}
 
 	@GetMapping("/bbb")
