@@ -13,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
-		System.setProperty("MAIL_USERNAME", dotenv.get("MAIL_USERNAME"));
-		System.setProperty("MAIL_PASSWORD", dotenv.get("MAIL_PASSWORD"));
+		// AWS 빌드할 때 아래 코드 세 줄 주석 처리 해주기 (env 파일을 못 찾는 이슈가 있음)
+//		Dotenv dotenv = Dotenv.load();
+//		System.setProperty("MAIL_USERNAME", dotenv.get("MAIL_USERNAME"));
+//		System.setProperty("MAIL_PASSWORD", dotenv.get("MAIL_PASSWORD"));
+		
 		SpringApplication.run(Application.class, args);
 	}
 
