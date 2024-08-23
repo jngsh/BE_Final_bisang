@@ -46,6 +46,7 @@ public class ProductsServiceImpl implements ProductsService {
 	public List<ProductsDTO> findAllProducts() {
 		return productsMapper.findAllProducts();
 	}
+
 	
 	@Override
 	public Products findByProductsId(int productId) {
