@@ -31,7 +31,7 @@ public class KakaoPayService {
 	private String secretKey;
 
 	// 카카오페이 결제창 연결
-	public ReadyResponse payReady(HttpServletRequest request, String combinedName, int totalPrice) {
+	public ReadyResponse payReady(String combinedName, int totalPrice, HttpServletRequest request) {
 //		public ReadyResponse payReady(String combinedName, int totalPrice) {
 
         ReadyResponse readyResponse = null;
@@ -48,20 +48,17 @@ try {
 		
         // User-Agent를 확인하여 모바일과 데스크탑을 구분
         String userAgent = request.getHeader("User-Agent");
-//        String approval_url;
         
         if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
-        	parameters.put("approval_url","http://10.10.10.228:8090/pay/completed"); // 모바일용 URL
+//        	parameters.put("approval_url","http://10.10.10.228:8090/bisang/pay/completed"); // 모바일용 URL
+        	parameters.put("approval_url","http://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
         		
         } else {
         	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
+//        	parameters.put("approval_url","http://boot.peterpet.store/bisang/pay/completed"); 
         }
-//		parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
 		
-		
-		
-		
-//		parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+//		parameters.put("approval_url", "http://10.10.10.228:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
 		parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
 		parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
 
