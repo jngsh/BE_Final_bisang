@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.dto.DiscountsDTO;
-import com.exam.dto.ItemCategoryDTO;
 import com.exam.service.CategoriesService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +25,10 @@ public class CategoriesController {
     }
     
     @GetMapping("/home/item-category")
-    public List<ItemCategoryDTO> findItemCategory() {
-    	List<ItemCategoryDTO> list = categorieService.findItemCategory();
+    public List<Map<String, Object>> findItemCategory() {
+    	List<Map<String, Object>> list = categorieService.findItemCategory();
     	return list;
     }
-    
-    
-//    @GetMapping("/category/type")
-//    public List<Map<String, Object>> findCategories() {
-//    	return categorieService.findCategories();
-//    }
     
     @GetMapping("/category/type/{petType}")
     public List<Map<String, Object>> findCategoryByPetType(@PathVariable("petType") String petType) {

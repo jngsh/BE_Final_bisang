@@ -61,7 +61,7 @@ public class JwtSecurityFilterChainConfig {
 	                            CorsConfiguration corsConfig = new CorsConfiguration();
 	                            corsConfig.setAllowedOrigins(List.of("http://localhost:5173", "http://10.10.10.34:5173", "http://10.10.10.171:5173", 
 	                            		"http://10.10.10.186:5173", "http://10.10.10.136:5173", "http://10.10.10.206:5173","http://192.168.0.102:5173", "http://10.10.10.221:5173"
-	                            		, "http://peterpet.store.s3-website-ap-northeast-1.amazonaws.com", "https://peterpet.store"));
+	                            		, "http://10.10.10.228:5173", "http://10.10.10.181:5173/orderCompleted","http://peterpet.store.s3-website-ap-northeast-1.amazonaws.com", "https://peterpet.store"));
 	                            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 	                            corsConfig.setAllowedHeaders(List.of("*"));
 	                            corsConfig.setAllowCredentials(true);
@@ -86,22 +86,23 @@ public class JwtSecurityFilterChainConfig {
 	    }
 	
 
-		@Bean
-		public WebMvcConfigurer corsConfigurer() {
-			return new WebMvcConfigurer() {
-				@Override
-				public void addCorsMappings(CorsRegistry registry) {
-					registry.addMapping("/**")
-					.allowedOrigins("http://localhost:5173", "http://10.10.10.151:5173","*") //ngrok 설정은 빠져있음
-							.allowedMethods("GET", "POST", "PUT", "DELETE")
-							.allowedHeaders("*");
-//							.allowCredentials(true); //이거 true설정하면 "*"사용할 수 없다.
-//							.maxAge(3000);
-				}
-			};
-		}
+//		@Bean
+//		public WebMvcConfigurer corsConfigurer() {
+//			return new WebMvcConfigurer() {
+//				@Override
+//				public void addCorsMappings(CorsRegistry registry) {
+//					registry.addMapping("/**")
+//					.allowedOrigins("http://localhost:5173", "http://10.10.10.151:5173","*") //ngrok 설정은 빠져있음
+//							.allowedMethods("GET", "POST", "PUT", "DELETE")
+//							.allowedHeaders("*");
+////							.allowCredentials(true); //이거 true설정하면 "*"사용할 수 없다.
+////							.maxAge(3000);
+//				}
+//			};
+//		}
 	  //allowedHeaders 예비군 : "X-AUTH-TOKEN","Authorization","Access-Control-Allow-Origin","Access-Control-Allow-Credentials","ngrok-skip-browser-warning","Content-Type",
 	  
+
 	  
 	    @Bean
 	    public JWKSource<SecurityContext> jwkSource() {
