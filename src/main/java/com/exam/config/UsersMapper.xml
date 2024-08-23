@@ -34,4 +34,12 @@
    	from users
    	where id=#{id}
    </select>
+   
+   <select id="findIdByUserId" parameterType="int" resultType="String">
+   		select distinct u.id
+   		from users u 
+   		join reviews r
+   		on u.user_id = r.user_id
+   		where u.user_id = #{userId}
+   </select>
 </mapper>

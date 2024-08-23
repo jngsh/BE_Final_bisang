@@ -23,6 +23,8 @@ import com.exam.dto.CartItemsDTO;
 import com.exam.dto.CartsDTO;
 import com.exam.dto.OrderDetailsDTO;
 import com.exam.dto.OrdersAccountDTO;
+import com.exam.dto.ProductsDTO;
+import com.exam.dto.ReviewsDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
 import com.exam.entity.Products;
@@ -115,10 +117,40 @@ public class ReviewsController {
     	}
     }
 	
+	@GetMapping("/product-review/{productId}")
+	public ResponseEntity<List<ReviewsDTO>> findReviews(@PathVariable int productId){
+		try {
+			List<ReviewsDTO> reviews = reviewsService.findReviews(productId);
+			
+			return ResponseEntity.ok(reviews);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@GetMapping("/productDetail/{productId}")
+	public ResponseEntity<ProductsDTO> findProductDetails(@PathVariable int productId){
+		try {
+			ProductsDTO productDetails = reviewsService.findProductDetails(productId);
+			return ResponseEntity.ok(productDetails);
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@GetMapping("/review-count/{productId}")
+	public ResponseEntity<Integer> getReviewCounts(@PathVariable int productId){
+		try {
+			int counts = reviewsService.findReviewsCounts(productId);
+			return ResponseEntity.ok(counts);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
 	//위에 함수 수정해서 지금은 안씀
 	@GetMapping("/reviewed/{userId}/{orderId}")
 	public ResponseEntity<List<Integer>> getOrderDetailId(@PathVariable int userId, @PathVariable int orderId){
-		logger.info("가져옴?:{}{}",userId, orderId);
 		try {
 			List<Integer> orderDetailIds = reviewsService.getReviewedOrderDetailIds(userId, orderId);
 			logger.info("orderDetailId??{}", orderDetailIds);

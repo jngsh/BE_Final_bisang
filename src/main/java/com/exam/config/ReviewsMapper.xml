@@ -21,4 +21,29 @@
 		where
 			user_id = #{userId}
 	</select>
+	
+	<select id="findReviews" resultType="ReviewsDTO" parameterType="int">
+		select
+			review_id as reviewId,
+			product_id as productId,
+			user_id as userId,
+			order_id as orderId,
+			order_detail_id as orderDetailId,
+			contents,
+			review_image as reviewImage,
+			rating
+		from
+			reviews
+		where
+			product_id = #{productId}
+	</select>
+	
+	<select id="findReviewCounts" resultType="int" parameterType="int">
+		select
+			count(review_id) as count
+		from
+			reviews
+		where
+			product_id = #{productId}
+	</select>
 </mapper>
