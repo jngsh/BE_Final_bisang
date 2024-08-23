@@ -109,7 +109,8 @@ public class PayController {
 
 		if (tid == null || tid.isEmpty()) {
 			log.error("tid 값이 유효하지 않습니다.");
-			redirectView.setUrl("http://localhost:5173/about");
+//			redirectView.setUrl("http://localhost:5173/about");
+			redirectView.setUrl("http://10.10.10.228:5173/about");
 //			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return redirectView;
 		}
@@ -118,7 +119,8 @@ public class PayController {
 		ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
 		if (approveResponse == null) {
 			log.error("결제 승인 실패");
-			redirectView.setUrl("http://localhost:5173/about");
+//			redirectView.setUrl("http://localhost:5173/about");
+			redirectView.setUrl("http://10.10.10.228:5173/about");
 			return redirectView;
 		}
 
@@ -129,8 +131,8 @@ public class PayController {
 		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
 		if (isMobile) {
 			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://10.10.10.228:5173/orderCompleted"); // ip주소 변경될 때마다 변경
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
+			redirectView.setUrl("http://10.10.10.228:5173/orderCompleted"); // ip주소 변경될 때마다 변경
+//			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
 			log.info("모바일페이지:{}", redirectView);
 			return redirectView; // 모바일 페이지
 		} else {

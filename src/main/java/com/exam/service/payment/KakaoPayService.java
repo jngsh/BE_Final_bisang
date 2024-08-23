@@ -50,8 +50,8 @@ try {
         String userAgent = request.getHeader("User-Agent");
         
         if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
-//        	parameters.put("approval_url","http://10.10.10.228:8090/bisang/pay/completed"); // 모바일용 URL
-        	parameters.put("approval_url","http://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
+        	parameters.put("approval_url","http://10.10.10.228:8090/bisang/pay/completed"); // 모바일용 URL
+//        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
         		
         } else {
         	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
