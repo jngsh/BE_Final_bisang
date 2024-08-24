@@ -109,10 +109,8 @@ public class PayController {
 
 		if (tid == null || tid.isEmpty()) {
 			log.error("tid 값이 유효하지 않습니다.");
-//			redirectView.setUrl("http://localhost:5173/about");
-//			redirectView.setUrl("http://10.10.10.228:5173/about");
-			/////////////////////////////////////
-			redirectView.setUrl("https://peterpet.store/page-not-found");
+			redirectView.setUrl("http://localhost:5173/page-not-found");
+//			redirectView.setUrl("https://peterpet.store/page-not-found");
 //			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return redirectView;
 		}
@@ -133,22 +131,33 @@ public class PayController {
 		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
 		if (isMobile) {
 			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://10.10.10.228:5173/orderCompleted"); // ip주소 변경될 때마다 변경
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
+			redirectView.setUrl("http://192.168.0.109:5173/orderCompleted"); // ip주소 변경될 때마다 변경
+//			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
 			log.info("모바일페이지:{}", redirectView);
 			return redirectView; // 모바일 페이지
 		} else {
 			log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://localhost:5173/orderCompleted");
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
+			redirectView.setUrl("http://localhost:5173/orderCompleted");
+//			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
 			log.info("데스크탑페이지:{}", redirectView);
 			log.info("check point");
 			return redirectView; // 데스크탑 페이지
 		}
 	}
 
+	@GetMapping("/cancel")
+    public RedirectView payCancel() {
+		log.info("취소함");
+        return new RedirectView("http://192.168.0.109:5173/page-not-found");
+    }
 
-
+    @GetMapping("/fail")
+    public RedirectView payFail() {
+    	log.info("실패함");
+        return new RedirectView("http://192.168.0.109:5173/page-not-found");
+    }
+	
+	
 	// get방식
 	// orders와 orderDetails에 db 옮기고, 옮겨진거 확인 되면 cartId로 cartitems 테이블 항목 삭제
 	@GetMapping("/details/{cartId}") // api body에 데이터를 실어보낼거면 post , get은 쿼리스트링으로 보낼때
