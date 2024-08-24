@@ -52,19 +52,23 @@ try {
         
         if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
         	//모바일oo
-//        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
-//        	parameters.put("approval_url", "http://10.10.10.228:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-        	parameters.put("approval_url", "http://192.168.0.109:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-        	parameters.put("cancel_url", "http://192.168.0.109:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
-        	parameters.put("fail_url", "http://192.168.0.109:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+//        	parameters.put("approval_url", "http://192.168.0.109:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+//        	parameters.put("cancel_url", "http://192.168.0.109:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+//        	parameters.put("fail_url", "http://192.168.0.109:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+        	//배포환경
+        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed");
+        	parameters.put("cancel_url", "https://boot.peterpet.store/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+        	parameters.put("fail_url", "https://boot.peterpet.store/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
         		
         } else {
         	//모바일xx데탑일때oo
-        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
-//        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); 
-//        	parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-        	parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
-        	parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+//        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
+//        	parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+//        	parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+        	//배포환경
+        	parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+        	parameters.put("cancel_url", "https://boot.peterpet.store/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+        	parameters.put("fail_url", "https://boot.peterpet.store/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
         }
 		
 
