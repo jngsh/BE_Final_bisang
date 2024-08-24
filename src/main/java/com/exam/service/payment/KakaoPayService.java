@@ -44,21 +44,22 @@ try {
 		parameters.put("quantity", "1"); // 상품 수량ㅇㅇ
 		parameters.put("total_amount", String.valueOf(totalPrice)); // 상품 총액
 		parameters.put("tax_free_amount", "0"); // 상품 비과세 금액ㅇㅇ
-	
-		
-        // User-Agent를 확인하여 모바일과 데스크탑을 구분
-        String userAgent = request.getHeader("User-Agent");
-        
-        if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
-//        	parameters.put("approval_url","http://10.10.10.228:8090/bisang/pay/completed"); // 모바일용 URL
-        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
-        		
-        } else {
-        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
-//        	parameters.put("approval_url","http://boot.peterpet.store/bisang/pay/completed"); 
-        }
-		
+//	
+//		
+//        // User-Agent를 확인하여 모바일과 데스크탑을 구분
+//        String userAgent = request.getHeader("User-Agent");
+//        
+//        if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
+////        	parameters.put("approval_url","http://10.10.10.228:8090/bisang/pay/completed"); // 모바일용 URL
+//        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); // 모바일용 URL
+//        		
+//        } else {
+////        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
+//        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); 
+//        }
+//		
 //		parameters.put("approval_url", "http://10.10.10.228:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+		parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
 		parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
 		parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
 
