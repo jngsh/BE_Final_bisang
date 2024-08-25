@@ -46,4 +46,26 @@
 		where
 			product_id = #{productId}
 	</select>
+	
+	<select id="findReviewsByUserId" resultType="ReviewsDTO" parameterType="int">
+		select
+			r.review_id as reviewId,
+			r.product_id as productId,
+			r.user_id as userId,
+			r.order_id as orderId,
+			r.order_detail_id as orderDetailId,
+			r.contents,
+			r.review_image as reviewImage,
+			r.rating,
+			p.product_name as productName,
+			p.product_image as productImage
+		from
+			reviews r
+		join
+			products p
+		on
+			r.product_id = p.product_id
+		where
+			user_id = #{userId}
+	</select>
 </mapper>

@@ -14,5 +14,5 @@ public interface ReviewsMapper {
 	public List<Integer> findOrderDetailIdsByUserId(int userId);
 	public List<ReviewsDTO> findReviews(int productId);
 	public int findReviewCounts(int productId);
-    
+    public List<ReviewsDTO> findReviewsByUserId(int userId);
 }

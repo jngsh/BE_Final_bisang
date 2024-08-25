@@ -99,4 +99,9 @@ public class ReviewsServiceImpl implements ReviewsService {
 	public int findReviewsCounts(int productId) {
 		return reviewsMapper.findReviewCounts(productId);
 	}
+	
+	@Override
+	public List<ReviewsDTO> findReivewsByUserId(int userId) {
+		return reviewsMapper.findReviewsByUserId(userId);
+	}
 }

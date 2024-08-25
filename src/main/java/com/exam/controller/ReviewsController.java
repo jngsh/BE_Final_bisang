@@ -148,6 +148,18 @@ public class ReviewsController {
 		}
 	}
 	
+	@GetMapping("/reviewed/{userId}")
+	public ResponseEntity<List<ReviewsDTO>> getReviewed(@PathVariable int userId){
+		try {
+			List<ReviewsDTO> reviews = reviewsService.findReivewsByUserId(userId);
+			logger.info("logger: {}", reviews);
+			return ResponseEntity.ok(reviews);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
+	}
+	
 	//위에 함수 수정해서 지금은 안씀
 	@GetMapping("/reviewed/{userId}/{orderId}")
 	public ResponseEntity<List<Integer>> getOrderDetailId(@PathVariable int userId, @PathVariable int orderId){
