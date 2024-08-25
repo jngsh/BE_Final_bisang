@@ -15,4 +15,5 @@ public interface ReviewsMapper {
 	public List<ReviewsDTO> findReviews(int productId);
 	public int findReviewCounts(int productId);
     public List<ReviewsDTO> findReviewsByUserId(int userId);
+    public boolean existReview(int orderDetailId);
 }

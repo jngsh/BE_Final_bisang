@@ -57,6 +57,7 @@
 			r.contents,
 			r.review_image as reviewImage,
 			r.rating,
+			r.review_date as reviewDate,
 			p.product_name as productName,
 			p.product_image as productImage
 		from
@@ -67,5 +68,14 @@
 			r.product_id = p.product_id
 		where
 			user_id = #{userId}
+	</select>
+	
+	<select id="existReview" parameterType="int" resultType="boolean">
+		select
+			count(*) > 0
+		from
+			reviews
+		where
+			order_detail_id = #{orderDetailId}
 	</select>
 </mapper>

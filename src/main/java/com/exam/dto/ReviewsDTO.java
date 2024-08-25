@@ -1,5 +1,7 @@
 package com.exam.dto;
 
+import java.time.LocalDate;
+
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ public class ReviewsDTO {
 	String contents;
 	String reviewImage;
 	Byte rating;
+	LocalDate reviewDate;
 	
 	String id;
 	String productName;

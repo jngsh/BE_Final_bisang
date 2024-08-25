@@ -25,4 +25,5 @@ public interface ReviewsService {
 	public ProductsDTO findProductDetails(int productId);
 	public int findReviewsCounts(int productId);
 	public List<ReviewsDTO> findReivewsByUserId(int userId);
+	public boolean checkReview(int orderDetailId);
 }

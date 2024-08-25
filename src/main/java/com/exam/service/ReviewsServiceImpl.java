@@ -104,4 +104,9 @@ public class ReviewsServiceImpl implements ReviewsService {
 	public List<ReviewsDTO> findReivewsByUserId(int userId) {
 		return reviewsMapper.findReviewsByUserId(userId);
 	}
+	
+	@Override
+	public boolean checkReview(int orderDetailId) {
+		return reviewsMapper.existReview(orderDetailId);
+	}
 }
