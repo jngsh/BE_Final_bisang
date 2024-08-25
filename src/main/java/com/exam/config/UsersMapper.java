@@ -21,4 +21,6 @@ public interface UsersMapper {
 	public int save(Member m);
 	public Member findById(String userid);*/
 	
+	public String findIdByUserId(int userId);
+	
 }

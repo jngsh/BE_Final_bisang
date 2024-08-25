@@ -26,4 +26,8 @@ public class ReviewsDTO {
 	String contents;
 	String reviewImage;
 	Byte rating;
+	
+	String id;
+	String productName;
+	String productImage;
 }
