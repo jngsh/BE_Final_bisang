@@ -8,5 +8,4 @@ import com.exam.entity.Reviews;
 
 public interface ReviewsRepository extends JpaRepository<Reviews, Integer> {
     
-    
 }

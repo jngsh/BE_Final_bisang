@@ -1,5 +1,7 @@
 package com.exam.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +35,9 @@ public class Reviews {
 	String contents;
 	String reviewImage;
 	Byte rating;
+	
+	@Builder.Default
+	LocalDate reviewDate = LocalDate.now();
 	
 	@ManyToOne
 	@JoinColumn(name = "productId")

@@ -31,12 +31,15 @@ public class KakaoPayService {
 	private String secretKey;
 
 	// 카카오페이 결제창 연결
-	public ReadyResponse payReady(HttpServletRequest request, String combinedName, int totalPrice) {
+	public ReadyResponse payReady(String combinedName, int totalPrice, HttpServletRequest request) {
 //		public ReadyResponse payReady(String combinedName, int totalPrice) {
 
         ReadyResponse readyResponse = null;
 try {
-		Map<String, String> parameters = new HashMap<>();
+	// User-Agent를 확인하여 모바일과 데스크탑을 구분
+	String userAgent = request.getHeader("User-Agent");
+
+	Map<String, String> parameters = new HashMap<>();
 		parameters.put("cid", "TC0ONETIME"); // 가맹점 코드(테스트용)
 		parameters.put("partner_order_id", "1234567890"); // 주문번호
 		parameters.put("partner_user_id", "1"); // 회원 아이디
@@ -46,24 +49,28 @@ try {
 		parameters.put("tax_free_amount", "0"); // 상품 비과세 금액ㅇㅇ
 	
 		
-        // User-Agent를 확인하여 모바일과 데스크탑을 구분
-        String userAgent = request.getHeader("User-Agent");
-//        String approval_url;
         
         if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
-        	parameters.put("approval_url","http://10.10.10.228:8090/pay/completed"); // 모바일용 URL
+        	//모바일oo
+//        	parameters.put("approval_url", "http://192.168.0.109:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+//        	parameters.put("cancel_url", "http://192.168.0.109:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+//        	parameters.put("fail_url", "http://192.168.0.109:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+        	//배포환경
+        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed");
+        	parameters.put("cancel_url", "https://boot.peterpet.store/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+        	parameters.put("fail_url", "https://boot.peterpet.store/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
         		
         } else {
-        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
+        	//모바일xx데탑일때oo
+//        	parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 데스크탑용 URL
+//        	parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+//        	parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
+        	//배포환경
+        	parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+        	parameters.put("cancel_url", "https://boot.peterpet.store/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
+        	parameters.put("fail_url", "https://boot.peterpet.store/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
         }
-//		parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
 		
-		
-		
-		
-//		parameters.put("approval_url", "http://localhost:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-		parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
-		parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
 
 		// HttpEntity : HTTP 요청 또는 응답에 해당하는 Http Header와 Http Body를 포함하는 클래스
 		HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());

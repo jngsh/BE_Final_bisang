@@ -34,6 +34,8 @@ public interface UsersService {
 	
 	public int createDeliveryId(Integer userId, UsersDTO usersDTO);
 	
+	public String findIdByUserId(int userId);
+	
 	
 //	public int getCartIdByUserId(Integer userId);
 }
