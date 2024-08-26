@@ -21,6 +21,7 @@ import com.exam.dto.CartsDTO;
 import com.exam.dto.ProductsDTO;
 import com.exam.dto.ReviewsDTO;
 import com.exam.dto.UsersDTO;
+import com.exam.dto.ReviewStatsDTO;
 import com.exam.dto.UsersDTO.UsersModifyDTO;
 import com.exam.entity.Carts;
 import com.exam.entity.DeliveryAddress;
@@ -103,5 +104,15 @@ public class ReviewsServiceImpl implements ReviewsService {
 	@Override
 	public List<ReviewsDTO> findReivewsByUserId(int userId) {
 		return reviewsMapper.findReviewsByUserId(userId);
+	}
+	
+	@Override
+	public boolean checkReview(int orderDetailId) {
+		return reviewsMapper.existReview(orderDetailId);
+	}
+	
+	@Override
+	public ReviewStatsDTO getReviewStatsByProductId(int productId) {
+		return reviewsMapper.findProductReview(productId);
 	}
 }

@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.exam.dto.ProductsDTO;
+import com.exam.dto.ReviewStatsDTO;
 import com.exam.dto.ReviewsDTO;
 import com.exam.dto.UsersDTO;
 import com.exam.dto.UsersDTO.UsersModifyDTO;
@@ -25,4 +26,6 @@ public interface ReviewsService {
 	public ProductsDTO findProductDetails(int productId);
 	public int findReviewsCounts(int productId);
 	public List<ReviewsDTO> findReivewsByUserId(int userId);
+	public boolean checkReview(int orderDetailId);
+	public ReviewStatsDTO getReviewStatsByProductId(int productId);
 }

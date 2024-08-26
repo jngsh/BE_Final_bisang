@@ -24,6 +24,7 @@ import com.exam.dto.CartsDTO;
 import com.exam.dto.OrderDetailsDTO;
 import com.exam.dto.OrdersAccountDTO;
 import com.exam.dto.ProductsDTO;
+import com.exam.dto.ReviewStatsDTO;
 import com.exam.dto.ReviewsDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
@@ -159,6 +160,29 @@ public class ReviewsController {
 		}
 		
 	}
+	
+	@GetMapping("/exist/{orderDetailId}")
+	public ResponseEntity<Boolean> checkReviewExistence(@PathVariable int orderDetailId) {
+		try {
+		boolean exists = reviewsService.checkReview(orderDetailId);
+	    return ResponseEntity.ok(exists);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@GetMapping("/main-product-review/{productId}")
+	public ResponseEntity<ReviewStatsDTO> getReviewStats(@PathVariable int productId){
+		try {
+			logger.info("{}",productId);
+			ReviewStatsDTO reviewStats = reviewsService.getReviewStatsByProductId(productId);
+			logger.info("reviews{}",reviewStats);
+		    return ResponseEntity.ok(reviewStats);
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+	}
+	
 	
 	//위에 함수 수정해서 지금은 안씀
 	@GetMapping("/reviewed/{userId}/{orderId}")
