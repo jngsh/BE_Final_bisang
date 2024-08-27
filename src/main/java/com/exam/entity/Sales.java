@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +28,18 @@ public class Sales {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int sale_id;
-	int order_id;
-	int product_id;
-	int sale_amount;
-	int sale_price;
-	LocalDateTime sale_date;
+	int saleId;
+	int orderId;
+	int productId;
+	int saleAmount;
+	int salePrice;
+	LocalDateTime saleDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "productId", insertable = false, updatable = false)
+	Products products;
 
+	@ManyToOne
+	@JoinColumn(name = "orderId", insertable = false, updatable = false)
+	Orders orders;
 }
