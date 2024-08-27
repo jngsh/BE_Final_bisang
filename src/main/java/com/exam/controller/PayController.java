@@ -30,6 +30,10 @@ import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
+import com.exam.entity.Products;
+import com.exam.entity.Reviews;
+import com.exam.entity.Sales;
+import com.exam.entity.Users;
 import com.exam.service.CartItemsService;
 import com.exam.service.OrderDetailsService;
 import com.exam.service.PayService;
@@ -116,23 +120,24 @@ public class PayController {
 		if (tid == null || tid.isEmpty()) {
 		log.error("tid 값이 유효하지 않습니다.");
 		redirectView.setUrl(baseURL+"/page-not-found/pay-error");
-				return redirectView;
-	}
+			return redirectView;
+		}
 
-	// 카카오 결제 요청하기
-	ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
-	if (approveResponse == null) {
-		log.error("결제 승인 실패");
-		redirectView.setUrl(baseURL+"/page-not-found/pay-error");
-		return redirectView;
-	}
+		// 카카오 결제 요청하기
+		ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
+		if (approveResponse == null) {
+			log.error("결제 승인 실패");
+			redirectView.setUrl(baseURL+"/page-not-found/pay-error");
+			return redirectView;
+		}
 
-		log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-		redirectView.setUrl(baseURL+"/orderCompleted");
-		log.info("리다이렉트되는곳:{}", redirectView);
-		return redirectView; // 데스크탑 페이지
-	}
-		
+			log.info("결제 승인 완료, 리다이렉트합니다.");
+			redirectView.setUrl(baseURL+"/orderCompleted"); 
+			log.info("리다이렉트주소:{}", redirectView);
+			return redirectView;
+		}
+	
+
 	
 	@GetMapping("/cancel")
     public RedirectView payCancel() {
@@ -175,6 +180,26 @@ public class PayController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(Map.of("error", "주문 상세내역을 저장하는 데 실패했습니다."));
 		}
+		
+		try {
+			if (orders == null || orderDetails == null) {
+				return ResponseEntity.badRequest().body(null);
+			}
+			
+			for (OrderDetails orderDetail : orderDetails) {
+				Sales sales = new Sales();
+				sales.setOrderId(orderDetail.getOrderId());
+				sales.setProductId(orderDetail.getProductId());
+				sales.setSaleAmount(orderDetail.getAmount());
+				sales.setSalePrice(orderDetail.getTotalPrice());
+				sales.setSaleDate(orders.getOrderDate());
+				orderDetailsService.saveSales(sales);
+			}
+			
+		}catch (Exception e) {
+			log.error("sales 데이터 저장 실패: {}", e);
+		}
+
 		
 		int orderId = orderDetails.get(0).getOrderId();
 		

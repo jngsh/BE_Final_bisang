@@ -1,13 +1,15 @@
-package com.exam.service;
+package com.exam.config;
 
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.exam.dto.PetsDTO;
 
-public interface PetsService {
+@Mapper
+public interface PetsMapper {
 
     // 모든 펫 조회
     List<PetsDTO> getAllPets();
@@ -19,7 +21,8 @@ public interface PetsService {
     PetsDTO getPetById(int petId);
 
     // 펫 추가
-    Map<String, String> addPet(PetsDTO pet, MultipartFile petImage);
+    void addPet(Map<String, Object> petData);
+
 
     // 펫 정보 업데이트
     void updatePet(PetsDTO pet);
