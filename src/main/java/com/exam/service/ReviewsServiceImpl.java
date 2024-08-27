@@ -14,10 +14,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.exam.config.ProductsMapper;
 import com.exam.config.ReviewsMapper;
 import com.exam.config.UsersMapper;
 import com.exam.dto.CartsDTO;
+import com.exam.dto.ProductsDTO;
+import com.exam.dto.ReviewsDTO;
 import com.exam.dto.UsersDTO;
+import com.exam.dto.ReviewStatsDTO;
 import com.exam.dto.UsersDTO.UsersModifyDTO;
 import com.exam.entity.Carts;
 import com.exam.entity.DeliveryAddress;
@@ -38,12 +42,15 @@ public class ReviewsServiceImpl implements ReviewsService {
 	
 	ReviewsRepository reviewsRepository;
 	ReviewsMapper reviewsMapper;
+	UsersService usersService;
+	ProductsMapper productsMapper;
 
-	
-	
-	public ReviewsServiceImpl(ReviewsRepository reviewsRepository, ReviewsMapper reviewsMapper) {
+	public ReviewsServiceImpl(ReviewsRepository reviewsRepository, ReviewsMapper reviewsMapper,
+			UsersService usersService, ProductsMapper productsMapper) {
 		this.reviewsRepository = reviewsRepository;
 		this.reviewsMapper = reviewsMapper;
+		this.usersService = usersService;
+		this.productsMapper = productsMapper;
 	}
 
 	@Override
@@ -72,5 +79,40 @@ public class ReviewsServiceImpl implements ReviewsService {
 	@Override
 	public List<Integer> findReviewedOrderDetailIds(int userId) {
 		return reviewsMapper.findOrderDetailIdsByUserId(userId);
+	}
+	
+	@Override
+	public List<ReviewsDTO> findReviews(int productId) {
+		List<ReviewsDTO> reviews = reviewsMapper.findReviews(productId);
+		for (ReviewsDTO review : reviews) {
+	        String id = usersService.findIdByUserId(review.getUserId());
+	        review.setId(id);
+	    }
+		return reviews;
+	}
+	
+	@Override
+	public ProductsDTO findProductDetails(int productId) {
+		return productsMapper.findProductById(productId);
+	}
+	
+	@Override
+	public int findReviewsCounts(int productId) {
+		return reviewsMapper.findReviewCounts(productId);
+	}
+	
+	@Override
+	public List<ReviewsDTO> findReivewsByUserId(int userId) {
+		return reviewsMapper.findReviewsByUserId(userId);
+	}
+	
+	@Override
+	public boolean checkReview(int orderDetailId) {
+		return reviewsMapper.existReview(orderDetailId);
+	}
+	
+	@Override
+	public ReviewStatsDTO getReviewStatsByProductId(int productId) {
+		return reviewsMapper.findProductReview(productId);
 	}
 }

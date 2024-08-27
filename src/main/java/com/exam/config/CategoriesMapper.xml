@@ -23,7 +23,6 @@
 		(select distinct age_type as typeValue, 'age' as typeName
  		from categories
  		where pet_type = #{petType})
- 		order by typeName
 	</select>
 	
 	<resultMap id="DiscountProductResult" type="DiscountProductDTO">
@@ -45,7 +44,7 @@
     	<result property="created_date" column="created_date" />
   	</resultMap>
   	
-  	<select id="findProductsByCategory" resultMap="DiscountProductResult" parameterType="map">
+  	<select id="findAllCategoryProducts" resultMap="DiscountProductResult">
     	select
       		p.product_id as productId,
     		p.category_id as categoryId,
@@ -64,10 +63,6 @@
     		d.start_date as startDate,
     		d.end_date as endDate
     	from discounts d join products p on d.discount_id = p.discount_id
-    	where
-        	substring(p.product_code, 1, 1) = #{petType} and
-    		substring(p.product_code, 2, 1) = #{typeValue} or
-    		substring(p.product_code, 3, 1) = #{typeValue}
   	</select>
 	
 </mapper>

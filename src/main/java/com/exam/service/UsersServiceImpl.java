@@ -219,4 +219,9 @@ public class UsersServiceImpl implements UsersService {
 		logger.info("임시비번완료:{}",getTmpPw());
 	}
 	
+	@Override
+	public String findIdByUserId(int userId) {
+		return usersMapper.findIdByUserId(userId);
+	}
+	
 }
