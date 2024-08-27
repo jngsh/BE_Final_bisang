@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.exam.config.PetsMapper">
+
+    <!-- PetsDTO와 매핑되는 resultMap 정의 -->
+    <resultMap id="petsResultMap" type="PetsDTO">
+        <id property="petId" column="pet_id" />
+        <result property="userId" column="user_id" />
+        <result property="petName" column="pet_name" />
+        <result property="petBirthdate" column="pet_birthdate" />
+        <result property="petType" column="pet_type" />
+        
+        <!-- petImageId를 통해 조인된 PetsImageDTO 정보를 매핑 -->
+        <association property="petImage" javaType="PetsImageDTO">
+            <id property="petImageId" column="pet_image_id" />
+            <result property="petImage" column="pet_image" />
+        </association>
+    </resultMap>
+
+    <!-- 모든 펫 조회 (이미지 정보 포함) -->
+    <select id="getAllPets" resultMap="petsResultMap">
+        SELECT p.pet_id, p.user_id, p.pet_name, p.pet_birthdate, p.pet_type, i.pet_image_id, i.pet_image
+        FROM pets p
+        LEFT JOIN pets_image i ON p.pet_image_id = i.pet_image_id
+    </select>
+
+    <!-- 특정 유저의 펫 조회 (이미지 정보 포함) -->
+    <select id="getPetsByUserId" resultMap="petsResultMap">
+        SELECT p.pet_id, p.user_id, p.pet_name, p.pet_birthdate, p.pet_type, i.pet_image_id, i.pet_image
+        FROM pets p
+        LEFT JOIN pets_image i ON p.pet_image_id = i.pet_image_id
+        WHERE p.user_id = #{userId}
+    </select>
+
+    <!-- 특정 펫 조회 (이미지 정보 포함) -->
+    <select id="getPetById" resultMap="petsResultMap">
+        SELECT p.pet_id, p.user_id, p.pet_name, p.pet_birthdate, p.pet_type, i.pet_image_id, i.pet_image
+        FROM pets p
+        LEFT JOIN pets_image i ON p.pet_image_id = i.pet_image_id
+        WHERE p.pet_id = #{petId}
+    </select>
+
+    <!-- 펫 추가 (이미지 정보 포함) -->
+    <insert id="addPet">
+        INSERT INTO pets (user_id, pet_name, pet_birthdate, pet_type, pet_image_id)
+        VALUES (#{userId}, #{petName}, #{petBirthdate}, #{petType}, #{petImageId})
+    </insert>
+
+    <!-- 펫 정보 업데이트 (이미지 정보 포함) -->
+    <update id="updatePet">
+        UPDATE pets
+        <set>
+            <if test="petName != null">pet_name = #{petName},</if>
+            <if test="petBirthdate != null">pet_birthdate = #{petBirthdate},</if>
+            <if test="petType != null">pet_type = #{petType},</if>
+            <if test="petImage != null">pet_image_id = #{petImageId},</if>
+        </set>
+        WHERE pet_id = #{petId}
+    </update>
+
+    <!-- 펫 삭제 -->
+    <delete id="deletePet">
+        DELETE FROM pets WHERE pet_id = #{petId}
+    </delete>
+
+</mapper>
