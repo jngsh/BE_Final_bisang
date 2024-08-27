@@ -23,7 +23,6 @@ public class CategoriesServiceImpl implements CategoriesService {
 	@Override
 	public List<Map<String, Object>> findItemCategory() {
 		List<Map<String, Object>> result = categoriesMapper.findItemCategory();
-//		log.info("logger: 카테고리 result: {}", result);
 		return result;
 	}
 
@@ -34,8 +33,8 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 
 	@Override
-	public List<DiscountsDTO> findProductsByCategory(Map<String, Object> type) {
-		List<DiscountsDTO> result = categoriesMapper.findProductsByCategory(type);
+	public List<DiscountsDTO> findAllCategoryProducts() {
+		List<DiscountsDTO> result = categoriesMapper.findAllCategoryProducts();
 		return result;
 	}
 

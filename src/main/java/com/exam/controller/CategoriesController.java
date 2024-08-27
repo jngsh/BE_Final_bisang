@@ -35,14 +35,9 @@ public class CategoriesController {
         return categorieService.findCategoryByPetType(petType);
     }
     
-    @GetMapping("/category/products-list/{petType}/{typeValue}")
-    public List<DiscountsDTO> findProductsByCategory(@PathVariable("petType") String petType, @PathVariable("typeValue") String typeValue) {
-
-        Map<String, Object> type = new HashMap<>();
-        type.put("petType", petType);
-        type.put("typeValue", typeValue);
-
-        List<DiscountsDTO> list = categorieService.findProductsByCategory(type);
+    @GetMapping("/category/products-list")
+    public List<DiscountsDTO> findAllCategoryProducts() {
+        List<DiscountsDTO> list = categorieService.findAllCategoryProducts();
         return list;
     }
     
