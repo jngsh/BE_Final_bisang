@@ -27,7 +27,6 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int orderId;
 	int userId;
-	int nonMemberId;
 	LocalDateTime orderDate;
 
 }
