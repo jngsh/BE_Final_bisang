@@ -13,12 +13,9 @@ public interface OrderDetailsService {
 	public List<OrderDetailsDTO> findOrderDetails(int cartId);
 	public List<OrderDetails> saveAllOrderDetails(Orders savedOrder, List<OrderDetailsDTO> list);
 	public List<OrderDetailsDTO> findOrderDetailsProducts(int orderId);
-//	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO);
-//	public OrderDetails findByOrderDetailId(Integer orderDetailId);
 	
 	OrderDetails findByOrderDetailId(int orderDetailId);
 	public Orders getOrdersByOrderDetailId(int orderDetailId);
-//	Orders findOrderseByOrderDtailId(int orderDetailId);
 	
 	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId);
 }

@@ -42,9 +42,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 
 		ModelMapper mapper = new ModelMapper();
 		OrdersDTO dto = orderDetailsMapper.findOrder(cartId);
-		dto.setNonMemberId(1);// 임의
 		dto.setOrderDate(LocalDateTime.now());
-		log.info("orders이부분?:{}", dto);
+		log.info("orders?:{}", dto);
 		// orderId : auto increment로 자동생성됨.
 		Orders orders = mapper.map(dto, Orders.class);
 		return ordersRepository.save(orders);
@@ -78,7 +77,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 		List<OrderDetails> orderDetailsList = list.stream().map(dto -> mapper.map(dto, OrderDetails.class))
 				.collect(Collectors.toList());
 
-		log.info("잘담겼니Orderdetailslist: {}", orderDetailsList);
+		log.info("Orderdetailslist: {}", orderDetailsList);
 		return orderDetailsRepository.saveAll(orderDetailsList);
 
 	}
@@ -89,10 +88,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	public List<OrderDetailsDTO> findOrderDetailsProducts(int orderId) {
 		 List<OrderDetailsDTO> result = orderDetailsMapper.findOrderDetailsProducts(orderId);
 		    for (OrderDetailsDTO dto : result) {
-		        log.info("요기요기OrderDetailsProductsDTO shipping value: {}", dto.isShipping());
+		        log.info("OrderDetailsProductsDTO shipping value: {}", dto.isShipping());
 		    }
 		    return result;
-	//		return orderDetailsMapper.findOrderDetailsProducts(orderId);
 	}
 
 
@@ -103,21 +101,6 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	
 	
 	
-//	@Override
-//	public int saveOrderDetails(OrderDetailsDTO orderDetailsDTO) {
-//		ModelMapper mapper = new ModelMapper();
-//		OrderDetails orderDetails = mapper.map(orderDetailsDTO, OrderDetails.class);
-//		orderDetailsRepository.save(orderDetails);
-//
-//		return orderDetails.getOrderDetailId();
-//	}
-//	
-//
-//	@Override
-//	public OrderDetails findByOrderDetailId(Integer orderDetailId) {
-//		return orderDetailsRepository.findByOrderDetailId(orderDetailId);
-//	}
-
 
 	@Override
 	public OrderDetails findByOrderDetailId(int orderDetailId) {

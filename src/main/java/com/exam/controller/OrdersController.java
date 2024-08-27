@@ -21,13 +21,9 @@ public class OrdersController {
 	
 	OrderDetailsService orderDetailsService;
 	
-	
-	
 	public OrdersController(OrderDetailsService orderDetailsService) {
 		this.orderDetailsService = orderDetailsService;
 	}
-
-
 
 	@GetMapping("/{userId}")
 	public List<OrdersAccountDTO> FindOrdersAndDetails(@PathVariable int userId) {
