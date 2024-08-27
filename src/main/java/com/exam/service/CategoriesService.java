@@ -9,5 +9,5 @@ public interface CategoriesService {
 
 	public List<Map<String, Object>> findItemCategory();
 	public List<Map<String, Object>> findCategoryByPetType(String petType);
-	public List<DiscountsDTO> findProductsByCategory(Map<String, Object> type);
+	public List<DiscountsDTO> findAllCategoryProducts();
 }

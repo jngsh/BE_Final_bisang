@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +30,10 @@ import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
+import com.exam.entity.Products;
+import com.exam.entity.Reviews;
+import com.exam.entity.Sales;
+import com.exam.entity.Users;
 import com.exam.service.CartItemsService;
 import com.exam.service.OrderDetailsService;
 import com.exam.service.PayService;
@@ -41,9 +44,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController // Controller이면 뷰인줄알고 에러띄움
 @RequestMapping("/pay")
-//@SessionAttributes({ "tid2", "tid", "x" })
 public class PayController {
 
+	///////////////////////////////////////////// baseURL 지정
+//		String baseURL ="http://10.10.10.133:5173";
+//		String baseURL ="http://localhost:5173";
+		String baseURL ="https://peterpet.store";
+	///////////////////////////////////////////// baseURL 지정
+
+	
+	
 	@Autowired
 	ServletContext ctx;
 
@@ -63,7 +73,6 @@ public class PayController {
 	@PostMapping("/ready")
 	public @ResponseBody ReadyResponse payReady(@RequestBody CartItemsDTO cartItemsDTO, HttpSession session, HttpServletRequest request) {
 		ReadyResponse readyResponse = null;
-//			HttpServletRequest request = null;
 		try {
 			// PayService를 통해 이름과 금액 정보를 가져옴
 			log.info("payService:>>>>>>>>>>>>>> " + payService);
@@ -80,7 +89,7 @@ public class PayController {
 			readyResponse = kakaoPayService.payReady(combinedName, totalPrice, request);
 			log.info("readyResponse:" + readyResponse);
 			if (readyResponse != null) {
-				// 세션에 결제 고유번호(tid) 저장해야하는데 안돼서 일단 ctx에 저장
+				// 세션에 결제 고유번호(tid) 저장해야하는데 안돼서 임시로 ctx에 저장
 				ctx.setAttribute("tid", readyResponse.getTid());
 
 				Enumeration<String> enu = session.getAttributeNames();
@@ -106,16 +115,11 @@ public class PayController {
 		String tid = (String) ctx.getAttribute("tid");
 		log.info("결제승인 요청을 인증하는 토큰: " + pgToken);
 		log.info("컨텍스트에담자>>>>>>>>>>>:{}", tid);
-
+		
+		
 		if (tid == null || tid.isEmpty()) {
-			log.error("tid 값이 유효하지 않습니다.");
-//			redirectView.setUrl("http://localhost:5173/page-not-found");
-//			redirectView.setUrl("http://192.168.0.109:5173/page-not-found/pay-error");
-			
-			//배포환경
-			redirectView.setUrl("https://peterpet.store/page-not-found/pay-error");
-			
-//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		log.error("tid 값이 유효하지 않습니다.");
+		redirectView.setUrl(baseURL+"/page-not-found/pay-error");
 			return redirectView;
 		}
 
@@ -123,47 +127,28 @@ public class PayController {
 		ApproveResponse approveResponse = kakaoPayService.payApprove(tid, pgToken);
 		if (approveResponse == null) {
 			log.error("결제 승인 실패");
-//			redirectView.setUrl("http://localhost:5173/page-not-found/pay-error");
-//			redirectView.setUrl("http://192.168.0.109:5173/page-not-found/pay-error");
-			redirectView.setUrl("https://peterpet.store/page-not-found/pay-error");
+			redirectView.setUrl(baseURL+"/page-not-found/pay-error");
 			return redirectView;
 		}
 
-		// User-Agent로 모바일과 데스크탑 구분
-		String userAgent = request.getHeader("User-Agent");
-		boolean isMobile = userAgent != null && (userAgent.contains("iPhone") || userAgent.contains("Android"));
-
-		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
-		if (isMobile) {
-			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://192.168.0.109:5173/orderCompleted"); // ip주소 변경될 때마다 변경
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
-			log.info("모바일페이지:{}", redirectView);
-			return redirectView; // 모바일 페이지
-		} else {
-			log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://192.168.0.109:5173/orderCompleted");
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
-			log.info("데스크탑페이지:{}", redirectView);
-			log.info("check point");
-			return redirectView; // 데스크탑 페이지
+			log.info("결제 승인 완료, 리다이렉트합니다.");
+			redirectView.setUrl(baseURL+"/orderCompleted"); 
+			log.info("리다이렉트주소:{}", redirectView);
+			return redirectView;
 		}
-	}
+	
 
+	
 	@GetMapping("/cancel")
     public RedirectView payCancel() {
 		log.info("취소함");
-//        return new RedirectView("http://192.168.0.109:5173/page-not-found");
-		//배포환경
-        return new RedirectView("https://peterpet.store/page-not-found/pay-error");
+        return new RedirectView(baseURL+"/page-not-found/pay-error");
     }
 
     @GetMapping("/fail")
     public RedirectView payFail() {
     	log.info("실패함");
-//        return new RedirectView("http://192.168.0.109:5173/page-not-found");
-    	//배포환경
-        return new RedirectView("https://peterpet.store/page-not-found");
+        return new RedirectView(baseURL+"/page-not-found");
     }
 	
 	
@@ -196,6 +181,26 @@ public class PayController {
 					.body(Map.of("error", "주문 상세내역을 저장하는 데 실패했습니다."));
 		}
 		
+		try {
+			if (orders == null || orderDetails == null) {
+				return ResponseEntity.badRequest().body(null);
+			}
+			
+			for (OrderDetails orderDetail : orderDetails) {
+				Sales sales = new Sales();
+				sales.setOrderId(orderDetail.getOrderId());
+				sales.setProductId(orderDetail.getProductId());
+				sales.setSaleAmount(orderDetail.getAmount());
+				sales.setSalePrice(orderDetail.getTotalPrice());
+				sales.setSaleDate(orders.getOrderDate());
+				orderDetailsService.saveSales(sales);
+			}
+			
+		}catch (Exception e) {
+			log.error("sales 데이터 저장 실패: {}", e);
+		}
+
+		
 		int orderId = orderDetails.get(0).getOrderId();
 		
 		log.info("입력될orderId:{}",orderId);
@@ -217,14 +222,13 @@ public class PayController {
 					.body(Map.of("error", "장바구니 항목을 삭제하는 데 실패했습니다."));
 		}
 
-//		int orderId = orders.getOrderId();
 		log.info("orderDetailsProducts 확인: {}", orderDetailsProducts);
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("orderDetails", orderDetailsProducts);
 		response.put("orderId", orderId);
 
-		log.info("이렇게도 확인 가능?:{}", ResponseEntity.ok(response));
+		log.info("ResponseEntity확인", ResponseEntity.ok(response));
 		return ResponseEntity.ok(response);// >>여기서 하나(id) 뽑아오기 ','
 
 	}

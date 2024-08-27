@@ -22,7 +22,6 @@ public class OrdersDTO {
 	
 	int orderId;
 	int userId;
-	int nonMemberId;
 	LocalDateTime orderDate;
 
 }

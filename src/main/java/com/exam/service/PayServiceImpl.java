@@ -109,49 +109,5 @@ public class PayServiceImpl implements PayService {
 
 	    return cartItemsDTOList;
 	}
-//	@Override
-//	public List<OrderedDetailDTO> getCartItems(int cartid) {
-//		List<CartItems> cartItems = cartItemsRepository.findByCartId(cartid);
-//		List<OrderedDetailDTO> orderedDetail = new ArrayList<>();
-//		
-//		for (CartItems item : cartItems) {
-//		Optional<Products> productsOpt = productsRepository.findByProductId(item.getProductId()); 
-//		if(productsOpt.isPresent()) {
-//			Products products = productsOpt.get();
-//			OrderedDetailDTO detailDTO = new OrderedDetailDTO();
-//			detailDTO.setCategoryId(products.getCategoryId());
-//			detailDTO.setDiscountId(products.getDiscountId());
-//			detailDTO.setProductName(products.getProductName());
-//			detailDTO.setProductPrice(products.getProductPrice());
-//			detailDTO.setProductImage(products.getProductImage());
-//			detailDTO.setProductDescription(products.getProductDescription());
-//			detailDTO.setUnit(products.getUnit());
-//			detailDTO.setValue(products.getValue());
-//			detailDTO.setProductQr(products.getProductQr());
-//			detailDTO.setProductCode(products.getProductCode());
-//			detailDTO.setCreatedDate(products.getCreatedDate());
-//			detailDTO.setAmount(item.getAmount());
-//			detailDTO.setCartId(item.getCartId());
-//			orderedDetail.add(detailDTO);
-//		
-//		}}
-//		return orderedDetail;
-	}
-
-	
-	
-	
-	
-	
-	
-//	@Override
-//	public List<ProductsDTO> findProductByCartId(int cartId) {
-//		List<CartItemsDTO> cartItems = cartItemsService.findByCartId(cartId);
-//
-//		List<ProductsDTO> products = cartItems.stream().map(item -> productsService.findByProductId(item.getProductId()))
-//				.collect(Collectors.toList());
-//		log.info("dto에 담긴것은?"+products);
-//		return products ; 
-	
-//	}
+}
 
