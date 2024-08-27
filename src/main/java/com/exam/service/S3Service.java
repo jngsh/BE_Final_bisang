@@ -1,7 +1,8 @@
 package com.exam.service;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -21,15 +22,13 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public S3Service(@Value("${cloud.aws.credentials.access-key}") String accessKey,
-                     @Value("${cloud.aws.credentials.secret-key}") String secretKey,
-                     @Value("${cloud.aws.region.static}") String region) {
-
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
+    public S3Service(@Value("${cloud.aws.region.static}") String region) {
+        // EC2ContainerCredentialsProviderWrapper를 사용하여 자격 증명 자동 관리
+        AWSCredentialsProvider credentialsProvider = new EC2ContainerCredentialsProviderWrapper();
 
         this.s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(Regions.fromName(region))
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                .withCredentials(credentialsProvider)
                 .build();
     }
 
