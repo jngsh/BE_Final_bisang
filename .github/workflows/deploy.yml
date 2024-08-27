@@ -55,8 +55,8 @@ jobs:
           name: artifact
       - name: Set environment variables
         run: |
-          echo "cloud.aws.credentials.access-key=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "cloud.aws.credentials.secret-key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "cloud.aws.credentials.access-key=${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}" >> $GITHUB_ENV
+          echo "cloud.aws.credentials.secret-key=${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}" >> $GITHUB_ENV
       # Deploy the artifact (JAR) into AWS Beanstalk
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v20
