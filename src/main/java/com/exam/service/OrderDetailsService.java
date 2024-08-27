@@ -6,6 +6,7 @@ import com.exam.dto.OrderDetailsDTO;
 import com.exam.dto.OrdersAccountDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
+import com.exam.entity.Sales;
 
 public interface OrderDetailsService {
 
@@ -21,4 +22,5 @@ public interface OrderDetailsService {
 //	Orders findOrderseByOrderDtailId(int orderDetailId);
 	
 	public List<OrdersAccountDTO> FindOrdersAndDetails(int userId);
+	public Sales saveSales(Sales sales);
 }

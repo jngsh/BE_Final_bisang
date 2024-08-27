@@ -31,6 +31,10 @@ import com.exam.dto.ReadyResponse;
 import com.exam.dto.SendToPayDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
+import com.exam.entity.Products;
+import com.exam.entity.Reviews;
+import com.exam.entity.Sales;
+import com.exam.entity.Users;
 import com.exam.service.CartItemsService;
 import com.exam.service.OrderDetailsService;
 import com.exam.service.PayService;
@@ -110,9 +114,9 @@ public class PayController {
 		if (tid == null || tid.isEmpty()) {
 			log.error("tid 값이 유효하지 않습니다.");
 //			redirectView.setUrl("http://localhost:5173/about");
-//			redirectView.setUrl("http://10.10.10.228:5173/about");
+			redirectView.setUrl("http://10.10.10.133:5173/about");
 			/////////////////////////////////////
-			redirectView.setUrl("https://peterpet.store/page-not-found");
+//			redirectView.setUrl("https://peterpet.store/page-not-found");
 //			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return redirectView;
 		}
@@ -122,7 +126,7 @@ public class PayController {
 		if (approveResponse == null) {
 			log.error("결제 승인 실패");
 //			redirectView.setUrl("http://localhost:5173/about");
-			redirectView.setUrl("http://10.10.10.228:5173/about");
+			redirectView.setUrl("http://10.10.10.133:5173/about");
 			return redirectView;
 		}
 
@@ -133,14 +137,14 @@ public class PayController {
 		// 모바일 또는 데스크탑에 따라 리다이렉트 URL 설정
 		if (isMobile) {
 			log.info("모바일에서 결제 승인 완료, 모바일 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://10.10.10.228:5173/orderCompleted"); // ip주소 변경될 때마다 변경
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
+			redirectView.setUrl("http://10.10.10.133:5173/orderCompleted"); // ip주소 변경될 때마다 변경
+//			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
 			log.info("모바일페이지:{}", redirectView);
 			return redirectView; // 모바일 페이지
 		} else {
 			log.info("데스크탑에서 결제 승인 완료, 데스크탑 페이지로 리다이렉트합니다.");
-//			redirectView.setUrl("http://localhost:5173/orderCompleted");
-			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
+			redirectView.setUrl("http://localhost:5173/orderCompleted");
+//			redirectView.setUrl("https://peterpet.store/orderCompleted"); // ip주소 변경될 때마다 변경
 			log.info("데스크탑페이지:{}", redirectView);
 			log.info("check point");
 			return redirectView; // 데스크탑 페이지
@@ -178,6 +182,26 @@ public class PayController {
 					.body(Map.of("error", "주문 상세내역을 저장하는 데 실패했습니다."));
 		}
 		
+		try {
+			if (orders == null || orderDetails == null) {
+				return ResponseEntity.badRequest().body(null);
+			}
+			
+			for (OrderDetails orderDetail : orderDetails) {
+				Sales sales = new Sales();
+				sales.setOrderId(orderDetail.getOrderId());
+				sales.setProductId(orderDetail.getProductId());
+				sales.setSaleAmount(orderDetail.getAmount());
+				sales.setSalePrice(orderDetail.getTotalPrice());
+				sales.setSaleDate(orders.getOrderDate());
+				orderDetailsService.saveSales(sales);
+			}
+			
+		}catch (Exception e) {
+			log.error("sales 데이터 저장 실패: {}", e);
+		}
+
+		
 		int orderId = orderDetails.get(0).getOrderId();
 		
 		log.info("입력될orderId:{}",orderId);
@@ -199,7 +223,10 @@ public class PayController {
 					.body(Map.of("error", "장바구니 항목을 삭제하는 데 실패했습니다."));
 		}
 
-//		int orderId = orders.getOrderId();
+		
+		
+		
+		
 		log.info("orderDetailsProducts 확인: {}", orderDetailsProducts);
 
 		Map<String, Object> response = new HashMap<>();

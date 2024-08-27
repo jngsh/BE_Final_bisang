@@ -58,8 +58,10 @@ try {
 //        	parameters.put("approval_url","https://boot.peterpet.store/bisang/pay/completed"); 
 //        }
 //		
-//		parameters.put("approval_url", "http://10.10.10.228:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
-		parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+		parameters.put("approval_url", "http://10.10.10.133:8090/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
+		parameters.put("cancel_url", "http://10.10.10.133:8090/bisang/pay/cancel"); // 결제 성공 시 URLㅇㅇ
+		parameters.put("fail_url", "http://10.10.10.133:8090/bisang/pay/fail"); // 결제 성공 시 URLㅇㅇ
+//		parameters.put("approval_url", "https://boot.peterpet.store/bisang/pay/completed"); // 결제 성공 시 URLㅇㅇ
 		parameters.put("cancel_url", "http://localhost:8090/bisang/pay/cancel"); // 결제 취소 시 URLㅇㅇ
 		parameters.put("fail_url", "http://localhost:8090/bisang/pay/fail"); // 결제 실패 시 URLㅇㅇ
 

@@ -13,8 +13,10 @@ import com.exam.dto.OrdersAccountDTO;
 import com.exam.dto.OrdersDTO;
 import com.exam.entity.OrderDetails;
 import com.exam.entity.Orders;
+import com.exam.entity.Sales;
 import com.exam.repository.OrderDetailsRepository;
 import com.exam.repository.OrdersRepository;
+import com.exam.repository.SalesRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,12 +29,15 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
 	OrderDetailsRepository orderDetailsRepository;
 	OrdersRepository ordersRepository;
 	OrderDetailsMapper orderDetailsMapper;
+	
+	SalesRepository salesRepository;
 
 	public OrderDetailsServiceImpl(OrderDetailsRepository orderDetailsRepository, OrdersRepository ordersRepository,
-			OrderDetailsMapper orderDetailsMapper) {
+			OrderDetailsMapper orderDetailsMapper, SalesRepository salesRepository) {
 		this.orderDetailsRepository = orderDetailsRepository;
 		this.ordersRepository = ordersRepository;
 		this.orderDetailsMapper = orderDetailsMapper;
+		this.salesRepository = salesRepository;
 	}
 
 	
@@ -135,6 +140,13 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         log.info("orders?{}", orders);
         return orders;
     }
+
+
+	@Override
+	public Sales saveSales(Sales sales) {
+		
+		return salesRepository.save(sales);
+	}
 
 
 }
