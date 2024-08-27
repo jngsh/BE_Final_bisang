@@ -47,7 +47,6 @@ try {
 		parameters.put("quantity", "1"); // 상품 수량ㅇㅇ
 		parameters.put("total_amount", String.valueOf(totalPrice)); // 상품 총액
 		parameters.put("tax_free_amount", "0"); // 상품 비과세 금액ㅇㅇ
-	
 		
         
         if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
