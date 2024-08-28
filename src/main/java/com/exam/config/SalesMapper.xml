@@ -105,7 +105,7 @@
             		else '시니어'
         		end as ageType,
 				count(*) as petCount, 
-				round((count(*) / (select count(*) from Pets)) * 100, 2) as petRatio
+				round((count(*) / (select count(*) from pets)) * 100, 2) as petRatio
 			from pets
 			group by ageType
 		]]>
