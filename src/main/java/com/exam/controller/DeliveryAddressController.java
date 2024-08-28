@@ -36,7 +36,7 @@ public class DeliveryAddressController {
 	}
 
 
-
+	//배송지 조회
 	@GetMapping("/{userId}")
 	public List<DeliveryAddressDTO> getDeliveryAddresses(@PathVariable Integer userId){
 		if (deliveryAddressService == null) {
@@ -45,6 +45,7 @@ public class DeliveryAddressController {
 		return deliveryAddressService.findByUserId(userId);
 	}
 	
+	//배송지 수정
 	@PutMapping("/{userId}")
 	public ResponseEntity<DeliveryAddress> modifyDelivery(@PathVariable Integer userId, @RequestBody DeliveryAddressDTO modifyDTO){
 		

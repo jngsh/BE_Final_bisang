@@ -9,12 +9,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +26,6 @@ import com.exam.dto.UsersDTO.IdRequest;
 import com.exam.service.MailService;
 import com.exam.service.UsersService;
 
-@CrossOrigin(origins = "http://10.10.10.143:5173")
 @RestController
 @RequestMapping("/auth")
 public class UsersController {
@@ -69,25 +65,21 @@ public class UsersController {
 			return ResponseEntity.created(location).body(response);
 	}
 	
+	//아이디 중복 확인
 	@PostMapping("/idCheck")
 	public ResponseEntity<Integer> idCheck(@RequestBody IdRequest idRequest) {
 	    String id = idRequest.getId();
 	    int exists = usersService.idCheck(id);
 	    return ResponseEntity.ok(exists);
 	}
-
 	
-	@GetMapping("/{id}")
-	public UsersDTO findById(@PathVariable String id ) {
-		
-		return new UsersDTO();
-	}
-	
+	//등록된 이메일 확인
 	@GetMapping("/checkEmail")
 	public boolean checkEmail(@RequestParam String email1, @RequestParam String email2) {
 		return usersService.checkEmail(email1, email2);
 	}
 	
+	//임시 비밀번호 생성
 	@PostMapping("/findPw")
 	public void findPw(@RequestBody EmailRequest request) {
 		

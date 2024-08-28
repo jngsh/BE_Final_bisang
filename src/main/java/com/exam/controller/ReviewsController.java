@@ -56,6 +56,7 @@ public class ReviewsController {
 		this.usersService = usersService;
 	}
 
+    //작성 가능한 리뷰 조회
     @GetMapping("/{userId}")
     public ResponseEntity<List<OrdersAccountDTO>> findReview(@PathVariable int userId){
     	try {
@@ -65,8 +66,6 @@ public class ReviewsController {
     		
     		
     		for (OrdersAccountDTO orderDTO : orders) {
-//    			List<OrderDetailsDTO> orderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId());
-//    			orderDTO.setOrderDetails(orderDetailsList);
     			List<OrderDetailsDTO> filteredOrderDetailsList = orderDetailsService.findOrderDetailsProducts(orderDTO.getOrderId()).stream()
     					.filter(detailDTO -> !reviewedOrderDetailIds.contains(detailDTO.getOrderDetailId()))
     					.collect(Collectors.toList());
@@ -88,7 +87,7 @@ public class ReviewsController {
     	}
     }
 
-
+    //리뷰 작성
 	@PostMapping("/{orderDetailId}/{productId}/{userId}")
     public ResponseEntity<Reviews> createReviews(@PathVariable int orderDetailId,@PathVariable int productId,@PathVariable int userId, @RequestBody Reviews reviews){
     	
@@ -118,6 +117,7 @@ public class ReviewsController {
     	}
     }
 	
+	//상세페이지 리뷰 조회
 	@GetMapping("/product-review/{productId}")
 	public ResponseEntity<List<ReviewsDTO>> findReviews(@PathVariable int productId){
 		try {
@@ -129,6 +129,7 @@ public class ReviewsController {
 		}
 	}
 	
+	//리뷰 작성할 상품 조회
 	@GetMapping("/productDetail/{productId}")
 	public ResponseEntity<ProductsDTO> findProductDetails(@PathVariable int productId){
 		try {
@@ -139,6 +140,7 @@ public class ReviewsController {
 		}
 	}
 	
+	//각 상품의 리뷰수
 	@GetMapping("/review-count/{productId}")
 	public ResponseEntity<Integer> getReviewCounts(@PathVariable int productId){
 		try {
@@ -149,6 +151,7 @@ public class ReviewsController {
 		}
 	}
 	
+	//작성한 리뷰 조회
 	@GetMapping("/reviewed/{userId}")
 	public ResponseEntity<List<ReviewsDTO>> getReviewed(@PathVariable int userId){
 		try {
@@ -161,6 +164,7 @@ public class ReviewsController {
 		
 	}
 	
+	//주문 내역에서 작성 가능한 리뷰 조회
 	@GetMapping("/exist/{orderDetailId}")
 	public ResponseEntity<Boolean> checkReviewExistence(@PathVariable int orderDetailId) {
 		try {
@@ -171,6 +175,7 @@ public class ReviewsController {
 		}
 	}
 	
+	//메인페이지 리뷰 평균 별점, 총 리뷰수 조회
 	@GetMapping("/main-product-review/{productId}")
 	public ResponseEntity<ReviewStatsDTO> getReviewStats(@PathVariable int productId){
 		try {
@@ -183,17 +188,5 @@ public class ReviewsController {
 			}
 	}
 	
-	
-	//위에 함수 수정해서 지금은 안씀
-	@GetMapping("/reviewed/{userId}/{orderId}")
-	public ResponseEntity<List<Integer>> getOrderDetailId(@PathVariable int userId, @PathVariable int orderId){
-		try {
-			List<Integer> orderDetailIds = reviewsService.getReviewedOrderDetailIds(userId, orderId);
-			logger.info("orderDetailId??{}", orderDetailIds);
-			return ResponseEntity.ok(orderDetailIds);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-	}
 	
 }

@@ -14,13 +14,6 @@ public interface UsersMapper {
 	public UsersDTO authenticate(Map<String, String> map);
 	public int saveUsers(UsersDTO dto);
 	public UsersDTO findById(String id);
-	public int selectAll(String id);
-	
-	/*public Member idCheck(String userid);
-	public Member authenticate(Map<String, String> map);
-	public int save(Member m);
-	public Member findById(String userid);*/
-	
 	public String findIdByUserId(int userId);
 	
 }
