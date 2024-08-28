@@ -30,8 +30,6 @@ public class Reviews {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int reviewId;
 	
-//	int product_id;
-//	int order_id;
 	String contents;
 	String reviewImage;
 	Byte rating;

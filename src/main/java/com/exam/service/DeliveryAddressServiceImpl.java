@@ -1,16 +1,11 @@
 package com.exam.service;
 
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import com.exam.config.DeliveryAddressMapper;
-import com.exam.config.MemberMapper;
 import com.exam.dto.DeliveryAddressDTO;
-import com.exam.dto.Member;
 import com.exam.entity.DeliveryAddress;
 import com.exam.repository.DeliveryAddressRepository;
 
@@ -46,11 +41,6 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
 	public DeliveryAddress modifyDeliveryAddress(Integer userId, DeliveryAddressDTO modifyDTO) {
 		List<DeliveryAddress> deliveryAddresses = deliveryAddressRepository.findByUsers_UserId(userId);
 		
-//		if (deliveryAddress == null) {
-//			logger.error("delivery with id {} not found",userId);
-//			throw new RuntimeException("Delivery Address not found");
-//		}
-		
 		DeliveryAddress deliveryAddress = deliveryAddresses.get(0);
 		
 		if(modifyDTO.getDeliveryName() != null) deliveryAddress.setDeliveryName(modifyDTO.getDeliveryName());
@@ -60,7 +50,6 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
 		if(modifyDTO.getPhone1() != null) deliveryAddress.setPhone1(modifyDTO.getPhone1());
 		if(modifyDTO.getPhone2() != null) deliveryAddress.setPhone2(modifyDTO.getPhone2());
 		if(modifyDTO.getPhone3() != null) deliveryAddress.setPhone3(modifyDTO.getPhone3());
-//		if(modifyDTO.isDefault() != true) deliveryAddress.setDefault(modifyDTO.isDefault());
 		
 		return deliveryAddressRepository.save(deliveryAddress);
 	}

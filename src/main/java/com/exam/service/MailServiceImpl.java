@@ -1,32 +1,15 @@
 package com.exam.service;
 
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.transaction.Transactional;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.exam.config.UsersMapper;
-import com.exam.dto.CartsDTO;
 import com.exam.dto.MailDTO;
-import com.exam.dto.UsersDTO;
-import com.exam.dto.UsersDTO.UsersModifyDTO;
-import com.exam.entity.Carts;
-import com.exam.entity.Users;
-import com.exam.repository.CartsRepository;
-import com.exam.repository.UsersRepository;
-
-import ch.qos.logback.core.encoder.Encoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -78,10 +61,9 @@ public class MailServiceImpl implements MailService {
 		
 		logger.info("mail주소:{},{}",mail.getToAddresss(), mail.getFromAddress());
 		try {
-		    mailSender.send(mailMessage); //실제메일전송
+		    mailSender.send(mailMessage);
 		} catch (MailException e) {
 		    logger.error("메일 전송 오류", e);
-		    // 추가적인 오류 처리
 		}
 
 		

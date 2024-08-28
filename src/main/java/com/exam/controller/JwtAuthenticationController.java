@@ -25,16 +25,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exam.dto.Member;
 import com.exam.dto.UsersDTO;
 import com.exam.security.JwtTokenResponse;
 import com.exam.security.JwtTokenService;
-import com.exam.security.TokenBlacklistService;
-import com.exam.service.AuthenticationService;
 import com.exam.service.CartService;
 import com.exam.service.UsersService;
 
-@CrossOrigin(origins = "http://10.10.10.143:5173")
 @RestController
 @RequestMapping("/auth")
 public class JwtAuthenticationController {
@@ -46,12 +42,9 @@ public class JwtAuthenticationController {
     UsersService usersService;
     @Autowired
     CartService cartsService;
-//    TokenBlacklistService tokenBlacklistService;
-//    private  AuthenticationManager authenticationManager;
 
     public JwtAuthenticationController(JwtTokenService tokenService) {
         this.tokenService = tokenService;
-//        this.authenticationManager= authenticationManager;
     }
     
     
@@ -86,7 +79,6 @@ public class JwtAuthenticationController {
         String token = tokenService.generateToken(authenticationToken);
         Integer cartId = cartsService.getCartIdByUserId(usersDTO.getUserId());
         
-        logger.info("logger:userId:{}", usersDTO.getUserId());
         return ResponseEntity.ok(new JwtTokenResponse(token, usersDTO.getUserId(), cartId, isCustomer));
     }
     
@@ -108,26 +100,6 @@ public class JwtAuthenticationController {
     	}
     	return ResponseEntity.status(401).body("Unauthorized");
     }
-   
-//    @PostMapping("/logout")
-//    public ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
-//        String token = request.get("token");
-//
-//        if (token == null) {
-//            return ResponseEntity.badRequest().body("Token is required");
-//        }
-//
-//        try {
-//            tokenBlacklistService.addTokenToBlacklist(token);
-//
-//            return ResponseEntity.ok().body("Logout successful");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(500).body("Internal Server Error");
-//        }
-//    }
-    
-    
     
   
 }

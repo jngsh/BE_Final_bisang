@@ -10,7 +10,6 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 	Users findByUserId(Integer userId);
-//	Users modifyUser(Integer userId, UsersModifyDTO modifyDTO);
 	boolean existsByEmail1AndEmail2(String email1, String email2);
 	Users findByEmail1AndEmail2(String email1, String email2);
 	

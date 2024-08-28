@@ -31,7 +31,8 @@
 			order_detail_id as orderDetailId,
 			contents,
 			review_image as reviewImage,
-			rating
+			rating,
+			review_date as reviewDate
 		from
 			reviews
 		where

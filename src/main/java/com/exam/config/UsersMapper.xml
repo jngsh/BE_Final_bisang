@@ -28,13 +28,6 @@
       where id=#{id} 
    </select>
    
-   <!-- 나중에 삭제하기 (필요없음!) -->
-   <select id="selectAll" parameterType="string" resultType="int">
-   	select user_id
-   	from users
-   	where id=#{id}
-   </select>
-   
    <select id="findIdByUserId" parameterType="int" resultType="String">
    		select distinct u.id
    		from users u 

@@ -26,7 +26,6 @@ public class DeliveryAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int deliveryAddressId;
-//	int userId;
 	String addressType;
 	String deliveryName;
 	String address1;
