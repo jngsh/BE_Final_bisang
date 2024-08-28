@@ -4,8 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +20,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@Table(name = "order_details")
 public class OrderDetails {
 	
 	@Id

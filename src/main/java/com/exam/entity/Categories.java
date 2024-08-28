@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.exam.enums.AgeType;
 import com.exam.enums.ItemType;
@@ -25,6 +26,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@Table(name = "categories")
 public class Categories {
 	
 	@Id
