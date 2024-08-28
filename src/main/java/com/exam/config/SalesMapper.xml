@@ -8,7 +8,7 @@
 	<select id="findRecentWeekSales" resultType="SalesStatsDTO">
 		<![CDATA[
     		select sum(sale_price) as totalSale, date(sale_date) as saleDate
-    		from Sales
+    		from sales
     		where sale_date >= date_sub(curdate(), interval 1 week) and sale_date <= curdate()
     		group by date(sale_date)
     		order by saleDate
@@ -18,7 +18,7 @@
 	<!-- 특정 날짜 시간대별 매출 조회 -->
 	<select id="findHourlySalesByDate" resultType="SalesStatsDTO" parameterType="java.time.LocalDate">
 		select sum(sale_price) as totalSale, date(sale_date) as saleDate, hour(sale_date) as saleHour
-		from Sales
+		from sales
 		where date(sale_date) = #{date}
 		group by date(sale_date), hour(sale_date)
 		order by hour(sale_date)
@@ -27,7 +27,7 @@
 	<!-- 특정 월의 일별 매출 조회 -->
 	<select id="findDailySalesByMonth" resultType="SalesStatsDTO" parameterType="int">
 		select sum(sale_price) as totalSale, date(sale_date) as saleDate
-		from Sales
+		from sales
 		where year(sale_date) = #{year} and month(sale_date) = #{month}
 		group by year(sale_date), month(sale_date), date(sale_date)
 		order by date(sale_date)
@@ -36,7 +36,7 @@
 	<!-- 특정 연도의 월별 매출 조회 -->
 	<select id="findMonthlySalesByYear" resultType="SalesStatsDTO" parameterType="int">
 		select sum(sale_price) as totalSale, month(sale_date) as saleMonth, year(sale_date) as saleYear
-		from Sales
+		from sales
 		where year(sale_date) = #{year}
 		group by year(sale_date), month(sale_date)
 		order by month(sale_date)
@@ -45,7 +45,7 @@
 	<!-- 연 매출 -->
 	<select id="findYearlySales" resultType="SalesStatsDTO">
 		select sum(sale_price) as totalSale, year(sale_date) as saleYear
-		from Sales
+		from sales
 		group by year(sale_date)
 		order by year(sale_date)
 	</select>
@@ -53,7 +53,7 @@
 	<!-- 매출 연도 조회 -->
 	<select id="findYears" resultType="int">
 		select distinct(year(sale_date))
-		from Sales
+		from sales
 	</select>
 	
 	
@@ -105,8 +105,8 @@
             		else '시니어'
         		end as ageType,
 				count(*) as petCount, 
-				round((count(*) / (select count(*) from Pets)) * 100, 2) as petRatio
-			from Pets
+				round((count(*) / (select count(*) from pets)) * 100, 2) as petRatio
+			from pets
 			group by ageType
 		]]>
 	</select>
@@ -115,7 +115,7 @@
 	<!-- 모든 날짜 매출 조회 -->
 	<select id="findAllDailySales" resultType="SalesStatsDTO">
 		select sum(sale_price) as totalSale, date(sale_date) as saleDate
-		from Sales
+		from sales
 		group by date(sale_date)
 		order by date(sale_date)
 	</select>

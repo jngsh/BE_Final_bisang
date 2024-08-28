@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/admin/stats/sales")
-//@PreAuthorize("hasRole('ADMIN')")
 public class SalesController {
 
 	SalesService salesService;
