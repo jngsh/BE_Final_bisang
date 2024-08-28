@@ -7,19 +7,19 @@
 	<!-- 재고 조회 -->
 	<select id="findAllStocks" resultType="InventoryDTO">
 		select *
-		from Inventory
+		from inventory
 	</select>
 	
 	<!-- 제품 조회 -->
 	<select id="findAllProducts" resultType="ProductsDTO">
 		select *
-		from Products
+		from products
 	</select>
 	
 	<!-- 초기 재고 조회 -->
 	<select id="findAllProductsStock" resultType="InventoryDTO">
 		select product_id as inventory_id, product_id as productId
-		from Products
+		from products
 		order by product_id
 	</select>
 
