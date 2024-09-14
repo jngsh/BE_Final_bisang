@@ -53,7 +53,7 @@ public class JwtSecurityFilterChainConfig {
 	        		.cors(cors -> cors
 	                        .configurationSource(request -> {
 	                            CorsConfiguration corsConfig = new CorsConfiguration();
-	                            corsConfig.setAllowedOrigins(List.of(
+	                            corsConfig.setAllowedOrigins(List.of("http://localhost:5173",
 	                            		"http://peterpet.store.s3-website-ap-northeast-1.amazonaws.com", "https://peterpet.store"));
 	                            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 	                            corsConfig.setAllowedHeaders(List.of("*"));
