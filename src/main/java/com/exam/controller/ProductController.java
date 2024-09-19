@@ -31,6 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,12 +75,11 @@ public class ProductController {
 	}
 	
 	@PutMapping("/admin/products/upload")
-    public String uploadProductsFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadProductsFile(@RequestParam MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
         	
         	// 현재 products 개수를 세서 product_id 부여하기
         	int productId = productsService.findAllProducts().size();
-        	log.info("productId 확인: {}", productId);
             
             // 업로드 file inputStream으로부터 Workbook 객체 생성 및 첫 번째 시트
             Workbook workbook = new XSSFWorkbook(inputStream);
@@ -109,8 +109,6 @@ public class ProductController {
                 type.put("petType", petType);
                 type.put("itemType", itemType);
                 type.put("ageType", ageType);
-                
-                log.info("type 확인: {}", type);
                 
                 Integer categoryId = productsService.findCategoryIdByCode(type);
                 if (categoryId == null) {
@@ -152,10 +150,10 @@ public class ProductController {
             }
 
             workbook.close();
-            return "파일을 업로드했습니다.";
+            return ResponseEntity.ok("파일을 업로드했습니다.");
         } catch (IOException e) {
             e.printStackTrace();
-            return "파일 업로드에 실패했습니다.";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드에 실패했습니다.");
         }
     }
 	
@@ -285,15 +283,44 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/search")
-    public ResponseEntity<List<DiscountsDTO>> searchProducts(@RequestParam String query) {
-		List<DiscountsDTO> products = productsService.searchProducts(query);
-		return ResponseEntity.ok(products);
-    }
-	
+	public ResponseEntity<List<DiscountsDTO>> searchProducts(@RequestParam String query) {
+	    try {
+	        if (query == null || query.trim().isEmpty()) {
+	            return ResponseEntity.badRequest().body(null);
+	        }
+
+	        List<DiscountsDTO> products = productsService.searchProducts(query);
+	        
+	        if (products.isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+	        
+	        return ResponseEntity.ok(products);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+
 	@GetMapping("/products/search/suggestions")
-    public ResponseEntity<List<String>> suggestKeywords(@RequestParam String query) {
-        List<String> suggestions = productsService.suggestKeywords(query);
-        return ResponseEntity.ok(suggestions);
-    }
-	
+	public ResponseEntity<List<String>> suggestKeywords(@RequestParam String query) {
+	    try {
+	        if (query == null || query.trim().isEmpty()) {
+	            return ResponseEntity.badRequest().body(null);
+	        }
+
+	        List<String> suggestions = productsService.suggestKeywords(query);
+	        
+	        if (suggestions.isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+
+	        return ResponseEntity.ok(suggestions);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
 }
