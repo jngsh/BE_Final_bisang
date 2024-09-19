@@ -2,6 +2,8 @@ package com.exam.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,34 +17,54 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class DiscountsController {
 
-	DiscountsService discountsService;
+    DiscountsService discountsService;
 
     public DiscountsController(DiscountsService discountsService) {
-		this.discountsService = discountsService;
-	}
+        this.discountsService = discountsService;
+    }
 
     @GetMapping("/home/discounts")
-    public List<DiscountProductDTO> findDiscountProduct() {
-    	List<DiscountProductDTO> list = discountsService.findDiscountProduct();
-    	return list;
+    public ResponseEntity<List<DiscountProductDTO>> findDiscountProduct() {
+        try {
+            List<DiscountProductDTO> list = discountsService.findDiscountProduct();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            log.error("Error in findDiscountProduct: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+        }
     }
-    
+
     @GetMapping("/home/featured")
-    public List<DiscountProductDTO> findProductsPetType() {
-    	List<DiscountProductDTO> list = discountsService.findProductsPetType();
-    	return list;
+    public ResponseEntity<List<DiscountProductDTO>> findProductsPetType() {
+        try {
+            List<DiscountProductDTO> list = discountsService.findProductsPetType();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            log.error("Error in findProductsPetType: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+        }
     }
-    
+
     @GetMapping("/home/top-selling-products")
-    public List<DiscountProductDTO> sortProductsBySalesPrice() {
-    	List<DiscountProductDTO> list = discountsService.sortProductsBySalesPrice();
-    	return list;
+    public ResponseEntity<List<DiscountProductDTO>> sortProductsBySalesPrice() {
+        try {
+            List<DiscountProductDTO> list = discountsService.sortProductsBySalesPrice();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            log.error("Error in sortProductsBySalesPrice: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+        }
     }
 
     @GetMapping("/home/discounts-test")
-    public List<DiscountsDTO> discountProductJoin() {
-    	List<DiscountsDTO> list = discountsService.discountProductJoin();
-    	return list;
+    public ResponseEntity<List<DiscountsDTO>> discountProductJoin() {
+        try {
+            List<DiscountsDTO> list = discountsService.discountProductJoin();
+            return ResponseEntity.ok(list);
+        } catch (Exception e) {
+            log.error("Error in discountProductJoin: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
+        }
     }
-    
+
 }
